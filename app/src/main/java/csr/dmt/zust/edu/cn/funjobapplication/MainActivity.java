@@ -16,7 +16,8 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.TopicInfoModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.userRegisterReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterResModule;
 
 public class MainActivity extends AppCompatActivity {
@@ -77,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUserApi.RegisterUser(new userRegisterReqModule("12588890147", "134564"),
-                        new IHttpCallBack<BaseResult<UserRegisterResModule>>() {
+                mUserApi.LoginUser(new UserLoginReqModule("12588890147", "134564"),
+                        new IHttpCallBack<BaseResult<UserRegisterReqModule>>() {
                             @Override
-                            public void SuccessCallBack(BaseResult<UserRegisterResModule> data) {
+                            public void SuccessCallBack(BaseResult<UserRegisterReqModule> data) {
                                 System.out.println(data);
                             }
 
