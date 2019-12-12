@@ -1,4 +1,4 @@
-package csr.dmt.zust.edu.cn.funjobapplication.service.module.UserRegister;
+package csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register;
 
 /**
  * created by monkeycf on 2019/12/12

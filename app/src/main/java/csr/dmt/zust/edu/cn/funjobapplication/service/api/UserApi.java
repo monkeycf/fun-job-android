@@ -3,7 +3,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.service.api;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.HttpRetrofit;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.Request;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.UserRegister.userRegisterReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.userRegisterReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.IUserRequest;
 
 /**
@@ -20,4 +20,7 @@ public class UserApi {
     public void RegisterUser(userRegisterReqModule module, IHttpCallBack httpCallBack) {
         new Request<>(mUserRequest.RegisterUserPost(module), httpCallBack);
     }
+
+    // 用户登录
+
 }
