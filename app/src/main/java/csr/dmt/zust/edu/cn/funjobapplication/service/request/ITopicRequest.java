@@ -20,4 +20,8 @@ public interface ITopicRequest {
     @GET("/api/v1/topic/select/topicId")
     Call<BaseResult<TopicInfoModule>> getTopicById(@Query("topicId") String topicId,
                                                    @Query("userId") String userId);
+
+    // 获取主题分类查询
+    @GET("/api/v1/topic/select/label")
+    Call<BaseResult<List<TopicInfoModule>>> getTopicByLabel(@Query("labelId") String labelId);
 }

@@ -24,4 +24,9 @@ public class TopicApi {
     public void getTopicById(String topicId, String userId, IHttpCallBack httpCallBack) {
         new Request<>(mTopicRequest.getTopicById(topicId, userId), httpCallBack);
     }
+
+    // 获取分类查询主题列表
+    public void getTopicByLabel(String labelId, IHttpCallBack callBack) {
+        new Request<>(mTopicRequest.getTopicByLabel(labelId), callBack);
+    }
 }
