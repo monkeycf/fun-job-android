@@ -26,5 +26,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0' // 底部导航栏
+    // 底部导航栏
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
+    // Retrofit库
+    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    // OkHttp库
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+
 }
