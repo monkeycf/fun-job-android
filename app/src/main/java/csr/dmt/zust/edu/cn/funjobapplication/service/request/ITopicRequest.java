@@ -24,4 +24,8 @@ public interface ITopicRequest {
     // 获取主题分类查询
     @GET("/api/v1/topic/select/label")
     Call<BaseResult<List<TopicInfoModule>>> getTopicByLabel(@Query("labelId") String labelId);
+
+    // 搜索主题
+    @GET("/api/v1/topic/search")
+    Call<BaseResult<List<TopicInfoModule>>> getSearchTopic(@Query("key") String key);
 }

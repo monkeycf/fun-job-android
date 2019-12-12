@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTopicApi.getTopicByLabel("1",
+                mTopicApi.searchTopic("题",
                         new IHttpCallBack<BaseResult<TopicInfoModule>>() {
                             @Override
                             public void SuccessCallBack(BaseResult<TopicInfoModule> data) {

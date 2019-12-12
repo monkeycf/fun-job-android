@@ -29,4 +29,9 @@ public class TopicApi {
     public void getTopicByLabel(String labelId, IHttpCallBack callBack) {
         new Request<>(mTopicRequest.getTopicByLabel(labelId), callBack);
     }
+
+    // 搜索主题
+    public void searchTopic(String key, IHttpCallBack callBack) {
+        new Request<>(mTopicRequest.getSearchTopic(key), callBack);
+    }
 }
