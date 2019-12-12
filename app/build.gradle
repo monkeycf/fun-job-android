@@ -29,10 +29,12 @@ dependencies {
     // 底部导航栏
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     // Retrofit库
-    implementation 'com.squareup.retrofit2:retrofit:2.7.0'
+    // 最新版本为2.7，兼容Android6
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     // OkHttp库
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
     // GSon
-    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+    // 最新版本为2.7，兼容Android6
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
 }

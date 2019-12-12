@@ -1,4 +1,4 @@
-package csr.dmt.zust.edu.cn.funjobapplication.BottomNavigationBar;
+package csr.dmt.zust.edu.cn.funjobapplication.bottomNavigationBar;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;

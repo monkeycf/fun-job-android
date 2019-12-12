@@ -10,6 +10,23 @@
         android:layout_weight="1"
         android:text="Hello World!" />
 
+    <Button
+        android:id="@+id/btn_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登录" />
+    <Button
+        android:id="@+id/btn_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登录11" />
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登录12" />
+
+
     <include
         layout="@layout/bottom_navigation"
         android:gravity="bottom" />
