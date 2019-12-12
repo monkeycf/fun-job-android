@@ -4,8 +4,12 @@ import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -28,4 +32,8 @@ public interface ITopicRequest {
     // 搜索主题
     @GET("/api/v1/topic/search")
     Call<BaseResult<List<TopicInfoModule>>> getSearchTopic(@Query("key") String key);
+
+    // 收藏主题
+    @POST("/api/v1/topic/collect")
+    Call<BaseResult<TopicCollectResModule>> collectTopic(@Body TopicCollectReqModule module);
 }

@@ -16,6 +16,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterReqModule;
 
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTopicApi.searchTopic("题",
+                mTopicApi.collectTopic(new TopicCollectReqModule("19002", "2"),
                         new IHttpCallBack<BaseResult<TopicInfoModule>>() {
                             @Override
                             public void SuccessCallBack(BaseResult<TopicInfoModule> data) {
