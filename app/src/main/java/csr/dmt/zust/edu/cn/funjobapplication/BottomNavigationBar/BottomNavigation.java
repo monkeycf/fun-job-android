@@ -1,12 +1,13 @@
-package csr.dmt.zust.edu.cn.myapplication.BottomNavigationBar;
-
-import android.content.Context;
+package csr.dmt.zust.edu.cn.funjobapplication.BottomNavigationBar;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
-import csr.dmt.zust.edu.cn.myapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.R;
 
+/**
+ * created by monkeycf on 2019/12/12
+ */
 public class BottomNavigation {
     public static void InitBottomNavigationBar(BottomNavigationBar bottomNavigationBar) {
         bottomNavigationBar

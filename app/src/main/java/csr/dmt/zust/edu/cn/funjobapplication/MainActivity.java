@@ -1,13 +1,12 @@
-package csr.dmt.zust.edu.cn.myapplication;
+package csr.dmt.zust.edu.cn.funjobapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
-import csr.dmt.zust.edu.cn.myapplication.BottomNavigationBar.BottomNavigation;
+import csr.dmt.zust.edu.cn.funjobapplication.BottomNavigationBar.BottomNavigation;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package csr.dmt.zust.edu.cn.myapplication;
+package csr.dmt.zust.edu.cn.funjobapplication;
 
 import org.junit.Test;
 
