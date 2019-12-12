@@ -32,5 +32,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.7.0'
     // OkHttp库
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    // GSon
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
 
 }
