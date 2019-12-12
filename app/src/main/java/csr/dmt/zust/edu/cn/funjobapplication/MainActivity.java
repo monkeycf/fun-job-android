@@ -15,10 +15,9 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.api.TopicApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.TopicInfoModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterReqModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterResModule;
 
 public class MainActivity extends AppCompatActivity {
 

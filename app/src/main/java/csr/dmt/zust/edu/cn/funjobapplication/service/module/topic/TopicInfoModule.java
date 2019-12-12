@@ -1,4 +1,4 @@
-package csr.dmt.zust.edu.cn.funjobapplication.service.module;
+package csr.dmt.zust.edu.cn.funjobapplication.service.module.topic;
 
 /**
  * created by monkeycf on 2019/12/12
