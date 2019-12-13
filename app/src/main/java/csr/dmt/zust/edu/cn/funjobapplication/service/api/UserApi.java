@@ -18,12 +18,13 @@ public class UserApi {
     }
 
     // 用户注册
-    public void RegisterUser(UserRegisterReqModule module, IHttpCallBack httpCallBack) {
-        new Request<>(mUserRequest.RegisterUserPost(module), httpCallBack);
+    public void RegisterUser(UserRegisterReqModule userRegisterReqModule,
+                             IHttpCallBack callback) {
+        new Request<>(mUserRequest.RegisterUserPost(userRegisterReqModule), callback);
     }
 
     // 用户登录
-    public void LoginUser(UserLoginReqModule module, IHttpCallBack callback) {
-        new Request<>(mUserRequest.LoginUserPost(module), callback);
+    public void LoginUser(UserLoginReqModule userLoginReqModule, IHttpCallBack callback) {
+        new Request<>(mUserRequest.LoginUserPost(userLoginReqModule), callback);
     }
 }

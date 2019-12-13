@@ -38,8 +38,8 @@ public class TopicApi {
     }
 
     // 收藏主题
-    public void collectTopic(TopicCollectReqModule module, IHttpCallBack callBack) {
-        new Request<>(mTopicRequest.collectTopic(module), callBack);
+    public void collectTopic(TopicCollectReqModule topicCollectReqModule, IHttpCallBack callBack) {
+        new Request<>(mTopicRequest.collectTopic(topicCollectReqModule), callBack);
     }
 
     // 取消收藏
