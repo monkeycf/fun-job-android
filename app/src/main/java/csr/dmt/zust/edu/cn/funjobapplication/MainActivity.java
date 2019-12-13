@@ -16,7 +16,8 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterReqModule;
 
@@ -60,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTopicApi.collectTopic(new TopicCollectReqModule("19002", "2"),
-                        new IHttpCallBack<BaseResult<TopicInfoModule>>() {
+                mTopicApi.cancelCollectTopic(new TopicCancelCollectReqModule("19002", "2"),
+                        new IHttpCallBack<BaseResult<TopicCancelCollectResModule>>() {
                             @Override
-                            public void SuccessCallBack(BaseResult<TopicInfoModule> data) {
+                            public void SuccessCallBack(BaseResult<TopicCancelCollectResModule> data) {
                                 System.out.println(data);
                             }
 

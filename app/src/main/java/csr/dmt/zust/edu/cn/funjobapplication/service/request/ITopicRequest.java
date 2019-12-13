@@ -4,6 +4,8 @@ import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
 import retrofit2.Call;
@@ -36,4 +38,8 @@ public interface ITopicRequest {
     // 收藏主题
     @POST("/api/v1/topic/collect")
     Call<BaseResult<TopicCollectResModule>> collectTopic(@Body TopicCollectReqModule module);
+
+    // 取消收藏
+    @POST("/api/v1/topic/cancel/collection")
+    Call<BaseResult<TopicCancelCollectResModule>> cancelCollectTopic(@Body TopicCancelCollectReqModule topicCancelCollectReqModule);
 }
