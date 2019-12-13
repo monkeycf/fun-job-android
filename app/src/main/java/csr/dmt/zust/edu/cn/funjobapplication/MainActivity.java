@@ -11,10 +11,18 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.bottomNavigationBar.BottomNavigation;
+import csr.dmt.zust.edu.cn.funjobapplication.service.api.NoteApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.TopicApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDeleteReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDeleteResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.select.NoteSelectResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.update.NoteUpdateReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.update.NoteUpdateResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
@@ -25,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TopicApi mTopicApi;
     private UserApi mUserApi;
+    private NoteApi mNoteApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +84,14 @@ public class MainActivity extends AppCompatActivity {
                         });
             }
         });
-        mUserApi = new UserApi();
+        mNoteApi = new NoteApi();
         findViewById(R.id.btn_register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUserApi.LoginUser(new UserLoginReqModule("12588890147", "134564"),
-                        new IHttpCallBack<BaseResult<UserRegisterReqModule>>() {
+                mNoteApi.selectMyNote("1", "19002",
+                        new IHttpCallBack<BaseResult<List<NoteSelectResModule>>>() {
                             @Override
-                            public void SuccessCallBack(BaseResult<UserRegisterReqModule> data) {
+                            public void SuccessCallBack(BaseResult<List<NoteSelectResModule>> data) {
                                 System.out.println(data);
                             }
 
