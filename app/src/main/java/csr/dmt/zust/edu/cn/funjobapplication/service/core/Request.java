@@ -1,5 +1,6 @@
 package csr.dmt.zust.edu.cn.funjobapplication.service.core;
 
+import csr.dmt.zust.edu.cn.funjobapplication.service.request.INoteRequest;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.ITopicRequest;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.IUserRequest;
 import retrofit2.Call;
@@ -15,9 +16,23 @@ public class Request<T> {
 
     private Call<T> mCall;
 
-    private static final Class<ITopicRequest> TopicRequest = ITopicRequest.class;
+    private static final Class<ITopicRequest> sTopicRequest = ITopicRequest.class;
 
-    private static final Class<IUserRequest> UserRequest = IUserRequest.class;
+    private static final Class<IUserRequest> sUserRequest = IUserRequest.class;
+
+    private static final Class<INoteRequest> sNoteRequest = INoteRequest.class;
+
+    public static Class<IUserRequest> getUserRequest() {
+        return sUserRequest;
+    }
+
+    public static Class<ITopicRequest> getTopicRequest() {
+        return sTopicRequest;
+    }
+
+    public static Class<INoteRequest> getNoteRequest() {
+        return sNoteRequest;
+    }
 
     public Request(Call<T> call, final IHttpCallBack<T> IHTTPCallBack) {
         mCall = call;
@@ -37,13 +52,5 @@ public class Request<T> {
                 IHTTPCallBack.ErrorCallBack(t.getMessage());
             }
         });
-    }
-
-    public static Class<IUserRequest> getUserRequest() {
-        return UserRequest;
-    }
-
-    public static Class<ITopicRequest> getTopicRequest() {
-        return TopicRequest;
     }
 }
