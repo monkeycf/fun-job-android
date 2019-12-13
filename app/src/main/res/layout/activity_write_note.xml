@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/et_edit"
         style="@style/EditTextNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,5 +13,14 @@
         android:hint="@string/write_note_hint"
         android:inputType="text" />
 
+    <TextView
+        android:id="@+id/show_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/btn_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="预览" />
 </LinearLayout>
