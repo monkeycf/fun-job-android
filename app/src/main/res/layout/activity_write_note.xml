@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/note_bg_edit_text"
-        android:hint="@string/write_note_hint"
+        android:hint="@string/note_write_hint"
         android:inputType="text" />
 
     <TextView

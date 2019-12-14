@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FunJob Application</string>
-    <string name="write_note_hint">写点笔记吧</string>
+    <string name="note_write_hint">写点笔记吧</string>
+    <string name="note_preview_title">预览</string>
 </resources>
