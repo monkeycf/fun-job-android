@@ -22,13 +22,12 @@ public class WriteNoteActivity extends AppCompatActivity {
         mTvShow = findViewById(R.id.show_text_view);
         mEtEdit = findViewById(R.id.et_edit);
         InitActionBar();
-        findViewById(R.id.btn_show).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 设置为Markdown
-                RichText.fromMarkdown(mEtEdit.getText().toString()).into(mTvShow);
-            }
-        });
+        findViewById(R.id.btn_show).setOnClickListener(v -> changeValue());
+    }
+
+    public void changeValue() {
+        // 设置为Markdown
+        RichText.fromMarkdown(mEtEdit.getText().toString()).into(mTvShow);
     }
 
     protected void InitActionBar() {

@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<!--        <activity android:name=".view.note.SelectImageActivity"></activity>-->
+<!--        <activity android:name=".view.note.pictureActivity" />-->
         <activity android:name=".view.index.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.index.pages.TopicFragment" />
-        <activity android:name=".view.note.NoteCreateActivity">
-
-        </activity>
+        <activity android:name=".view.note.NoteCreateActivity" />
         <activity android:name=".WriteNoteActivity" />
         <activity android:name=".MainActivity" />
     </application>
