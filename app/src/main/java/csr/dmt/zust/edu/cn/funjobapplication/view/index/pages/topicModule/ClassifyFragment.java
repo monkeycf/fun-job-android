@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
@@ -33,6 +34,7 @@ public class ClassifyFragment extends Fragment {
     private TextView mTitleTextView;
     private String TAG = "ClassifyFragment";
     private static final String CREATE_CLASSIFY_FRAGMENT_KEY = "CREATE_CLASSIFY_FRAGMENT_KEY";
+    ClassifyAdapter mAdapter = new ClassifyAdapter(new ArrayList<>());
 
     @Nullable
     @Override
@@ -43,6 +45,8 @@ public class ClassifyFragment extends Fragment {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         // 获得数据
         getTopicDate(mClassifyId + "");
+
+        mRecyclerView.setAdapter(mAdapter);
         return v;
     }
 
@@ -63,8 +67,7 @@ public class ClassifyFragment extends Fragment {
                     public void SuccessCallBack(BaseResult<List<TopicInfoModule>> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             // 设置Adapter
-                            ClassifyAdapter mAdapter = new ClassifyAdapter(data.getData());
-                            mRecyclerView.setAdapter(mAdapter);
+                            mAdapter = new ClassifyAdapter(data.getData());
                         } else {
                             Toast.makeText(getActivity(), "Sorry,出错了", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "That is error:" + data.getMsg());
