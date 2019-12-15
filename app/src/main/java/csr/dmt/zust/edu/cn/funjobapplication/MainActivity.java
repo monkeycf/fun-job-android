@@ -10,24 +10,15 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 
 import java.util.List;
 
-import csr.dmt.zust.edu.cn.funjobapplication.bottomNavigationBar.BottomNavigation;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.NoteApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.TopicApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateReqModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateResModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDeleteReqModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDeleteResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.select.NoteSelectResModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.update.NoteUpdateReqModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.update.NoteUpdateResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterReqModule;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationBar bottomNavigationBar =
-                (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
-        BottomNavigation.InitBottomNavigationBar(bottomNavigationBar);
+//        BottomNavigationBar bottomNavigationBar =
+//                (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+//        BottomNavigationFragment.InitBottomNavigationBar(bottomNavigationBar);
 
         mTopicApi = new TopicApi();
 
