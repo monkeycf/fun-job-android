@@ -18,6 +18,8 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
     private Button mBtnPreview;
     private String mMarkdownText;
     private int mShowStatus = 0; // 0 编辑，1 预览
+    private static final String FRAGMENT_MARKDOWN = "fragmentMarkdown";
+    private static final String FRAGMENT_TEXT_SHOW = "fragmentTextShow";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,9 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
             mShowStatus = 0;
             mFragmentMarkdown = NoteMarkdownFragment.getInstance();
             mFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container_text_markdown, mFragmentMarkdown)
+                    .add(R.id.fragment_container_text_markdown,
+                            mFragmentMarkdown,
+                            FRAGMENT_MARKDOWN)
                     .commit();
         }
     }
@@ -65,11 +69,11 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
                 if (mShowStatus == 0) {
                     mShowStatus = 1;
                     mFragmentShow = NoteTextShowFragment.getInstance(getMarkdownText());
-                    replaceFragment(mFragmentMarkdown, mFragmentShow);
+                    replaceFragment(mFragmentMarkdown, mFragmentShow, FRAGMENT_TEXT_SHOW);
                 } else {
                     mShowStatus = 0;
                     mFragmentMarkdown = NoteMarkdownFragment.getInstance();
-                    replaceFragment(mFragmentShow, mFragmentMarkdown);
+                    replaceFragment(mFragmentShow, mFragmentMarkdown, FRAGMENT_MARKDOWN);
                 }
             }
         });
@@ -81,12 +85,12 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
      * @param fromFragment 原fragment
      * @param toFragment   目标fragment
      */
-    private void replaceFragment(Fragment fromFragment, Fragment toFragment) {
+    private void replaceFragment(Fragment fromFragment, Fragment toFragment, String name) {
         // 判断
         if (!toFragment.isAdded()) {
             mFragmentManager.beginTransaction()
                     .hide(fromFragment)
-                    .add(R.id.fragment_container_text_markdown, toFragment)
+                    .add(R.id.fragment_container_text_markdown, toFragment, name)
                     .commit();
         } else {
             mFragmentManager.beginTransaction()
