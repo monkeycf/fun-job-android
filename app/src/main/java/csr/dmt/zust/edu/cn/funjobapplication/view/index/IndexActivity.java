@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
-import csr.dmt.zust.edu.cn.funjobapplication.view.index.module.FragmentItem;
+import csr.dmt.zust.edu.cn.funjobapplication.module.FragmentItem;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.BottomNavigationFragment;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.LearnFragment;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.TopicFragment;
@@ -61,7 +61,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
      */
     private void initFragment() {
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.findFragmentById(R.id.frame_layout_bottom_navigation);
+        mFragmentManager.findFragmentById(R.id.frame_layout_view);
 
         // 底部导航栏
         mFragmentButtonNagivation = BottomNavigationFragment.getInstance();

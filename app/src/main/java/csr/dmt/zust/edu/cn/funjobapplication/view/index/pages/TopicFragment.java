@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
-import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteTextShowFragment;
+import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.topicModule.ClassifyFragment;
 
 /**
  * created by monkeycf on 2019/12/15
@@ -68,13 +68,12 @@ public class TopicFragment extends Fragment {
     private void initContent() {
         // 设置标题
         mTabIndicators = new ArrayList<>();
+        mFragmentList = new ArrayList<>();
+
         for (int i = 0; i < 10; i++) {
             mTabIndicators.add("Tab " + i);
-        }
-        mFragmentList = new ArrayList<>();
-        for (String s : mTabIndicators) {
             // 添加Fragment
-            mFragmentList.add(NoteTextShowFragment.getInstance(s));
+            mFragmentList.add(new ClassifyFragment(i + 1));
         }
         mContentPagerAdapter = new ContentPagerAdapter(getChildFragmentManager());
         mContentViewPager.setAdapter(mContentPagerAdapter);

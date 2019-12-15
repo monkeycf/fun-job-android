@@ -12,8 +12,16 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.request.ITopicRequest;
  */
 public class TopicApi {
     private ITopicRequest mTopicRequest;
+    private static TopicApi sTopicApi;
 
-    public TopicApi() {
+    public static TopicApi getInstance() {
+        if (sTopicApi == null) {
+            sTopicApi = new TopicApi();
+        }
+        return sTopicApi;
+    }
+
+    private TopicApi() {
         mTopicRequest = HttpRetrofit.get().create(Request.getTopicRequest());
     }
 

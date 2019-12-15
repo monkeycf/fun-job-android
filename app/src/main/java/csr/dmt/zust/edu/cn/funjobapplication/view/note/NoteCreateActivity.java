@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
@@ -63,18 +62,15 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
      */
     private void initPreviewButton() {
         mBtnPreview = findViewById(R.id.btn_note_preview);
-        mBtnPreview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mShowStatus == 0) {
-                    mShowStatus = 1;
-                    mFragmentShow = NoteTextShowFragment.getInstance(getMarkdownText());
-                    replaceFragment(mFragmentMarkdown, mFragmentShow, FRAGMENT_TEXT_SHOW);
-                } else {
-                    mShowStatus = 0;
-                    mFragmentMarkdown = NoteMarkdownFragment.getInstance();
-                    replaceFragment(mFragmentShow, mFragmentMarkdown, FRAGMENT_MARKDOWN);
-                }
+        mBtnPreview.setOnClickListener(v -> {
+            if (mShowStatus == 0) {
+                mShowStatus = 1;
+                mFragmentShow = NoteTextShowFragment.getInstance(getMarkdownText());
+                replaceFragment(mFragmentMarkdown, mFragmentShow, FRAGMENT_TEXT_SHOW);
+            } else {
+                mShowStatus = 0;
+                mFragmentMarkdown = NoteMarkdownFragment.getInstance();
+                replaceFragment(mFragmentShow, mFragmentMarkdown, FRAGMENT_MARKDOWN);
             }
         });
     }

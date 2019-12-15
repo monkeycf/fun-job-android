@@ -15,7 +15,7 @@ import com.zzhoujay.richtext.RichText;
 import csr.dmt.zust.edu.cn.funjobapplication.R;
 
 public class NoteTextShowFragment extends Fragment {
-    private static final String MARKDOWN_TEXT = "key";
+    private static final String MARKDOWN_TEXT = "NOTE_MARKDOWN_TEXT_SHOW_KEY";
     private String markdownText;
 
     @Nullable
@@ -43,6 +43,9 @@ public class NoteTextShowFragment extends Fragment {
         NoteTextShowFragment noteTextShowFragment = new NoteTextShowFragment();
         noteTextShowFragment.setArguments(args);
         return noteTextShowFragment;
+    }
+
+    private NoteTextShowFragment() {
     }
 
     /**

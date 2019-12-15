@@ -1,4 +1,4 @@
-package csr.dmt.zust.edu.cn.funjobapplication.view.index.module;
+package csr.dmt.zust.edu.cn.funjobapplication.module;
 
 import androidx.fragment.app.Fragment;
 
