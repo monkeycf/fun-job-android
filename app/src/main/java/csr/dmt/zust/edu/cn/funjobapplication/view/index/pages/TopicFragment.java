@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
-import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.topicModule.ClassifyFragment;
+import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.module.ClassifyFragment;
 
 /**
  * created by monkeycf on 2019/12/15

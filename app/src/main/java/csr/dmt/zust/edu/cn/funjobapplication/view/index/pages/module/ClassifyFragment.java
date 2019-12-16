@@ -1,4 +1,4 @@
-package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.topicModule;
+package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.module;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +31,6 @@ public class ClassifyFragment extends Fragment {
 
     private int mClassifyId;
     private RecyclerView mRecyclerView;
-    private TextView mTitleTextView;
     private String TAG = "ClassifyFragment";
     private static final String CREATE_CLASSIFY_FRAGMENT_KEY = "CREATE_CLASSIFY_FRAGMENT_KEY";
     ClassifyAdapter mAdapter = new ClassifyAdapter(new ArrayList<>());
@@ -66,8 +65,10 @@ public class ClassifyFragment extends Fragment {
                     @Override
                     public void SuccessCallBack(BaseResult<List<TopicInfoModule>> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                            Log.e(TAG, data.getCode() + "");
                             // 设置Adapter
-                            mAdapter = new ClassifyAdapter(data.getData());
+                            mAdapter.setTopicInfoModules(data.getData());
+                            mAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(getActivity(), "Sorry,出错了", Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "That is error:" + data.getMsg());
@@ -85,6 +86,8 @@ public class ClassifyFragment extends Fragment {
      * holder
      */
     private class ClassifyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView mTitleTextView;
+
         public ClassifyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.index_topic_classify_gird_item, parent, false));
             itemView.setOnClickListener(this);
@@ -105,6 +108,7 @@ public class ClassifyFragment extends Fragment {
      * adapter
      */
     private class ClassifyAdapter extends RecyclerView.Adapter<ClassifyHolder> {
+
         private List<TopicInfoModule> mTopicInfoModules;
 
         @Override
@@ -115,6 +119,11 @@ public class ClassifyFragment extends Fragment {
         public ClassifyAdapter(List<TopicInfoModule> topicInfoModules) {
             mTopicInfoModules = topicInfoModules;
         }
+
+        public void setTopicInfoModules(List<TopicInfoModule> topicInfoModules) {
+            mTopicInfoModules = topicInfoModules;
+        }
+
 
         /**
          * 创建时
@@ -141,5 +150,7 @@ public class ClassifyFragment extends Fragment {
             TopicInfoModule topicInfoModule = mTopicInfoModules.get(position);
             holder.bind(topicInfoModule);
         }
+
+
     }
 }
