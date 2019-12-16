@@ -26,6 +26,9 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     private static final String INDEX_LEARN_FRAGMENT_FRAGMENT_NAME =
             "INDEX_LEARN_FRAGMENT_FRAGMENT_NAME";
 
+    private int mSelectPostion = 0;
+    private int mUnSelectPostion = 0;
+
     /**
      * 底部导航栏item选中处理函数
      *
@@ -33,9 +36,12 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
      */
     @Override
     public void onBottomNavigationItemSelected(int position) {
-        Toast.makeText(this, position + "", Toast.LENGTH_LONG).show();
-        FragmentItem fragmentItem = mFragmentList.get(position);
-        addFragment(fragmentItem.getFragment(), fragmentItem.getFragmentName());
+        System.out.println("out" + position);
+        mSelectPostion = position;
+//        Toast.makeText(this, position + "", Toast.LENGTH_LONG).show();
+//        FragmentItem fragmentItem = mFragmentList.get(position);
+//        addFragment(fragmentItem.getFragment(), fragmentItem.getFragmentName());
+
     }
 
     /**
@@ -45,7 +51,12 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
      */
     @Override
     public void onBottomNavigationItemUnSelected(int position) {
-        hideFragment(mFragmentList.get(position).getFragment());
+        System.out.println("hide" + position);
+//        hideFragment(mFragmentList.get(position).getFragment());
+        mUnSelectPostion = position;
+        addFragment(mFragmentList.get(mUnSelectPostion).getFragment(),
+                mFragmentList.get(mSelectPostion).getFragment(),
+                mFragmentList.get(mSelectPostion).getFragmentName());
     }
 
     @Override
@@ -115,16 +126,20 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     /**
      * 添加fragment
      *
-     * @param fragment 需要显示的fragment
-     * @param name     需要显示的fragment的名字
+     * @param formFragment 需要隐藏的fragment
+     * @param toFragment   需要显示的fragment
+     * @param name         需要显示的fragment的名字
      */
-    private void addFragment(Fragment fragment, String name) {
-        if (!fragment.isAdded()) {
+    private void addFragment(Fragment formFragment, Fragment toFragment, String name) {
+        if (!toFragment.isAdded()) {
             mFragmentManager.beginTransaction()
-                    .add(fragment, name);
+                    .hide(formFragment)
+                    .add(R.id.frame_layout_view,toFragment, name)
+                    .commit();
         } else {
             mFragmentManager.beginTransaction()
-                    .show(fragment)
+                    .hide(formFragment)
+                    .show(toFragment)
                     .commit();
         }
     }

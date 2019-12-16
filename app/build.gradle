@@ -47,4 +47,5 @@ dependencies {
     // 使用TabLayout
     implementation 'com.google.android.material:material:1.0.0'
 
+    implementation 'com.github.lzyzsd:jsbridge:1.0.4'
 }

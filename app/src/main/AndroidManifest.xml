@@ -3,6 +3,9 @@
     package="csr.dmt.zust.edu.cn.funjobapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -11,8 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity android:name=".view.note.SelectImageActivity"></activity>-->
-<!--        <activity android:name=".view.note.pictureActivity" />-->
+        <activity android:name=".view.JSBridge.JSBridgeActivity">
+
+        </activity>
         <activity android:name=".view.index.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
