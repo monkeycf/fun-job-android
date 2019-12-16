@@ -1,5 +1,6 @@
 package csr.dmt.zust.edu.cn.funjobapplication.service.core;
 
+import csr.dmt.zust.edu.cn.funjobapplication.service.request.ILearnRequest;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.INoteRequest;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.ITopicRequest;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.IUserRequest;
@@ -22,6 +23,8 @@ public class Request<T> {
 
     private static final Class<INoteRequest> sNoteRequest = INoteRequest.class;
 
+    private static final Class<ILearnRequest> sLearnRequst = ILearnRequest.class;
+
     public static Class<IUserRequest> getUserRequest() {
         return sUserRequest;
     }
@@ -32,6 +35,10 @@ public class Request<T> {
 
     public static Class<INoteRequest> getNoteRequest() {
         return sNoteRequest;
+    }
+
+    public static Class<ILearnRequest> getLearnRequst() {
+        return sLearnRequst;
     }
 
     public Request(Call<T> call, final IHttpCallBack<T> IHTTPCallBack) {

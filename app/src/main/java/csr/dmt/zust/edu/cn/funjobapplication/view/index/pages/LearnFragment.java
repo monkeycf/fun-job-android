@@ -137,7 +137,7 @@ public class LearnFragment extends Fragment {
             mTextView.setText(dome.title);
             Glide.with(getActivity())
                     .load(dome.url)
-                    .override(600,600)
+                    .override(600, 800)
                     .placeholder(R.drawable.ic_launcher_background)//图片加载出来前，显示的图片
                     .error(R.drawable.ic_launcher_background)//图片加载失败后，显示的图片
                     .into(mImageView);
