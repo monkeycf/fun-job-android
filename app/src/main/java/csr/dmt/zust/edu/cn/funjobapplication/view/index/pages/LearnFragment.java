@@ -1,15 +1,12 @@
 package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages;
 
-import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 
@@ -25,6 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
+import csr.dmt.zust.edu.cn.funjobapplication.service.api.LearnApi;
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.learn.getModule.LearnGetModuleResModule;
 
 /**
  * created by monkeycf on 2019/12/15
@@ -32,8 +35,9 @@ import csr.dmt.zust.edu.cn.funjobapplication.R;
  */
 public class LearnFragment extends Fragment {
 
-    private Button mButtonShow;
     private RecyclerView mRecyclerView;
+    private LearnAdapter mLearnAdapter;
+    private static final String LEARN_FRAGMENT = "LEARN_FRAGMENT";
 
     @Nullable
     @Override
@@ -63,55 +67,51 @@ public class LearnFragment extends Fragment {
         mRecyclerView = v.findViewById(R.id.rv_learn_wall);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL));
-        List<Dome> t = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            t.add(new Dome("1", "标题", "http://img.chensenran.top/1576487280115.png"));
-            t.add(new Dome("1", "标题", "https://upload-images.jianshu" +
-                    ".io/upload_images/2035066-c44dc4632679e9df" +
-                    ".png?imageMogr2/auto-orient/strip|imageView2/2/w/417/format/webp"));
-            t.add(new Dome("1", "标题", "https://cn.bing.com/th?id=OIP" +
-                    ".UPqSZ-pEvm8lpBXfF2S9VAHaFl&pid=Api&rs=1"));
-            t.add(new Dome("1", "标题", "https://upload-images.jianshu" +
-                    ".io/upload_images/2035066-c44dc4632679e9df" +
-                    ".png?imageMogr2/auto-orient/strip|imageView2/2/w/417/format/webp"));
-            t.add(new Dome("1", "标题", "https://cn.bing.com/th?id=OIP" +
-                    ".UPqSZ-pEvm8lpBXfF2S9VAHaFl&pid=Api&rs=1"));
-            t.add(new Dome("1", "标题", "https://cn.bing.com/th?id=OIP" +
-                    ".UPqSZ-pEvm8lpBXfF2S9VAHaFl&pid=Api&rs=1"));
-            t.add(new Dome("1", "标题", "https://cn.bing.com/th?id=OIP" +
-                    ".UPqSZ-pEvm8lpBXfF2S9VAHaFl&pid=Api&rs=1"));
-            t.add(new Dome("1", "标题", "https://upload-images.jianshu" +
-                    ".io/upload_images/2035066-c44dc4632679e9df" +
-                    ".png?imageMogr2/auto-orient/strip|imageView2/2/w/417/format/webp"));
-        }
-        mRecyclerView.setAdapter(new LearnAdapter(t));
-
-        StaggeredDividerItemDecoration decoration =
-                new StaggeredDividerItemDecoration(getActivity(), 5);
-        mRecyclerView.addItemDecoration(decoration);
-
-
+        mLearnAdapter = new LearnAdapter(new ArrayList<>());
+        getModules();
+        mRecyclerView.setAdapter(mLearnAdapter);
         return v;
     }
 
+    private void getModules() {
+        LearnApi.getInstance().getModules("1",
+                new IHttpCallBack<BaseResult<List<LearnGetModuleResModule>>>() {
+                    @Override
+                    public void SuccessCallBack(BaseResult<List<LearnGetModuleResModule>> data) {
+                        if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                            mLearnAdapter.addModules(data.getData());
+                            mLearnAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.e(LEARN_FRAGMENT, data.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void ErrorCallBack(String msg) {
+                        Log.e(LEARN_FRAGMENT, msg);
+                    }
+                });
+    }
+
     private class LearnAdapter extends RecyclerView.Adapter<LearnHolder> {
-        private List<Dome> mDomes = new ArrayList<>();
-        private final double STANDARD_SCALE = 1.1; //当图片宽高比例大于STANDARD_SCALE时，采用3:4比例，小于时，则采用1:1比例
-        private final float SCALE = 4 * 1.0f / 3;       //图片缩放比例
+        private List<LearnGetModuleResModule> mLearnGetModuleResModules;
 
+        public LearnAdapter(List<LearnGetModuleResModule> learnGetModuleResModules) {
+            mLearnGetModuleResModules = learnGetModuleResModules;
+        }
 
-        public LearnAdapter(List<Dome> domes) {
-            mDomes = domes;
+        public void addModules(List<LearnGetModuleResModule> learnGetModuleResModules) {
+            mLearnGetModuleResModules.addAll(learnGetModuleResModules);
         }
 
         @Override
         public int getItemCount() {
-            return mDomes.size();
+            return mLearnGetModuleResModules.size();
         }
 
         @Override
         public void onBindViewHolder(@NonNull LearnHolder holder, int position) {
-            holder.bind(mDomes.get(position));
+            holder.bind(mLearnGetModuleResModules.get(position));
         }
 
         @NonNull
@@ -133,13 +133,13 @@ public class LearnFragment extends Fragment {
             mTextView = itemView.findViewById(R.id.tv_wall_item);
         }
 
-        public void bind(Dome dome) {
-            mTextView.setText(dome.title);
+        public void bind(LearnGetModuleResModule learnGetModuleResModule) {
+            mTextView.setText(learnGetModuleResModule.getTitle());
             Glide.with(getActivity())
-                    .load(dome.url)
+                    .load(learnGetModuleResModule.getCover())
                     .override(600, 800)
-                    .placeholder(R.drawable.ic_launcher_background)//图片加载出来前，显示的图片
-                    .error(R.drawable.ic_launcher_background)//图片加载失败后，显示的图片
+                    .placeholder(R.drawable.ic_loading)// 图片加载出来前，显示的图片
+                    .error(R.drawable.ic_false)// 图片加载失败后，显示的图片
                     .into(mImageView);
         }
 
@@ -147,45 +147,6 @@ public class LearnFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Toast.makeText(getActivity(), "click this item", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private class Dome {
-        public String url;
-        public String title;
-        public String id;
-
-        public Dome(String id, String title, String url) {
-            this.url = url;
-            this.title = title;
-            this.id = id;
-        }
-    }
-
-    public class StaggeredDividerItemDecoration extends RecyclerView.ItemDecoration {
-        private Context context;
-        private int interval;
-
-        public StaggeredDividerItemDecoration(Context context, int interval) {
-            this.context = context;
-            this.interval = interval;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                   RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view);
-            int interval = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                    this.interval, context.getResources().getDisplayMetrics());
-            // 中间间隔
-            if (position % 2 == 0) {
-                outRect.left = 0;
-            } else {
-                // item为奇数位，设置其左间隔为5dp
-                outRect.left = interval;
-            }
-            // 下方间隔
-            outRect.bottom = interval;
         }
     }
 }
