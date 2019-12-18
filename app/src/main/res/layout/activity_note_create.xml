@@ -8,11 +8,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/fragment_container_text_markdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="100dp" />
+        <FrameLayout
+            android:id="@+id/fragment_note_container_text_markdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp" />
 
         <Button
             android:id="@+id/btn_note_preview"
