@@ -75,7 +75,8 @@ public class TopicFragment extends Fragment {
             // 添加Fragment
             mFragmentList.add(new ClassifyFragment(i + 1));
         }
-        mContentPagerAdapter = new ContentPagerAdapter(getChildFragmentManager());
+        mContentPagerAdapter = new ContentPagerAdapter(getChildFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContentViewPager.setAdapter(mContentPagerAdapter);
     }
 
@@ -84,6 +85,7 @@ public class TopicFragment extends Fragment {
 
         // setUserVisibleHint
         // setMaxLifecycle
+
 
         /**
          * // @Override
@@ -97,10 +99,13 @@ public class TopicFragment extends Fragment {
          *
          * @param fm FragmentManager管理器
          */
-        public ContentPagerAdapter(FragmentManager fm) {
-            // 设置为 setMaxLifecycle,Fragment懒加载
-            super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        public ContentPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+            super(fm, behavior);
         }
+//        public ContentPagerAdapter(FragmentManager fm) {
+//            // 设置为 setMaxLifecycle,Fragment懒加载
+//            super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+//        }
 
         @NonNull
         @Override

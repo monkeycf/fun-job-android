@@ -1,5 +1,6 @@
 package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.api.LearnApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.learn.getModule.LearnGetModuleResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.view.JSBridge.JSBridgeActivity;
 
 /**
  * created by monkeycf on 2019/12/15
@@ -146,7 +148,9 @@ public class LearnFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "click this item", Toast.LENGTH_SHORT).show();
+            Intent intent = JSBridgeActivity.newIntent(getActivity(),
+                    mTextView.getText().toString());
+            startActivity(intent);
         }
     }
 }
