@@ -91,6 +91,11 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
         mBtnPreview = findViewById(R.id.btn_note_preview);
         mBtnPreview.setOnClickListener(v -> {
             if (mShowStatus == 0) {
+                String str = getMarkdownText();
+                if (str == null) {
+                    Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 mShowStatus = 1;
                 mFragmentShow = NoteTextShowFragment.getInstance(getMarkdownText());
                 replaceFragment(mFragmentMarkdown, mFragmentShow, FRAGMENT_TEXT_SHOW);
