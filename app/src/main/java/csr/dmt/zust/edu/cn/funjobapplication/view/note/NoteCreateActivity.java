@@ -96,7 +96,6 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
         }
     }
 
-
     public String getMarkdownText() {
         return mMarkdownText;
     }

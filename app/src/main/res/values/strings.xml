@@ -2,5 +2,10 @@
     <string name="app_name">FunJob Application</string>
     <string name="note_write_hint">写点笔记吧</string>
     <string name="note_preview_title">预览</string>
-    <string name="note_create_back">返回</string>
+    <string name="app_back">返回</string>
+    <string name="app_finish">完成</string>
+    <string name="app_preview">预览</string>
+    <string name="select_pictures">选择图片</string>
+    <string name="take_photo">拍照</string>
+    <string name="note_tips">（支持长按拖动排序、左右侧滑可删除）</string>
 </resources>

@@ -14,22 +14,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.JSBridge.JSBridgeActivity">
-
-        </activity>
-        <activity android:name=".view.index.IndexActivity">
+        <activity android:name=".view.note.pictures.PreviewImageActivity"></activity>
+        <activity android:name=".view.note.pictures.SelectPictureActivity" />
+        <activity android:name=".view.JSBridge.JSBridgeActivity" />
+        <activity android:name=".view.index.IndexActivity" />
+        <activity android:name=".view.index.pages.TopicFragment" />
+        <activity android:name=".view.note.NoteCreateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.index.pages.TopicFragment" />
-        <activity android:name=".view.note.NoteCreateActivity" />
         <activity android:name=".WriteNoteActivity" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
