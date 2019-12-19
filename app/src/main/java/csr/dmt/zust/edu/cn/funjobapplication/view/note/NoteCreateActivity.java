@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -17,6 +18,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.service.api.NoteApi;
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.upload.UploadPicture;
 import csr.dmt.zust.edu.cn.funjobapplication.service.upload.UploadPictureCall;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.Picture;
@@ -51,11 +57,12 @@ public class NoteCreateActivity extends AppCompatActivity
     }
 
     private void textUpload() {
-        // TODO 测试上传
+        // 上传
         findViewById(R.id.btn_select).setOnClickListener(v -> {
             mSuccessPictureUrls.clear();
             mTimeOutFlag = TIME_NORMAL;
             for (Picture picture : mSelectPictures) {
+                // 每张图片一次请求
                 UploadPictureCall uploadPictureCall = new UploadPictureCall(NoteCreateActivity.this);
                 uploadPictureCall.getInstance(picture.getPath());
             }
@@ -85,11 +92,29 @@ public class NoteCreateActivity extends AppCompatActivity
         // 数量相等上传成功
         if (mSuccessPictureUrls.size() == mSelectPictures.size()) {
             System.out.println("上传成功");
-            Toast.makeText(this, "shangchuangchengong", Toast.LENGTH_SHORT).show();
+            crateNote();
         } else if (mTimeOutFlag == TIME_OUT) {
             System.out.println("超时");
-            Toast.makeText(this, "chaoshi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "上传图片超时", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * 创建笔记
+     */
+    public void crateNote() {
+        NoteApi.getInstance().createNote(new NoteCreateReqModule("19002", "1", "数据", mSuccessPictureUrls),
+                new IHttpCallBack<BaseResult<List<NoteCreateResModule>>>() {
+                    @Override
+                    public void SuccessCallBack(BaseResult<List<NoteCreateResModule>> data) {
+                        System.out.println(data.getCode());
+                    }
+
+                    @Override
+                    public void ErrorCallBack(String msg) {
+                        System.out.println(msg);
+                    }
+                });
     }
 
     /**

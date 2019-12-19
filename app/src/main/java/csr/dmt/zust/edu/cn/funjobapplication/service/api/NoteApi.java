@@ -13,9 +13,17 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.request.INoteRequest;
  */
 public class NoteApi {
     private INoteRequest mNoteRequest;
+    private static NoteApi sNoteApi;
 
     public NoteApi() {
         mNoteRequest = HttpRetrofit.get().create(Request.getNoteRequest());
+    }
+
+    public static NoteApi getInstance() {
+        if (sNoteApi == null) {
+            sNoteApi = new NoteApi();
+        }
+        return sNoteApi;
     }
 
     // 新增笔记
