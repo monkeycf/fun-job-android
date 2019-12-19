@@ -20,7 +20,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         findViewById(R.id.btn_detail_edit).setOnClickListener(v -> {
-            Intent intent = NoteCreateActivity.newIntent(this);
+            Intent intent = NoteCreateActivity.newIntent(this, "5");
             startActivity(intent);
         });
     }

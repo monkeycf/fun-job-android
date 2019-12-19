@@ -36,6 +36,7 @@ public class NoteCreateActivity extends AppCompatActivity
     private Fragment mFragmentShow;
     private Button mBtnPreview;
     private String mMarkdownText;
+    private String mTopicId;
     private int mShowStatus = 0; // 0 编辑，1 预览
     private Timer mTimer = new Timer();
     private int mTimeOutFlag; // 0正常，1超时
@@ -44,6 +45,7 @@ public class NoteCreateActivity extends AppCompatActivity
     private static final String FRAGMENT_MARKDOWN = "FRAGMENT_MARKDOWN";
     private static final String FRAGMENT_TEXT_SHOW = "FRAGMENT_TEXT_SHOW";
     private static final String FRAGMENT_PICTURES_SHOW = "FRAGMENT_PICTURES_SHOW";
+    private static final String DETAIL_NOTE_CREATE_TOPIC_KEY = "DETAIL_NOTE_CREATE_TOPIC_KEY";
     private ArrayList<Picture> mSelectPictures = new ArrayList<>();
     private ArrayList<String> mSuccessPictureUrls = new ArrayList<>(); // 成功上传图片的路由数组
 
@@ -54,6 +56,7 @@ public class NoteCreateActivity extends AppCompatActivity
         initMarkdownFragment(); // 初始化fragment
         initPreviewButton(); // 初始化预览按钮
         textUpload();
+        mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
     }
 
     private void textUpload() {
@@ -103,7 +106,7 @@ public class NoteCreateActivity extends AppCompatActivity
      * 创建笔记
      */
     public void crateNote() {
-        NoteApi.getInstance().createNote(new NoteCreateReqModule("19002", "1", "数据", mSuccessPictureUrls),
+        NoteApi.getInstance().createNote(new NoteCreateReqModule("19002", mTopicId, mMarkdownText, mSuccessPictureUrls),
                 new IHttpCallBack<BaseResult<List<NoteCreateResModule>>>() {
                     @Override
                     public void SuccessCallBack(BaseResult<List<NoteCreateResModule>> data) {
@@ -228,8 +231,11 @@ public class NoteCreateActivity extends AppCompatActivity
         mMarkdownText = markdownText;
     }
 
-    public static Intent newIntent(Context context) {
+    public static Intent newIntent(Context context, String topicId) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(DETAIL_NOTE_CREATE_TOPIC_KEY, topicId);
         Intent intent = new Intent(context, NoteCreateActivity.class);
+        intent.putExtras(bundle);
         return intent;
     }
 }
