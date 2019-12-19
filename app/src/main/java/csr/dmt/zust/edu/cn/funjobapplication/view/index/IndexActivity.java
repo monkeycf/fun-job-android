@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.PersonalFragment;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.module.FragmentItem;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.BottomNavigationFragment;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.LearnFragment;
@@ -20,10 +21,9 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     private Fragment mFragmentButtonNagivation;
     private List<FragmentItem> mFragmentList; // 存储Fragment数组
     private static final String INDEX_BOTTOM_NAVIGATION_FRAGMENT_NAME = "INDEX_BOTTOM_NAVIGATION";
-    private static final String INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME =
-            "INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME";
-    private static final String INDEX_LEARN_FRAGMENT_FRAGMENT_NAME =
-            "INDEX_LEARN_FRAGMENT_FRAGMENT_NAME";
+    private static final String INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME = "INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME";
+    private static final String INDEX_LEARN_FRAGMENT_FRAGMENT_NAME = "INDEX_LEARN_FRAGMENT_FRAGMENT_NAME";
+    private static final String INDEX_PERSONAL_FRAGMENT_FRAGMENT_NAME = "INDEX_PERSONAL_FRAGMENT_FRAGMENT_NAME";
 
     private int mSelectPosition = 0;
     private int mUnSelectPosition = 0;
@@ -97,16 +97,16 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
             switch (i) {
                 case 1:
                     // 主题
-                    mFragmentList.add(new FragmentItem(
-                            new TopicFragment(), INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME));
+                    mFragmentList.add(new FragmentItem(new TopicFragment(), INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME));
                     break;
                 case 0:
                 case 2:
-                case 3:
                     // 学习
-                    mFragmentList.add(new FragmentItem(
-                            new LearnFragment(), INDEX_LEARN_FRAGMENT_FRAGMENT_NAME));
+                    mFragmentList.add(new FragmentItem(new LearnFragment(), INDEX_LEARN_FRAGMENT_FRAGMENT_NAME));
                     break;
+                case 3:
+                    // 个人中心
+                    mFragmentList.add(new FragmentItem(new PersonalFragment(), INDEX_PERSONAL_FRAGMENT_FRAGMENT_NAME));
                 default:
                     break;
             }
