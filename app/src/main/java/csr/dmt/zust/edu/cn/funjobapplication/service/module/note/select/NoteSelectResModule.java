@@ -1,5 +1,10 @@
 package csr.dmt.zust.edu.cn.funjobapplication.service.module.note.select;
 
+import java.util.List;
+
+/**
+ * created by monkeycf on 2019/12/13
+ */
 public class NoteSelectResModule {
     private String noteId;
     private String topicId;
@@ -8,6 +13,15 @@ public class NoteSelectResModule {
     private String createTime;
     private String lastModificationTime;
     private String noteStatus;
+    private List<String> pictures;
+
+    public List<String> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<String> pictures) {
+        this.pictures = pictures;
+    }
 
     public String getNoteId() {
         return noteId;

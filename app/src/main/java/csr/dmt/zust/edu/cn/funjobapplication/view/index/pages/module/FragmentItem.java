@@ -1,10 +1,10 @@
-package csr.dmt.zust.edu.cn.funjobapplication.module;
+package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.module;
 
 import androidx.fragment.app.Fragment;
 
 /**
-* created by monkeycf on 2019/12/15
-*/
+ * created by monkeycf on 2019/12/15
+ */
 public class FragmentItem {
     private Fragment mFragment;
     private String mFragmentName;

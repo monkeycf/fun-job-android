@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
-import csr.dmt.zust.edu.cn.funjobapplication.module.FragmentItem;
+import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.module.FragmentItem;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.BottomNavigationFragment;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.LearnFragment;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.TopicFragment;

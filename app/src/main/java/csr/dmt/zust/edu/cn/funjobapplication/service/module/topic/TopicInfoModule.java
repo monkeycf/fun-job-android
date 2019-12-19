@@ -15,6 +15,15 @@ public class TopicInfoModule {
     private String createTime;
     private String lastModificationTime;
     private String label;
+    private String answerUrl;
+
+    public String getAnswerUrl() {
+        return answerUrl;
+    }
+
+    public void setAnswerUrl(String answerUrl) {
+        this.answerUrl = answerUrl;
+    }
 
     public int getId() {
         return id;
