@@ -1,5 +1,6 @@
 package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.module;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
@@ -23,6 +25,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
 import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
+import csr.dmt.zust.edu.cn.funjobapplication.view.detail.DetailActivity;
 
 /**
  * created by monkeycf on 2019/12/15
@@ -87,20 +90,24 @@ public class ClassifyFragment extends Fragment {
      */
     private class ClassifyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTitleTextView;
+        private TopicInfoModule mTopicInfoModule;
 
-        public ClassifyHolder(LayoutInflater inflater, ViewGroup parent) {
+        private ClassifyHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.index_topic_classify_gird_item, parent, false));
             itemView.setOnClickListener(this);
             mTitleTextView = itemView.findViewById(R.id.tv_index_topic_classify_item);
         }
 
-        public void bind(TopicInfoModule topicInfoModule) {
+        private void bind(TopicInfoModule topicInfoModule) {
             mTitleTextView.setText(topicInfoModule.getTitle());
+            mTopicInfoModule = topicInfoModule;
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "hello", Toast.LENGTH_SHORT).show();
+            Intent intent = DetailActivity.newIntent(getContext(),
+                    new Formatter().format("%d", mTopicInfoModule.getId()).toString());
+            startActivity(intent);
         }
     }
 
@@ -116,11 +123,11 @@ public class ClassifyFragment extends Fragment {
             return mTopicInfoModules.size();
         }
 
-        public ClassifyAdapter(List<TopicInfoModule> topicInfoModules) {
+        private ClassifyAdapter(List<TopicInfoModule> topicInfoModules) {
             mTopicInfoModules = topicInfoModules;
         }
 
-        public void setTopicInfoModules(List<TopicInfoModule> topicInfoModules) {
+        private void setTopicInfoModules(List<TopicInfoModule> topicInfoModules) {
             mTopicInfoModules = topicInfoModules;
         }
 
@@ -150,7 +157,5 @@ public class ClassifyFragment extends Fragment {
             TopicInfoModule topicInfoModule = mTopicInfoModules.get(position);
             holder.bind(topicInfoModule);
         }
-
-
     }
 }

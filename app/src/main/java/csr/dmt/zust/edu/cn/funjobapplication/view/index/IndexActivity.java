@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +25,8 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     private static final String INDEX_LEARN_FRAGMENT_FRAGMENT_NAME =
             "INDEX_LEARN_FRAGMENT_FRAGMENT_NAME";
 
-    private int mSelectPostion = 0;
-    private int mUnSelectPostion = 0;
+    private int mSelectPosition = 0;
+    private int mUnSelectPosition = 0;
 
     /**
      * 底部导航栏item选中处理函数
@@ -37,7 +36,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     @Override
     public void onBottomNavigationItemSelected(int position) {
         System.out.println("out" + position);
-        mSelectPostion = position;
+        mSelectPosition = position;
 //        Toast.makeText(this, position + "", Toast.LENGTH_LONG).show();
 //        FragmentItem fragmentItem = mFragmentList.get(position);
 //        addFragment(fragmentItem.getFragment(), fragmentItem.getFragmentName());
@@ -53,10 +52,10 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     public void onBottomNavigationItemUnSelected(int position) {
         System.out.println("hide" + position);
 //        hideFragment(mFragmentList.get(position).getFragment());
-        mUnSelectPostion = position;
-        addFragment(mFragmentList.get(mUnSelectPostion).getFragment(),
-                mFragmentList.get(mSelectPostion).getFragment(),
-                mFragmentList.get(mSelectPostion).getFragmentName());
+        mUnSelectPosition = position;
+        addFragment(mFragmentList.get(mUnSelectPosition).getFragment(),
+                mFragmentList.get(mSelectPosition).getFragment(),
+                mFragmentList.get(mSelectPosition).getFragmentName());
     }
 
     @Override
@@ -94,14 +93,16 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
      */
     private void initFragmentList() {
         mFragmentList = new ArrayList<>();
-        for (int i = 0; i < BottomNavigationFragment.BOTTOM_NAVIGATIOIN_ITEM_NUMBER; i++) {
+        for (int i = 0; i < BottomNavigationFragment.BOTTOM_NAVIGATION_ITEM_NUMBER; i++) {
             switch (i) {
-                case 0:
+                case 1:
                     // 主题
                     mFragmentList.add(new FragmentItem(
                             new TopicFragment(), INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME));
                     break;
-                case 1:
+                case 0:
+                case 2:
+                case 3:
                     // 学习
                     mFragmentList.add(new FragmentItem(
                             new LearnFragment(), INDEX_LEARN_FRAGMENT_FRAGMENT_NAME));
@@ -134,7 +135,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         if (!toFragment.isAdded()) {
             mFragmentManager.beginTransaction()
                     .hide(formFragment)
-                    .add(R.id.frame_layout_view,toFragment, name)
+                    .add(R.id.frame_layout_view, toFragment, name)
                     .commit();
         } else {
             mFragmentManager.beginTransaction()

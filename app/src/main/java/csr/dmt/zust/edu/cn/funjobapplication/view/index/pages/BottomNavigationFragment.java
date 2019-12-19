@@ -23,7 +23,7 @@ public class BottomNavigationFragment extends Fragment {
 
     private static BottomNavigationFragment sBottomNavigationFragment;
 
-    public final static int BOTTOM_NAVIGATIOIN_ITEM_NUMBER = 2;
+    public final static int BOTTOM_NAVIGATION_ITEM_NUMBER = 4;
 
     private FragmentInteraction listener; // 定义用来与外部activity交互，获取到宿主context
 
@@ -74,7 +74,7 @@ public class BottomNavigationFragment extends Fragment {
         if (context instanceof FragmentInteraction) {
             listener = (FragmentInteraction) context; // 获取到宿主context并赋值
         } else {
-            throw new IllegalArgumentException("Context not found implements FragmentInteraction.");
+            throw new IllegalArgumentException("Context not found implements IFragmentInteraction.");
         }
     }
 
@@ -83,7 +83,7 @@ public class BottomNavigationFragment extends Fragment {
      *
      * @param bottomNavigationBar 底部导航栏容器
      */
-    public void InitBottomNavigationBar(BottomNavigationBar bottomNavigationBar) {
+    private void InitBottomNavigationBar(BottomNavigationBar bottomNavigationBar) {
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.ic_launcher_background, "Home"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_launcher_background, "Books"))

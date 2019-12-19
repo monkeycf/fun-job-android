@@ -5,15 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.service.upload.UploadPicture;
+import csr.dmt.zust.edu.cn.funjobapplication.service.upload.UploadPictureCall;
+import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.Picture;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.PictureShowFragment;
 
-public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdownFragment.FragmentInteraction {
+public class NoteCreateActivity extends AppCompatActivity
+        implements NoteMarkdownFragment.IFragmentInteraction, PictureShowFragment.ISelectedPictureChange {
 
     private FragmentManager mFragmentManager;
     private Fragment mFragmentMarkdown;
@@ -21,9 +31,15 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
     private Button mBtnPreview;
     private String mMarkdownText;
     private int mShowStatus = 0; // 0 编辑，1 预览
+    private Timer mTimer = new Timer();
+    private int mTimeOutFlag; // 0正常，1超时
+    private static final int TIME_OUT = 1;
+    private static final int TIME_NORMAL = 0;
     private static final String FRAGMENT_MARKDOWN = "FRAGMENT_MARKDOWN";
     private static final String FRAGMENT_TEXT_SHOW = "FRAGMENT_TEXT_SHOW";
     private static final String FRAGMENT_PICTURES_SHOW = "FRAGMENT_PICTURES_SHOW";
+    private ArrayList<Picture> mSelectPictures = new ArrayList<>();
+    private ArrayList<String> mSuccessPictureUrls = new ArrayList<>(); // 成功上传图片的路由数组
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +47,49 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
         setContentView(R.layout.activity_note_create);
         initMarkdownFragment(); // 初始化fragment
         initPreviewButton(); // 初始化预览按钮
+        textUpload();
+    }
+
+    private void textUpload() {
+        // TODO 测试上传
+        findViewById(R.id.btn_select).setOnClickListener(v -> {
+            mSuccessPictureUrls.clear();
+            mTimeOutFlag = TIME_NORMAL;
+            for (Picture picture : mSelectPictures) {
+                UploadPictureCall uploadPictureCall = new UploadPictureCall(NoteCreateActivity.this);
+                uploadPictureCall.getInstance(picture.getPath());
+            }
+            // 10s主动判断
+            mTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    checkImageUpload();
+                    mTimeOutFlag = TIME_OUT;
+                }
+            }, 10000);
+        });
+    }
+
+    /**
+     * 增加成功上传图片数量
+     */
+    public void addSuccessPicture(String url) {
+        mSuccessPictureUrls.add(url);
+        checkImageUpload();
+    }
+
+    /**
+     * 判断图片是否上传完成
+     */
+    public void checkImageUpload() {
+        // 数量相等上传成功
+        if (mSuccessPictureUrls.size() == mSelectPictures.size()) {
+            System.out.println("上传成功");
+            Toast.makeText(this, "shangchuangchengong", Toast.LENGTH_SHORT).show();
+        } else if (mTimeOutFlag == TIME_OUT) {
+            System.out.println("超时");
+            Toast.makeText(this, "chaoshi", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -55,13 +114,21 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
     }
 
     /**
-     * FragmentInteraction 接口实现
+     * IFragmentInteraction 接口实现
      *
      * @param str 输入框的字符串
      */
     @Override
     public void getMarkdownText(String str) {
         setMarkdownText(str);
+    }
+
+    /**
+     * PictureShowFragment 接口实现
+     */
+    @Override
+    public void onSelectedPictureChangeHandler(ArrayList<Picture> selectPictures) {
+        mSelectPictures = selectPictures;
     }
 
     /**
@@ -134,5 +201,10 @@ public class NoteCreateActivity extends AppCompatActivity implements NoteMarkdow
 
     public void setMarkdownText(String markdownText) {
         mMarkdownText = markdownText;
+    }
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, NoteCreateActivity.class);
+        return intent;
     }
 }

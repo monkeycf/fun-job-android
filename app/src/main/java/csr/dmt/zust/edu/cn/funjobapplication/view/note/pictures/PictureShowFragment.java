@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteMarkdownFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -59,6 +60,14 @@ public class PictureShowFragment extends Fragment {
     private ArrayList<Picture> mSelectPictures = new ArrayList<>();
     private File mTakePhotoImageFile;
 
+    private ISelectedPictureChange listener;
+
+    // 选择的
+    public interface ISelectedPictureChange {
+        void onSelectedPictureChangeHandler(ArrayList<Picture> selectPictures);
+    }
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -76,6 +85,18 @@ public class PictureShowFragment extends Fragment {
         mSelectedImageRecyclerView.setAdapter(mShowImagesRecyclerViewAdapter);
         mItemTouchHelper.attachToRecyclerView(mSelectedImageRecyclerView);
         return v;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        // 判断是否实现该接口
+        if (context instanceof ISelectedPictureChange) {
+            listener = (ISelectedPictureChange) context; // 获取到宿主context并赋值
+            listener.onSelectedPictureChangeHandler(mSelectPictures);
+        } else {
+            throw new IllegalArgumentException("Context not found implements ISelectedPictureChange.");
+        }
     }
 
     @Override
@@ -248,6 +269,7 @@ public class PictureShowFragment extends Fragment {
             mDragTip.setVisibility(View.VISIBLE);
         }
 
+        listener.onSelectedPictureChangeHandler(mSelectPictures);
         mShowImagesRecyclerViewAdapter.notifyDataSetChanged();
     }
 
@@ -272,6 +294,7 @@ public class PictureShowFragment extends Fragment {
         picture.setPath(getLastPhotoByPath(getContext()));
         mSelectPictures.add(picture);
 
+        listener.onSelectedPictureChangeHandler(mSelectPictures);
         mShowImagesRecyclerViewAdapter.notifyDataSetChanged();
     }
 
@@ -281,7 +304,7 @@ public class PictureShowFragment extends Fragment {
      * @param ctx Context
      * @return 路径
      */
-    private String getLastPhotoByPath(Context ctx) {
+    public static String getLastPhotoByPath(Context ctx) {
         Cursor cursor;
         String lastFilePath = "";
         String[] largeFileProjection = {
@@ -356,6 +379,7 @@ public class PictureShowFragment extends Fragment {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
             mSelectPictures.remove(position);
+            listener.onSelectedPictureChangeHandler(mSelectPictures);
             mShowImagesRecyclerViewAdapter.notifyItemRemoved(position);
         }
     });

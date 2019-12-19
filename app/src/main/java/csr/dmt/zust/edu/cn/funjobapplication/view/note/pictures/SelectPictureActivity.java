@@ -163,6 +163,7 @@ public class SelectPictureActivity extends AppCompatActivity {
                         .load(thePicture.getPath())
                         .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))//圆角半径
                         .into(holder.getImageViewImage());
+                // 每张图片设置监听器
                 holder.getSquareFrameLayout().setOnClickListener(v -> {
                     if (thePicture.isSelect()) {
                         thePicture.setSelect(false);
@@ -173,6 +174,7 @@ public class SelectPictureActivity extends AppCompatActivity {
                         mMySelectPictures.add(thePicture);
                         holder.getImageViewClicked().setSelected(true);
                     }
+                    mTvPreview.setText(new Formatter().format("预览%d/%d", mSelectedPictures.size(), MAX_SIZE).toString());
                 });
                 // 需要设置点击状态
                 // 再次进入时 可以显示是否被选状态
