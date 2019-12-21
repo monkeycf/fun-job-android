@@ -1,4 +1,4 @@
-package csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures;
+package csr.dmt.zust.edu.cn.funjobapplication.module.layout;
 
 import android.content.Context;
 import android.util.AttributeSet;
