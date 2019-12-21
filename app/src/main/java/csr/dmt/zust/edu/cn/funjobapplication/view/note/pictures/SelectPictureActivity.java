@@ -32,6 +32,7 @@ import java.util.Formatter;
 import java.util.List;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.module.Layout.SquareFrameLayout;
 
 public class SelectPictureActivity extends AppCompatActivity {
     public static final String SELECT_PICTURE_TO_SHOW_FRAGMENT_EXTRA_KEY = "SELECT_PICTURE_TO_SHOW_FRAGMENT_EXTRA_KEY";
