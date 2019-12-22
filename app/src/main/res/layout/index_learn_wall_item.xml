@@ -2,16 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/iv_wall_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="这是图片" />
+        android:contentDescription="@string/learn_picture_contentDescription" />
 
     <TextView
         android:id="@+id/tv_wall_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

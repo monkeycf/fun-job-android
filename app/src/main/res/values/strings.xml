@@ -8,4 +8,5 @@
     <string name="select_pictures">选择图片</string>
     <string name="take_photo">拍照</string>
     <string name="note_tips">（支持长按拖动排序、左右侧滑可删除）</string>
+    <string name="learn_picture_contentDescription">模块封面</string>
 </resources>

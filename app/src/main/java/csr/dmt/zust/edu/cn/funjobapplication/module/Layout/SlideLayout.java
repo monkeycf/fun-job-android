@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.customview.widget.ViewDragHelper;
 
+/**
+ * created by monkeycf on 2019/12/21
+ */
 public class SlideLayout extends LinearLayout {
 
     private ViewDragHelper mDragHelper;

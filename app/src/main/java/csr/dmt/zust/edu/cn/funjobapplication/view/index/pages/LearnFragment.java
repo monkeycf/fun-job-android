@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 
@@ -37,7 +35,6 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.JSBridge.JSBridgeActivity;
  */
 public class LearnFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
     private LearnAdapter mLearnAdapter;
     private static final String LEARN_FRAGMENT = "LEARN_FRAGMENT";
 
@@ -46,37 +43,24 @@ public class LearnFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.index_learn_fragment, container, false);
-//        mButtonShow = v.findViewById(R.id.btn_learn_item_show);
-//        mButtonShow.setOnClickListener(view -> {
-//            Intent intent = JSBridgeActivity.newIntent(getActivity(), "123");
-//            startActivity(intent);
-//        });
 
-//        ImageView imageView = v.findViewById(R.id.iv_show);
-//        Glide.with(getActivity())
-//                .load("http://img.chensenran.top/1576477362006.gif")
-//                .placeholder(R.drawable.ic_launcher_background)//图片加载出来前，显示的图片
-//                .error(R.drawable.ic_launcher_background)//图片加载失败后，显示的图片
-//                .into(imageView);
-
-//        adapter = new ImageStageredAdapter(this);
-//        recyclerView.setAdapter(adapter);
-//        StaggeredGridLayoutManager staggeredGridLayoutManager =
-//                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        recyclerView.setLayoutManager(staggeredGridLayoutManager);
-//        SpaceViewItemLine itemDecoration = new SpaceViewItemLine(20);
-//        recyclerView.addItemDecoration(itemDecoration);
-        mRecyclerView = v.findViewById(R.id.rv_learn_wall);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
+        RecyclerView LearnModuleRecyclerView;
+        LearnModuleRecyclerView = v.findViewById(R.id.rv_learn_wall);
+        LearnModuleRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL));
-        mLearnAdapter = new LearnAdapter(new ArrayList<>());
+
         getModules();
-        mRecyclerView.setAdapter(mLearnAdapter);
+        mLearnAdapter = new LearnAdapter(new ArrayList<>());
+        LearnModuleRecyclerView.setAdapter(mLearnAdapter);
         return v;
     }
 
+    /**
+     * 获取模块数据
+     */
     private void getModules() {
-        LearnApi.getInstance().getModules("1",
+        final String LEARN_MODULES_INDEX = "1";
+        LearnApi.getInstance().getModules(LEARN_MODULES_INDEX,
                 new IHttpCallBack<BaseResult<List<LearnGetModuleResModule>>>() {
                     @Override
                     public void SuccessCallBack(BaseResult<List<LearnGetModuleResModule>> data) {
@@ -85,6 +69,7 @@ public class LearnFragment extends Fragment {
                             mLearnAdapter.notifyDataSetChanged();
                         } else {
                             Log.e(LEARN_FRAGMENT, data.getMsg());
+                            Toast.makeText(getContext(), "不好意思出错了", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -95,14 +80,22 @@ public class LearnFragment extends Fragment {
                 });
     }
 
+    /**
+     * Adapter
+     */
     private class LearnAdapter extends RecyclerView.Adapter<LearnHolder> {
         private List<LearnGetModuleResModule> mLearnGetModuleResModules;
 
-        public LearnAdapter(List<LearnGetModuleResModule> learnGetModuleResModules) {
+        private LearnAdapter(List<LearnGetModuleResModule> learnGetModuleResModules) {
             mLearnGetModuleResModules = learnGetModuleResModules;
         }
 
-        public void addModules(List<LearnGetModuleResModule> learnGetModuleResModules) {
+        /**
+         * 添加模块
+         *
+         * @param learnGetModuleResModules 模块数组
+         */
+        private void addModules(List<LearnGetModuleResModule> learnGetModuleResModules) {
             mLearnGetModuleResModules.addAll(learnGetModuleResModules);
         }
 
@@ -128,28 +121,29 @@ public class LearnFragment extends Fragment {
         private ImageView mImageView;
         private TextView mTextView;
 
-        public LearnHolder(LayoutInflater inflater, ViewGroup parent) {
+        private LearnHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.index_learn_wall_item, parent, false));
             itemView.setOnClickListener(this);
             mImageView = itemView.findViewById(R.id.iv_wall_item);
             mTextView = itemView.findViewById(R.id.tv_wall_item);
         }
 
-        public void bind(LearnGetModuleResModule learnGetModuleResModule) {
+        private void bind(LearnGetModuleResModule learnGetModuleResModule) {
+            if (getActivity() == null) {
+                throw new IllegalArgumentException("LearnHolder:bind:::getActivity is null...");
+            }
             mTextView.setText(learnGetModuleResModule.getTitle());
             Glide.with(getActivity())
                     .load(learnGetModuleResModule.getCover())
-                    .override(600, 800)
-                    .placeholder(R.drawable.ic_loading)// 图片加载出来前，显示的图片
-                    .error(R.drawable.ic_false)// 图片加载失败后，显示的图片
+                    .override(800, 600)
+                    .placeholder(R.drawable.ic_loading)
+                    .error(R.drawable.ic_false)
                     .into(mImageView);
         }
 
-
         @Override
         public void onClick(View v) {
-            Intent intent = JSBridgeActivity.newIntent(getActivity(),
-                    mTextView.getText().toString());
+            Intent intent = JSBridgeActivity.newIntent(getActivity(), mTextView.getText().toString());
             startActivity(intent);
         }
     }
