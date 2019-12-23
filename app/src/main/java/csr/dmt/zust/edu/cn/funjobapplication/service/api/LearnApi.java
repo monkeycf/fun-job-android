@@ -1,8 +1,12 @@
 package csr.dmt.zust.edu.cn.funjobapplication.service.api;
 
+import java.util.List;
+
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.HttpRetrofit;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.Request;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.learn.getModule.LearnGetModuleResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.ILearnRequest;
 
 /**
@@ -23,7 +27,7 @@ public class LearnApi {
         return sLearnApi;
     }
 
-    public void getModules(String index, IHttpCallBack callBack) {
+    public void getModules(String index, IHttpCallBack<BaseResult<List<LearnGetModuleResModule>>> callBack) {
         new Request<>(mLearnRequest.getModule(index), callBack);
     }
 }

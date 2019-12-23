@@ -1,10 +1,16 @@
 package csr.dmt.zust.edu.cn.funjobapplication.service.api;
 
+import java.util.List;
+
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.Request;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.HttpRetrofit;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.ITopicRequest;
 
 /**
@@ -26,33 +32,34 @@ public class TopicApi {
     }
 
     // 获取全部主题
-    public void getAllTopic(IHttpCallBack httpCallBack) {
+    public void getAllTopic(IHttpCallBack<BaseResult<List<TopicInfoModule>>> httpCallBack) {
         new Request<>(mTopicRequest.getAllTopic(), httpCallBack);
     }
 
     // 根据ID获取主题
-    public void getTopicById(String topicId, String userId, IHttpCallBack httpCallBack) {
+    public void getTopicById(String topicId, String userId, IHttpCallBack<BaseResult<TopicInfoModule>> httpCallBack) {
         new Request<>(mTopicRequest.getTopicById(topicId, userId), httpCallBack);
     }
 
     // 获取分类查询主题列表
-    public void getTopicByLabel(String labelId, IHttpCallBack callBack) {
+    public void getTopicByLabel(String labelId, IHttpCallBack<BaseResult<List<TopicInfoModule>>> callBack) {
         new Request<>(mTopicRequest.getTopicByLabel(labelId), callBack);
     }
 
     // 搜索主题
-    public void searchTopic(String key, IHttpCallBack callBack) {
+    public void searchTopic(String key, IHttpCallBack<BaseResult<List<TopicInfoModule>>> callBack) {
         new Request<>(mTopicRequest.getSearchTopic(key), callBack);
     }
 
     // 收藏主题
-    public void collectTopic(TopicCollectReqModule topicCollectReqModule, IHttpCallBack callBack) {
+    public void collectTopic(TopicCollectReqModule topicCollectReqModule,
+                             IHttpCallBack<BaseResult<TopicCollectResModule>> callBack) {
         new Request<>(mTopicRequest.collectTopic(topicCollectReqModule), callBack);
     }
 
     // 取消收藏
     public void cancelCollectTopic(TopicCancelCollectReqModule topicCancelCollectReqModule,
-                                   IHttpCallBack callBack) {
+                                   IHttpCallBack<BaseResult<TopicCancelCollectResModule>> callBack) {
         new Request<>(mTopicRequest.cancelCollectTopic(topicCancelCollectReqModule), callBack);
     }
 }
