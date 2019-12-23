@@ -18,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.NoteApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
@@ -31,6 +32,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.PictureShowFragm
 public class NoteCreateActivity extends AppCompatActivity
         implements NoteMarkdownFragment.IFragmentInteraction, PictureShowFragment.ISelectedPictureChange {
 
+    private final String TAG = NoteCreateActivity.class.getSimpleName();
     private FragmentManager mFragmentManager;
     private Fragment mFragmentMarkdown;
     private Fragment mFragmentShow;
@@ -110,12 +112,17 @@ public class NoteCreateActivity extends AppCompatActivity
                 new IHttpCallBack<BaseResult<NoteCreateResModule>>() {
                     @Override
                     public void SuccessCallBack(BaseResult<NoteCreateResModule> data) {
-                        System.out.println(data.getCode());
+                        if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                            System.out.println(data.getCode());
+                        } else {
+                            Toast.makeText(NoteCreateActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "createNote was error:::" + data.getMsg());
+                        }
                     }
 
                     @Override
                     public void ErrorCallBack(String msg) {
-                        System.out.println(msg);
+                        Log.e(TAG, "createNote was error:::" + msg);
                     }
                 });
     }

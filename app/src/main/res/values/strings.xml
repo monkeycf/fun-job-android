@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FunJob Application</string>
+    <string name="app_error">不好意思出错了</string>
     <string name="note_write_hint">写点笔记吧</string>
     <string name="note_preview_title">预览</string>
     <string name="app_back">返回</string>
@@ -11,7 +12,7 @@
     <string name="learn_picture_contentDescription">模块封面 </string>
     <string name="login_logo_description">App logo</string>
     <string name="login_logo_app_name">FunJob</string>
-    <string name="login_account_hint">请输入账号</string>
+    <string name="login_account_hint">请输入手机号</string>
     <string name="login_password_hint">请输入密码</string>
     <string name="login_account_description">清除</string>
     <string name="login_login_btn">登  录</string>
@@ -19,4 +20,5 @@
     <string name="login_register">快速注册</string>
     <string name="login_message">阅读并同意</string>
     <string name="login_service">服务条款</string>
+    <string name="register_register">一 键 注 册</string>
 </resources>

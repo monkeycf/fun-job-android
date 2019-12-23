@@ -2,6 +2,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -27,6 +28,8 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLogin
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private final String TAG = LoginActivity.class.getSimpleName();
 
     @BindView(R.id.et_login_account)
     EditText mEditTextAccount;
@@ -104,34 +107,39 @@ public class LoginActivity extends AppCompatActivity {
         mTextViewTerms.setOnClickListener(v ->
                 Toast.makeText(LoginActivity.this, "MIT", Toast.LENGTH_SHORT).show());
 
+        // 注册
         mTextViewRegister.setOnClickListener(v -> {
-            // 注册
+            Intent intent = RegisterActivity.newIntent(LoginActivity.this);
+            startActivity(intent);
         });
 
-        mButtonLogin.setOnClickListener(v -> {
-            // 登录
-            loginHandler(new UserLoginReqModule(mEditTextAccount.getText().toString(),
-                    mEditTextPassword.getText().toString()));
-        });
+        // 登录
+        mButtonLogin.setOnClickListener(v ->
+                loginHandler(new UserLoginReqModule(mEditTextAccount.getText().toString(),
+                        mEditTextPassword.getText().toString())));
     }
 
+    /**
+     * 用户登录接口
+     *
+     * @param userLoginReqModule 用户登录数据
+     */
     private void loginHandler(UserLoginReqModule userLoginReqModule) {
-        UserApi.getInstance().LoginUser(userLoginReqModule, new IHttpCallBack<BaseResult<UserLoginResModule>>() {
+        UserApi.getInstance().loginUser(userLoginReqModule, new IHttpCallBack<BaseResult<UserLoginResModule>>() {
             @Override
             public void SuccessCallBack(BaseResult<UserLoginResModule> data) {
-                Log.e(LoginActivity.class.getSimpleName(), data.getCode() + "");
                 if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     // TODO 登录成功数据处理
                 } else {
-                    Toast.makeText(LoginActivity.this, data.getMsg(), Toast.LENGTH_SHORT).show();
-                    System.out.println(data.getMsg());
+                    Toast.makeText(LoginActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "loginUser was error:::" + data.getMsg());
                 }
             }
 
             @Override
             public void ErrorCallBack(String msg) {
-                System.out.println(msg);
+                Log.e(TAG, "loginUser was error:::" + msg);
             }
         });
     }

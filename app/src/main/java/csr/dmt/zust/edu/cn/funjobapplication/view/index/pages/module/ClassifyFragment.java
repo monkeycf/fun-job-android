@@ -34,7 +34,7 @@ public class ClassifyFragment extends Fragment {
 
     private int mClassifyId;
     private RecyclerView mRecyclerView;
-    private String TAG = "ClassifyFragment";
+    private String TAG = ClassifyFragment.class.getSimpleName();
     private static final String CREATE_CLASSIFY_FRAGMENT_KEY = "CREATE_CLASSIFY_FRAGMENT_KEY";
     ClassifyAdapter mAdapter = new ClassifyAdapter(new ArrayList<>());
 
@@ -68,19 +68,18 @@ public class ClassifyFragment extends Fragment {
                     @Override
                     public void SuccessCallBack(BaseResult<List<TopicInfoModule>> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
-                            Log.e(TAG, data.getCode() + "");
                             // 设置Adapter
                             mAdapter.setTopicInfoModules(data.getData());
                             mAdapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(getActivity(), "Sorry,出错了", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "That is error:" + data.getMsg());
+                            Toast.makeText(getActivity(), R.string.app_error, Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "getTopicByLabel was error:::" + data.getMsg());
                         }
                     }
 
                     @Override
                     public void ErrorCallBack(String msg) {
-                        Log.e(TAG, msg);
+                        Log.e(TAG, "getTopicByLabel was error:::" + msg);
                     }
                 });
     }

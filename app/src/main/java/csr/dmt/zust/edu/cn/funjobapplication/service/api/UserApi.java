@@ -29,13 +29,13 @@ public class UserApi {
     }
 
     // 用户注册
-    public void RegisterUser(UserRegisterReqModule userRegisterReqModule,
+    public void registerUser(UserRegisterReqModule userRegisterReqModule,
                              IHttpCallBack<BaseResult<UserRegisterResModule>> callback) {
         new Request<>(mUserRequest.RegisterUserPost(userRegisterReqModule), callback);
     }
 
     // 用户登录
-    public void LoginUser(UserLoginReqModule userLoginReqModule,
+    public void loginUser(UserLoginReqModule userLoginReqModule,
                           IHttpCallBack<BaseResult<UserLoginResModule>> callback) {
         new Request<>(mUserRequest.LoginUserPost(userLoginReqModule), callback);
     }

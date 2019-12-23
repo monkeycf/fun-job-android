@@ -3,6 +3,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.detail;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.NoteApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.TopicApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
@@ -32,6 +34,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteCreateActivity;
 public class DetailActivity extends AppCompatActivity {
 
     private static final String DETAIL_TOPIC_ID_KEY = "DETAIL_TOPIC_ID_KEY";
+    private final String TAG = DetailActivity.class.getSimpleName();
     private String topicId;
 
     @BindView(R.id.tv_detail_title)
@@ -88,12 +91,17 @@ public class DetailActivity extends AppCompatActivity {
         TopicApi.getInstance().getTopicById(topicId, userId, new IHttpCallBack<BaseResult<TopicInfoModule>>() {
             @Override
             public void SuccessCallBack(BaseResult<TopicInfoModule> data) {
-                setContent(data.getData());
+                if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                    setContent(data.getData());
+                } else {
+                    Toast.makeText(DetailActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "getTopicById was error:::" + data.getMsg());
+                }
             }
 
             @Override
             public void ErrorCallBack(String msg) {
-                System.out.println(msg);
+                Log.e(TAG, "getTopicById was error:::" + msg);
             }
         });
     }
@@ -108,15 +116,19 @@ public class DetailActivity extends AppCompatActivity {
         NoteApi.getInstance().selectMyNote(topicId, userId, new IHttpCallBack<BaseResult<List<NoteSelectResModule>>>() {
             @Override
             public void SuccessCallBack(BaseResult<List<NoteSelectResModule>> data) {
-                System.out.println(data.getCode());
-                for (NoteSelectResModule noteSelectResModule : data.getData()) {
-                    addNewNoteView(noteSelectResModule);
+                if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                    for (NoteSelectResModule noteSelectResModule : data.getData()) {
+                        addNewNoteView(noteSelectResModule);
+                    }
+                } else {
+                    Toast.makeText(DetailActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "selectMyNote was error:::" + data.getMsg());
                 }
             }
 
             @Override
             public void ErrorCallBack(String msg) {
-                System.out.println(msg);
+                Log.e(TAG, "selectMyNote was error:::" + msg);
             }
         });
     }
@@ -186,13 +198,18 @@ public class DetailActivity extends AppCompatActivity {
                 new IHttpCallBack<BaseResult<NoteDeleteResModule>>() {
                     @Override
                     public void SuccessCallBack(BaseResult<NoteDeleteResModule> data) {
-                        mLinearLayout.removeView(view);
-                        Toast.makeText(DetailActivity.this, "删除笔记成功", Toast.LENGTH_SHORT).show();
+                        if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                            mLinearLayout.removeView(view);
+                            Toast.makeText(DetailActivity.this, "删除笔记成功", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(DetailActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "deleteNote was error:::" + data.getMsg());
+                        }
                     }
 
                     @Override
                     public void ErrorCallBack(String msg) {
-                        System.out.println(new Formatter().format("deleteNote is error:::%s", msg));
+                        Log.e(TAG, "deleteNote was error:::" + msg);
                     }
                 });
     }

@@ -36,7 +36,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.JSBridge.JSBridgeActivity;
 public class LearnFragment extends Fragment {
 
     private LearnAdapter mLearnAdapter;
-    private static final String LEARN_FRAGMENT = "LEARN_FRAGMENT";
+    private static final String TAG = LearnFragment.class.getSimpleName();
 
     @Nullable
     @Override
@@ -68,14 +68,14 @@ public class LearnFragment extends Fragment {
                             mLearnAdapter.addModules(data.getData());
                             mLearnAdapter.notifyDataSetChanged();
                         } else {
-                            Log.e(LEARN_FRAGMENT, data.getMsg());
-                            Toast.makeText(getContext(), "不好意思出错了", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "getModules was error:::" + data.getMsg());
+                            Toast.makeText(getContext(), R.string.app_error, Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void ErrorCallBack(String msg) {
-                        Log.e(LEARN_FRAGMENT, msg);
+                        Log.e(TAG, "getModules was error:::" + msg);
                     }
                 });
     }
