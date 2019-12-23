@@ -8,5 +8,15 @@
     <string name="select_pictures">选择图片</string>
     <string name="take_photo">拍照</string>
     <string name="note_tips">（支持长按拖动排序、左右侧滑可删除）</string>
-    <string name="learn_picture_contentDescription">模块封面</string>
+    <string name="learn_picture_contentDescription">模块封面 </string>
+    <string name="login_logo_description">App logo</string>
+    <string name="login_logo_app_name">FunJob</string>
+    <string name="login_account_hint">请输入账号</string>
+    <string name="login_password_hint">请输入密码</string>
+    <string name="login_account_description">清除</string>
+    <string name="login_login_btn">登  录</string>
+    <string name="login_forget_password">忘记密码</string>
+    <string name="login_register">快速注册</string>
+    <string name="login_message">阅读并同意</string>
+    <string name="login_service">服务条款</string>
 </resources>

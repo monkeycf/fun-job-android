@@ -26,20 +26,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TextActivity" />
-        <activity android:name=".view.detail.DetailActivity" />
-        <activity android:name=".view.note.pictures.PreviewImageActivity" />
-        <activity android:name=".view.note.pictures.SelectPictureActivity" />
-        <activity android:name=".view.JSBridge.JSBridgeActivity" />
-        <activity android:name=".view.index.IndexActivity">
+        <activity android:name=".view.user.LoginActivity"
+            android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TextActivity" />
+        <activity android:name=".view.detail.DetailActivity" />
+        <activity android:name=".view.note.pictures.PreviewImageActivity" />
+        <activity android:name=".view.note.pictures.SelectPictureActivity" />
+        <activity android:name=".view.JSBridge.JSBridgeActivity" />
+        <activity android:name=".view.index.IndexActivity">
+
+        </activity>
         <activity android:name=".view.index.pages.TopicFragment" />
-        <activity android:name=".view.note.NoteCreateActivity"></activity>
+        <activity android:name=".view.note.NoteCreateActivity" />
         <activity android:name=".MainActivity" />
     </application>
 

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
+
+    <LinearLayout
+        android:id="@+id/ll_title_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/login_logo_description"
+            android:src="@drawable/logo_vue" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_logo_app_name"
+            android:textColor="@android:color/white"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_title_layout"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_under_line"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_input_account"
+                style="@style/LoginEditTextTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/iv_clear_account"
+                android:hint="@string/login_account_hint"
+                android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/iv_clear_account"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/login_account_description"
+                android:src="@drawable/ic_clear" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_under_line"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_input_password"
+                style="@style/LoginEditTextTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/iv_clear_password"
+                android:hint="@string/login_password_hint"
+                android:inputType="textPassword"
+                android:longClickable="false" />
+
+            <ImageView
+                android:id="@+id/iv_clear_password"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/iv_login_open_eye"
+                android:src="@drawable/ic_clear" />
+
+            <CheckBox
+                android:id="@+id/iv_login_open_eye"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/login_password_eye"
+                android:button="@null" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/login_btn_bg"
+            android:text="@string/login_login_btn"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_forget_password"
+                style="@style/ClickableTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/login_forget_password" />
+
+            <TextView
+                android:id="@+id/tv_register_account"
+                style="@style/ClickableTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/login_register" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_terms_of_service_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="42.7dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/login_read_and_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_message"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_terms_of_service"
+            style="@style/ClickableTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="@string/login_service"
+            android:textColor="@drawable/bg_hypertext" />
+    </LinearLayout>
+
+</RelativeLayout>
