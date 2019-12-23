@@ -107,9 +107,9 @@ public class NoteCreateActivity extends AppCompatActivity
      */
     public void crateNote() {
         NoteApi.getInstance().createNote(new NoteCreateReqModule("19002", mTopicId, mMarkdownText, mSuccessPictureUrls),
-                new IHttpCallBack<BaseResult<List<NoteCreateResModule>>>() {
+                new IHttpCallBack<BaseResult<NoteCreateResModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<List<NoteCreateResModule>> data) {
+                    public void SuccessCallBack(BaseResult<NoteCreateResModule> data) {
                         System.out.println(data.getCode());
                     }
 

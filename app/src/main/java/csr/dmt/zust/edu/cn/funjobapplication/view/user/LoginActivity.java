@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +19,12 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
+import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
+import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -103,6 +110,29 @@ public class LoginActivity extends AppCompatActivity {
 
         mButtonLogin.setOnClickListener(v -> {
             // 登录
+            loginHandler(new UserLoginReqModule(mEditTextAccount.getText().toString(),
+                    mEditTextPassword.getText().toString()));
+        });
+    }
+
+    private void loginHandler(UserLoginReqModule userLoginReqModule) {
+        UserApi.getInstance().LoginUser(userLoginReqModule, new IHttpCallBack<BaseResult<UserLoginResModule>>() {
+            @Override
+            public void SuccessCallBack(BaseResult<UserLoginResModule> data) {
+                Log.e(LoginActivity.class.getSimpleName(), data.getCode() + "");
+                if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    // TODO 登录成功数据处理
+                } else {
+                    Toast.makeText(LoginActivity.this, data.getMsg(), Toast.LENGTH_SHORT).show();
+                    System.out.println(data.getMsg());
+                }
+            }
+
+            @Override
+            public void ErrorCallBack(String msg) {
+                System.out.println(msg);
+            }
         });
     }
 }
