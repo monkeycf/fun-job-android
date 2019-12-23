@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login"
+    tools:context="csr.dmt.zust.edu.cn.funjobapplication.view.user.RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_under_line"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_register_account"
+                style="@style/LoginEditTextTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/iv_register_clear_account"
+                android:hint="@string/login_account_hint"
+                android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/iv_register_clear_account"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/login_account_description"
+                android:src="@drawable/ic_clear" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_register_password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_under_line"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_register_password"
+                style="@style/LoginEditTextTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/iv_register_clear_password"
+                android:hint="@string/login_password_hint"
+                android:inputType="textPassword"
+                android:longClickable="false" />
+
+            <ImageView
+                android:id="@+id/iv_register_clear_password"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_clear" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_btn_bg"
+            android:text="@string/register_register"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

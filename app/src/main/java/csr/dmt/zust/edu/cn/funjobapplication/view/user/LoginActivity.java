@@ -1,5 +1,6 @@
 package csr.dmt.zust.edu.cn.funjobapplication.view.user;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -30,6 +31,8 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLogin
 public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = LoginActivity.class.getSimpleName();
+    private final int REGISTER_ACTIVITY_REQUEST_CODE = 1;
+    private static final String REGISTER_LOGIN_ACCOUNT_KEY = "REGISTER_LOGIN_ACCOUNT_KEY";
 
     @BindView(R.id.et_login_account)
     EditText mEditTextAccount;
@@ -61,6 +64,32 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         init();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REGISTER_ACTIVITY_REQUEST_CODE && data != null) {
+                String account = data.getStringExtra(REGISTER_LOGIN_ACCOUNT_KEY);
+                mEditTextAccount.setText(account);
+            }
+        }
+    }
+
+    /**
+     * 获得回调intent
+     *
+     * @param account 账号
+     * @return intent
+     */
+    public static Intent newRequestIntent(String account) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(REGISTER_LOGIN_ACCOUNT_KEY, account);
+        Intent intent = new Intent();
+        intent.putExtras(bundle);
+        return intent;
+    }
+
 
     /**
      * 初始化
@@ -110,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
         // 注册
         mTextViewRegister.setOnClickListener(v -> {
             Intent intent = RegisterActivity.newIntent(LoginActivity.this);
-            startActivity(intent);
+            startActivityForResult(intent, REGISTER_ACTIVITY_REQUEST_CODE);
         });
 
         // 登录
