@@ -14,6 +14,14 @@ public class UserLoginResModule {
     private String createTime;
     private String latsModificationTime;
 
+    public UserLoginResModule(String id, String username, String headPortraitUrl, String intro, String phone) {
+        this.id = id;
+        this.username = username;
+        this.headPortraitUrl = headPortraitUrl;
+        this.intro = intro;
+        this.phone = phone;
+    }
+
     public String getId() {
         return id;
     }

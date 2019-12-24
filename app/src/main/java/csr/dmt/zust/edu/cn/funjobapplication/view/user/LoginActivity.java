@@ -22,11 +22,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import csr.dmt.zust.edu.cn.funjobapplication.R;
 import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.Schema;
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.Schema.UserTable;
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.UserDbHelper;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.view.index.IndexActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -62,6 +66,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        // 校验是否有用户信息
+        if (verifyUser()) {
+            startActivity(IndexActivity.newIntent(LoginActivity.this));
+        }
         init();
     }
 
@@ -69,11 +77,23 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            // 注册页面返回
             if (requestCode == REGISTER_ACTIVITY_REQUEST_CODE && data != null) {
                 String account = data.getStringExtra(REGISTER_LOGIN_ACCOUNT_KEY);
                 mEditTextAccount.setText(account);
             }
         }
+    }
+
+    /**
+     * 验证是否有用户信息
+     *
+     * @return 有信息 true，没有信息 false
+     */
+    private boolean verifyUser() {
+        UserDbHelper userDbHelper = new UserDbHelper(LoginActivity.this);
+        UserLoginResModule userLoginResModule = userDbHelper.getUserInfo(userDbHelper);
+        return userLoginResModule != null;
     }
 
     /**
@@ -89,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         return intent;
     }
-
 
     /**
      * 初始化
@@ -160,6 +179,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     // TODO 登录成功数据处理
+                    insertUserInfo(data.getData());
+                    startActivity(IndexActivity.newIntent(LoginActivity.this));
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "loginUser was error:::" + data.getMsg());
@@ -171,5 +192,15 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "loginUser was error:::" + msg);
             }
         });
+    }
+
+    /**
+     * 添加用户信息
+     *
+     * @param userLoginResModule userInfo
+     */
+    private void insertUserInfo(UserLoginResModule userLoginResModule) {
+        UserDbHelper userDbHelper = new UserDbHelper(this);
+        userDbHelper.insertUser(userDbHelper, userLoginResModule);
     }
 }

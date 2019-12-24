@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -35,12 +37,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
      */
     @Override
     public void onBottomNavigationItemSelected(int position) {
-        System.out.println("out" + position);
         mSelectPosition = position;
-//        Toast.makeText(this, position + "", Toast.LENGTH_LONG).show();
-//        FragmentItem fragmentItem = mFragmentList.get(position);
-//        addFragment(fragmentItem.getFragment(), fragmentItem.getFragmentName());
-
     }
 
     /**
@@ -50,8 +47,6 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
      */
     @Override
     public void onBottomNavigationItemUnSelected(int position) {
-        System.out.println("hide" + position);
-//        hideFragment(mFragmentList.get(position).getFragment());
         mUnSelectPosition = position;
         addFragment(mFragmentList.get(mUnSelectPosition).getFragment(),
                 mFragmentList.get(mSelectPosition).getFragment(),
@@ -65,6 +60,17 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         initFragmentList(); // 初始化view中的Fragment数组
         initFragment(); // 初始化view的Fragment和底部导航栏
     }
+
+    /**
+     * 获取intent
+     *
+     * @param context Context
+     * @return intent
+     */
+    public static Intent newIntent(Context context) {
+        return new Intent(context, IndexActivity.class);
+    }
+
 
     /**
      * 初始化fragment
@@ -111,17 +117,6 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                     break;
             }
         }
-    }
-
-    /**
-     * 隐藏fragment
-     *
-     * @param fragment 需要隐藏的fragment
-     */
-    private void hideFragment(Fragment fragment) {
-        mFragmentManager.beginTransaction()
-                .hide(fragment)
-                .commit();
     }
 
     /**
