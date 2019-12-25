@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.Date;
+
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.Schema.OpenRecordTable;
 import csr.dmt.zust.edu.cn.funjobapplication.module.database.Schema.UserTable;
 import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.wrapper.UserCursorWrapper;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
@@ -24,6 +27,7 @@ public class FunJobDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // 用户表
         db.execSQL("create table " + UserTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 UserTable.Cols.USER_ID + ", " +
@@ -31,6 +35,10 @@ public class FunJobDbHelper extends SQLiteOpenHelper {
                 UserTable.Cols.USER_INTRO + ", " +
                 UserTable.Cols.USER_NAME + ", " +
                 UserTable.Cols.USER_PHONE + ")");
+        // 记录表
+        db.execSQL("create table " + OpenRecordTable.NAME + "(" +
+                "_id integer primary key autoincrement, " +
+                OpenRecordTable.Cols.OPEN_TIME + ")");
     }
 
     @Override
@@ -41,9 +49,7 @@ public class FunJobDbHelper extends SQLiteOpenHelper {
      * 创建写链接
      */
     private void openWriteLink(FunJobDbHelper funJobDbHelper) {
-        if (mDB == null) {
-            mDB = funJobDbHelper.getWritableDatabase();
-        }
+        mDB = funJobDbHelper.getWritableDatabase();
     }
 
     /**
@@ -83,5 +89,32 @@ public class FunJobDbHelper extends SQLiteOpenHelper {
         } finally {
             userCursorWrapper.close();
         }
+    }
+
+    /**
+     * 获得开打记录
+     *
+     * @return 记录数量
+     */
+    public int getOpenRecordCount(FunJobDbHelper funJobDbHelper) {
+        openWriteLink(funJobDbHelper);
+        Cursor cursor = mDB.query(OpenRecordTable.NAME, null, null, null, null, null, null);
+        try {
+            return cursor.getCount();
+        } finally {
+            cursor.close();
+        }
+    }
+
+    /**
+     * 插入记录
+     *
+     * @param funJobDbHelper 链接助手
+     */
+    public void insertOpenRecord(FunJobDbHelper funJobDbHelper) {
+        openWriteLink(funJobDbHelper);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(OpenRecordTable.Cols.OPEN_TIME, new Date().getTime());
+        mDB.insert(OpenRecordTable.NAME, null, contentValues);
     }
 }

@@ -44,7 +44,7 @@ public class WelcomeFragment extends Fragment {
                     .into(imageViewPage);
         }
         // 如果是最后一个引导页，则显示入口按钮，以便用户点击按钮进入首页
-        if (position == WelcomeInteractionActivity.WELCOME_PAGE_COUNT - 1) {
+        if (position == WelcomeActivity.WELCOME_PAGE_COUNT - 1) {
             btnStart.setVisibility(View.VISIBLE);
             btnStart.setOnClickListener(view -> clickStarButtonHandler());
         }

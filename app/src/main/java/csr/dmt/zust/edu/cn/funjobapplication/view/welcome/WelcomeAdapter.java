@@ -46,7 +46,7 @@ public class WelcomeAdapter extends FragmentPagerAdapter {
     public WelcomeAdapter(Context context, @NonNull FragmentManager fm, int behavior, List<Integer> imageArray) {
         super(fm, behavior);
         mImageArray = imageArray;
-        mPosition = WelcomeInteractionActivity.WELCOME_PAGE_BEGIN_INDEX;
+        mPosition = WelcomeActivity.WELCOME_PAGE_BEGIN_INDEX;
         if (context instanceof IWelcomeInteraction) {
             listener = (IWelcomeInteraction) context;
         } else {
