@@ -53,7 +53,7 @@ public class SelectPictureActivity extends AppCompatActivity {
         mTvBack = findViewById(R.id.tv_back);
         mTvSelectCount = findViewById(R.id.tv_ok);
         mTvPreview = findViewById(R.id.tv_preview);
-        RecyclerView pictureRecyclerView = findViewById(R.id.rv);
+        RecyclerView pictureRecyclerView = findViewById(R.id.rv_select_picture);
 
         initButtonClickHandler();
         setupSelectedImages();

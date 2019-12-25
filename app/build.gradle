@@ -60,4 +60,7 @@ dependencies {
     implementation 'com.amap.api:location:latest.integration'
     //搜索功能
     implementation 'com.amap.api:search:latest.integration'
+
+    // 按钮
+    compile 'com.github.linger1216:labelview:v1.1.2'
 }

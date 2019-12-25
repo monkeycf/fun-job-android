@@ -4,23 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_select"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/select_pictures" />
-
-    <Button
-        android:id="@+id/btn_take_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/take_photo" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_selected_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp" />
+        android:layout_margin="4dp"
+        android:nestedScrollingEnabled="false" />
 
     <TextView
         android:id="@+id/drag_tip"

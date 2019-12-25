@@ -1,7 +1,10 @@
 package csr.dmt.zust.edu.cn.funjobapplication.view.note;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -9,9 +12,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -24,7 +30,6 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateResModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.upload.UploadPicture;
 import csr.dmt.zust.edu.cn.funjobapplication.service.upload.UploadPictureCall;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.Picture;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.PictureShowFragment;
@@ -36,9 +41,10 @@ public class NoteCreateActivity extends AppCompatActivity
     private FragmentManager mFragmentManager;
     private Fragment mFragmentMarkdown;
     private Fragment mFragmentShow;
-    private Button mBtnPreview;
+    private PictureShowFragment mPictureShowFragment = new PictureShowFragment();
     private String mMarkdownText;
     private String mTopicId;
+    private MenuItem menuItemPreview;
     private int mShowStatus = 0; // 0 编辑，1 预览
     private Timer mTimer = new Timer();
     private int mTimeOutFlag; // 0正常，1超时
@@ -46,7 +52,6 @@ public class NoteCreateActivity extends AppCompatActivity
     private static final int TIME_NORMAL = 0;
     private static final String FRAGMENT_MARKDOWN = "FRAGMENT_MARKDOWN";
     private static final String FRAGMENT_TEXT_SHOW = "FRAGMENT_TEXT_SHOW";
-    private static final String FRAGMENT_PICTURES_SHOW = "FRAGMENT_PICTURES_SHOW";
     private static final String DETAIL_NOTE_CREATE_TOPIC_KEY = "DETAIL_NOTE_CREATE_TOPIC_KEY";
     private ArrayList<Picture> mSelectPictures = new ArrayList<>();
     private ArrayList<String> mSuccessPictureUrls = new ArrayList<>(); // 成功上传图片的路由数组
@@ -56,30 +61,36 @@ public class NoteCreateActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_create);
         initMarkdownFragment(); // 初始化fragment
-        initPreviewButton(); // 初始化预览按钮
-        textUpload();
+
         mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
+        initActionBar();
     }
 
-    private void textUpload() {
-        // 上传
-        findViewById(R.id.btn_select).setOnClickListener(v -> {
-            mSuccessPictureUrls.clear();
-            mTimeOutFlag = TIME_NORMAL;
-            for (Picture picture : mSelectPictures) {
-                // 每张图片一次请求
-                UploadPictureCall uploadPictureCall = new UploadPictureCall(NoteCreateActivity.this);
-                uploadPictureCall.getInstance(picture.getPath());
+    /**
+     * 发起上传图片
+     */
+    private void uploadNote() {
+        if (getMarkdownText() == null) {
+            Toast.makeText(NoteCreateActivity.this, "先写点什么吧", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 上传图片
+        mSuccessPictureUrls.clear();
+        mTimeOutFlag = TIME_NORMAL;
+        for (Picture picture : mSelectPictures) {
+            // 每张图片一次请求
+            UploadPictureCall uploadPictureCall = new UploadPictureCall(NoteCreateActivity.this);
+            uploadPictureCall.getInstance(picture.getPath());
+        }
+        // 10s主动判断
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                checkImageUpload();
+                mTimeOutFlag = TIME_OUT;
             }
-            // 10s主动判断
-            mTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    checkImageUpload();
-                    mTimeOutFlag = TIME_OUT;
-                }
-            }, 10000);
-        });
+        }, 10000);
     }
 
     /**
@@ -96,10 +107,9 @@ public class NoteCreateActivity extends AppCompatActivity
     public void checkImageUpload() {
         // 数量相等上传成功
         if (mSuccessPictureUrls.size() == mSelectPictures.size()) {
-            System.out.println("上传成功");
             crateNote();
         } else if (mTimeOutFlag == TIME_OUT) {
-            System.out.println("超时");
+            System.out.println("image upload was time out...");
             Toast.makeText(this, "上传图片超时", Toast.LENGTH_SHORT).show();
         }
     }
@@ -113,7 +123,8 @@ public class NoteCreateActivity extends AppCompatActivity
                     @Override
                     public void SuccessCallBack(BaseResult<NoteCreateResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
-                            System.out.println(data.getCode());
+                            Toast.makeText(NoteCreateActivity.this, "上传笔记成功", Toast.LENGTH_SHORT).show();
+                            finish();
                         } else {
                             Toast.makeText(NoteCreateActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
                             Log.e(TAG, "createNote was error:::" + data.getMsg());
@@ -181,32 +192,31 @@ public class NoteCreateActivity extends AppCompatActivity
                     .add(R.id.fragment_note_container_text_markdown,
                             mFragmentMarkdown,
                             FRAGMENT_MARKDOWN)
-                    .add(R.id.fragment_note_container_pictures, new PictureShowFragment())
+                    .add(R.id.fragment_note_container_pictures, mPictureShowFragment)
                     .commit();
         }
     }
 
     /**
-     * 初始化预览按钮
+     * 预览,编辑切换
      */
-    private void initPreviewButton() {
-        mBtnPreview = findViewById(R.id.btn_note_preview);
-        mBtnPreview.setOnClickListener(v -> {
-            if (mShowStatus == 0) {
-                String str = getMarkdownText();
-                if (str == null) {
-                    Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mShowStatus = 1;
-                mFragmentShow = NoteTextShowFragment.getInstance(getMarkdownText());
-                replaceFragment(mFragmentMarkdown, mFragmentShow, FRAGMENT_TEXT_SHOW);
-            } else {
-                mShowStatus = 0;
-                mFragmentMarkdown = NoteMarkdownFragment.getInstance();
-                replaceFragment(mFragmentShow, mFragmentMarkdown, FRAGMENT_MARKDOWN);
+    private void previewHandler() {
+        if (mShowStatus == 0) {
+            String str = getMarkdownText();
+            if (str == null) {
+                Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+            mShowStatus = 1;
+            mFragmentShow = NoteTextShowFragment.getInstance(getMarkdownText());
+            menuItemPreview.setTitle("编辑");
+            replaceFragment(mFragmentMarkdown, mFragmentShow, FRAGMENT_TEXT_SHOW);
+        } else {
+            mShowStatus = 0;
+            mFragmentMarkdown = NoteMarkdownFragment.getInstance();
+            menuItemPreview.setTitle("预览");
+            replaceFragment(mFragmentShow, mFragmentMarkdown, FRAGMENT_MARKDOWN);
+        }
     }
 
     /**
@@ -238,11 +248,86 @@ public class NoteCreateActivity extends AppCompatActivity
         mMarkdownText = markdownText;
     }
 
+    /**
+     * 获取intent实例
+     *
+     * @param context Context
+     * @param topicId 主题id
+     * @return intent实例
+     */
     public static Intent newIntent(Context context, String topicId) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(DETAIL_NOTE_CREATE_TOPIC_KEY, topicId);
         Intent intent = new Intent(context, NoteCreateActivity.class);
         intent.putExtras(bundle);
         return intent;
+    }
+
+    /**
+     * 初始化顶部导航栏
+     */
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.item_menu, menu);
+        menuItemPreview = menu.findItem(R.id.action_preview);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // 左侧按钮
+            case android.R.id.home:
+                finish();
+                break;
+            // 发表
+            case R.id.action_save:
+                uploadNote();
+                break;
+            // 预览
+            case R.id.action_preview:
+                previewHandler();
+                break;
+            // 相册选择
+            case R.id.action_select_picture:
+                mPictureShowFragment.verifyExternalPermission();
+                break;
+            // 拍照
+            case R.id.action_took_photo:
+                mPictureShowFragment.verifyCameraPermission();
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * 通过反射，设置menu显示icon
+     *
+     * @param view View
+     * @param menu Menu
+     * @return boolean
+     */
+    @Override
+    protected boolean onPrepareOptionsPanel(@Nullable View view, @NonNull Menu menu) {
+        if (menu != null) {
+            if (menu.getClass() == MenuBuilder.class) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        }
+        return super.onPrepareOptionsPanel(view, menu);
     }
 }

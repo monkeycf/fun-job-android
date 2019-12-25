@@ -3,9 +3,15 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#0072BB</item>
+        <item name="colorPrimaryDark">#0072BB</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionOverflowMenuStyle">@style/optionMenu</item>
+    </style>
+
+    <style name="optionMenu" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:popupBackground">#ffca3a</item>
+        <item name="android:actionMenuTextColor">#ffffff</item>
     </style>
 
     <style name="EditTextNote">
@@ -48,7 +54,7 @@
         <item name="android:textColorHighlight">#8090df24</item>
     </style>
 
-    <!--textView默认不获取焦点，所以点击不起作用-->
+    <!--textView默认不获取焦点-->
     <style name="ClickableTextView">
         <item name="android:textColor">@drawable/bg_hypertext</item>
         <item name="android:clickable">true</item>

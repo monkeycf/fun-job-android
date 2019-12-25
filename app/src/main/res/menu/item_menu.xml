@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <item
+        android:id="@+id/action_save"
+        android:title="发表"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_preview"
+        android:icon="@drawable/ic_preview"
+        android:title="预览"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_select_picture"
+        android:icon="@drawable/ic_photo_album"
+        android:title="从相册选择"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_took_photo"
+        android:icon="@drawable/ic_camera"
+        android:title="拍照"
+        app:showAsAction="never" />
+</menu>

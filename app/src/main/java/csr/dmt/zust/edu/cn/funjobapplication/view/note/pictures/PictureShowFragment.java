@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.Locale;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
-import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteMarkdownFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -74,11 +73,6 @@ public class PictureShowFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_note_pictures_list_show, container, false);
         RecyclerView mSelectedImageRecyclerView = v.findViewById(R.id.rv_selected_image);
         mDragTip = v.findViewById(R.id.drag_tip);
-
-        // 选择图片
-        v.findViewById(R.id.btn_select).setOnClickListener(view -> verifyExternalPermission());
-        // 拍照
-        v.findViewById(R.id.btn_take_photo).setOnClickListener(view -> verifyCameraPermission());
 
         mSelectedImageRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mShowImagesRecyclerViewAdapter = new ShowImagesRecyclerViewAdapter(mSelectPictures);
@@ -143,7 +137,7 @@ public class PictureShowFragment extends Fragment {
     /**
      * 验证相机权限
      */
-    private void verifyCameraPermission() {
+    public void verifyCameraPermission() {
         if (getContext() == null || getActivity() == null) {
             throw new IllegalArgumentException("verifyCameraPermission:::getContext or getActivity is null...");
         }
@@ -159,7 +153,7 @@ public class PictureShowFragment extends Fragment {
     /**
      * 验证SD卡读写权限
      */
-    private void verifyExternalPermission() {
+    public void verifyExternalPermission() {
         if (getContext() == null) {
             throw new IllegalArgumentException("verifyExternalPermission:::getContext is null...");
         }
@@ -409,12 +403,13 @@ public class PictureShowFragment extends Fragment {
         }
     }
 
-    private class ShowImagesRecyclerViewHolder extends RecyclerView.ViewHolder {
+    private class ShowImagesRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mImageView;
 
         private ShowImagesRecyclerViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_note_pictures_selected, parent, false));
             mImageView = itemView.findViewById(R.id.iv_selected_image);
+            itemView.setOnClickListener(this);
         }
 
         private void bind(Picture picture) {
@@ -424,6 +419,13 @@ public class PictureShowFragment extends Fragment {
             Glide.with(getContext())
                     .load(picture.getPath())
                     .into(mImageView);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // 预览
+            Intent intent = PreviewImageActivity.newIntent(getContext(), mSelectPictures);
+            startActivity(intent);
         }
     }
 }
