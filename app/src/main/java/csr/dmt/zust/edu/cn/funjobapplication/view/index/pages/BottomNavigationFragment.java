@@ -23,7 +23,7 @@ public class BottomNavigationFragment extends Fragment {
 
     private static BottomNavigationFragment sBottomNavigationFragment;
 
-    public final static int BOTTOM_NAVIGATION_ITEM_NUMBER = 4;
+    public final static int BOTTOM_NAVIGATION_ITEM_NUMBER = 3;
 
     private IFragmentInteraction listener; // 定义用来与外部activity交互，获取到宿主context
 
@@ -85,10 +85,11 @@ public class BottomNavigationFragment extends Fragment {
      */
     private void InitBottomNavigationBar(BottomNavigationBar bottomNavigationBar) {
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.ic_launcher_background, "Home"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_launcher_background, "Books"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_launcher_background, "Music"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_launcher_background, "Movies & TV"))
+                .setActiveColor("#ffca3c")
+                .setBarBackgroundColor("#0072BB")
+                .addItem(new BottomNavigationItem(R.drawable.ic_learn, "learn"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_topic, "topic"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_person, "person"))
                 .initialise();// 所有的设置需在调用该方法前完成
 
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {

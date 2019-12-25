@@ -106,11 +106,10 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                     mFragmentList.add(new FragmentItem(new TopicFragment(), INDEX_TOPIC_FRAGMENT_FRAGMENT_NAME));
                     break;
                 case 0:
-                case 2:
                     // 学习
                     mFragmentList.add(new FragmentItem(new LearnFragment(), INDEX_LEARN_FRAGMENT_FRAGMENT_NAME));
                     break;
-                case 3:
+                case 2:
                     // 个人中心
                     mFragmentList.add(new FragmentItem(new PersonalFragment(), INDEX_PERSONAL_FRAGMENT_FRAGMENT_NAME));
                 default:
