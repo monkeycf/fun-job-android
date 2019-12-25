@@ -31,10 +31,10 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeAdapter
         ViewPager viewPagerWelcome = findViewById(R.id.vp_welcome);
         mRadioGroupPageIndex = findViewById(R.id.rg_welcome_indicate);
 
-        mWelcomeImageArray.add(R.drawable.logo_vue);
-        mWelcomeImageArray.add(R.drawable.logo_vue);
-        mWelcomeImageArray.add(R.drawable.logo_vue);
-        mWelcomeImageArray.add(R.drawable.logo_vue);
+        mWelcomeImageArray.add(R.drawable.view_bg_1);
+        mWelcomeImageArray.add(R.drawable.view_bg_2);
+        mWelcomeImageArray.add(R.drawable.view_bg_3);
+        mWelcomeImageArray.add(R.drawable.view_bg_4);
 
         // 设置adapter
         WelcomeAdapter adapter = new WelcomeAdapter(WelcomeActivity.this,
@@ -50,6 +50,7 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeAdapter
             radio.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             radio.setPadding(10, 10, 10, 10);
+            radio.setButtonDrawable(getDrawable(R.drawable.bg_radio_group));
             mRadioGroupPageIndex.addView(radio);
         }
         changeRadioGroup(WELCOME_PAGE_BEGIN_INDEX);

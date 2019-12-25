@@ -12,12 +12,14 @@
         android:id="@+id/btn_welcome_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:gravity="center"
-        android:text="立即开始美好生活"
-        android:textColor="#ff3300"
+        android:layout_marginBottom="169dp"
+        android:background="#0072BB"
+        android:text="开始探索"
+        android:textColor="#ffca3c"
         android:textSize="22sp"
         android:visibility="gone" />
 </RelativeLayout>
