@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
+import csr.dmt.zust.edu.cn.funjobapplication.view.index.IndexActivity;
+import csr.dmt.zust.edu.cn.funjobapplication.view.user.LoginActivity;
 
 /**
  * created by monkeycf on 2019/12/24
@@ -45,7 +46,7 @@ public class WelcomeFragment extends Fragment {
         // 如果是最后一个引导页，则显示入口按钮，以便用户点击按钮进入首页
         if (position == WelcomeInteractionActivity.WELCOME_PAGE_COUNT - 1) {
             btnStart.setVisibility(View.VISIBLE);
-            btnStart.setOnClickListener(view -> Toast.makeText(getContext(), "欢迎您开启美好生活", Toast.LENGTH_SHORT).show());
+            btnStart.setOnClickListener(view -> clickStarButtonHandler());
         }
         return v; // 返回该碎片的视图对象
     }
@@ -65,5 +66,20 @@ public class WelcomeFragment extends Fragment {
         WelcomeFragment fragment = new WelcomeFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    /**
+     * 点击事件响应
+     */
+    private void clickStarButtonHandler() {
+        // 根据是否登录进行跳转
+        if (LoginActivity.verifyUser(getContext())) {
+            startActivity(IndexActivity.newIntent(getContext()));
+        } else {
+            startActivity(LoginActivity.newIntent(getContext()));
+        }
+        if (getActivity() != null) {
+            getActivity().finish();
+        }
     }
 }

@@ -3,6 +3,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.user;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         // 校验是否有用户信息
-        if (verifyUser()) {
+        if (verifyUser(LoginActivity.this)) {
             startActivity(IndexActivity.newIntent(LoginActivity.this));
             finish();
         }
@@ -91,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
      *
      * @return 有信息 true，没有信息 false
      */
-    private boolean verifyUser() {
-        UserDbHelper userDbHelper = new UserDbHelper(LoginActivity.this);
+    public static boolean verifyUser(Context context) {
+        UserDbHelper userDbHelper = new UserDbHelper(context);
         UserLoginResModule userLoginResModule = userDbHelper.getUserInfo(userDbHelper);
         return userLoginResModule != null;
     }
@@ -109,6 +110,16 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtras(bundle);
         return intent;
+    }
+
+    /**
+     * 获取intent实例
+     *
+     * @param context Context
+     * @return intent
+     */
+    public static Intent newIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
     }
 
     /**
