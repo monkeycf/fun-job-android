@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
-import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.UserDbHelper;
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.FunJobDbHelper;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
 
 /**
@@ -23,8 +23,8 @@ public class PersonalFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.index_personal_fragment, container, false);
-        UserDbHelper userDbHelper = new UserDbHelper(getContext());
-        UserLoginResModule userLoginResModule = userDbHelper.getUserInfo(userDbHelper);
+        FunJobDbHelper funJobDbHelper = new FunJobDbHelper(getContext());
+        UserLoginResModule userLoginResModule = funJobDbHelper.getUserInfo(funJobDbHelper);
         if (userLoginResModule != null) {
             System.out.println(userLoginResModule.getId());
         } else {

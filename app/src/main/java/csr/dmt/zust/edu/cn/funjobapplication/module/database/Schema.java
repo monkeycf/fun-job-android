@@ -20,4 +20,15 @@ public class Schema {
             public static final String USER_PHONE = "phone";
         }
     }
+
+    /**
+     * 打开记录表
+     */
+    public static final class OpenRecordTable {
+        public static final String NAME = "fun_job_open_record";
+
+        public static final class Cols {
+            public static final String OPEN_TIME = "open_time";
+        }
+    }
 }

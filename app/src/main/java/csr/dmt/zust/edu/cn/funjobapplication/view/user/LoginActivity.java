@@ -23,9 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import csr.dmt.zust.edu.cn.funjobapplication.R;
 import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
-import csr.dmt.zust.edu.cn.funjobapplication.module.database.Schema;
-import csr.dmt.zust.edu.cn.funjobapplication.module.database.Schema.UserTable;
-import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.UserDbHelper;
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.FunJobDbHelper;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.UserApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
@@ -93,8 +91,8 @@ public class LoginActivity extends AppCompatActivity {
      * @return 有信息 true，没有信息 false
      */
     public static boolean verifyUser(Context context) {
-        UserDbHelper userDbHelper = new UserDbHelper(context);
-        UserLoginResModule userLoginResModule = userDbHelper.getUserInfo(userDbHelper);
+        FunJobDbHelper funJobDbHelper = new FunJobDbHelper(context);
+        UserLoginResModule userLoginResModule = funJobDbHelper.getUserInfo(funJobDbHelper);
         return userLoginResModule != null;
     }
 
@@ -213,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param userLoginResModule userInfo
      */
     private void insertUserInfo(UserLoginResModule userLoginResModule) {
-        UserDbHelper userDbHelper = new UserDbHelper(this);
-        userDbHelper.insertUser(userDbHelper, userLoginResModule);
+        FunJobDbHelper funJobDbHelper = new FunJobDbHelper(this);
+        funJobDbHelper.insertUser(funJobDbHelper, userLoginResModule);
     }
 }
