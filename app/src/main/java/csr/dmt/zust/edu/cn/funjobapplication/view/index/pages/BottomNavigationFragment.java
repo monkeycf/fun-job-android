@@ -25,12 +25,12 @@ public class BottomNavigationFragment extends Fragment {
 
     public final static int BOTTOM_NAVIGATION_ITEM_NUMBER = 4;
 
-    private FragmentInteraction listener; // 定义用来与外部activity交互，获取到宿主context
+    private IFragmentInteraction listener; // 定义用来与外部activity交互，获取到宿主context
 
     /**
      * 定义了所有activity必须实现的接口方法
      */
-    public interface FragmentInteraction {
+    public interface IFragmentInteraction {
         void onBottomNavigationItemSelected(int position);
 
         void onBottomNavigationItemUnSelected(int position);
@@ -71,8 +71,8 @@ public class BottomNavigationFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // 判断是否实现该接口
-        if (context instanceof FragmentInteraction) {
-            listener = (FragmentInteraction) context; // 获取到宿主context并赋值
+        if (context instanceof IFragmentInteraction) {
+            listener = (IFragmentInteraction) context; // 获取到宿主context并赋值
         } else {
             throw new IllegalArgumentException("Context not found implements IFragmentInteraction.");
         }

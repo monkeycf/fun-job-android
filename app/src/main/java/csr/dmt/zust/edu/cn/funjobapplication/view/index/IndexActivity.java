@@ -18,7 +18,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.BottomNavigationFr
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.LearnFragment;
 import csr.dmt.zust.edu.cn.funjobapplication.view.index.pages.TopicFragment;
 
-public class IndexActivity extends AppCompatActivity implements BottomNavigationFragment.FragmentInteraction {
+public class IndexActivity extends AppCompatActivity implements BottomNavigationFragment.IFragmentInteraction {
     private FragmentManager mFragmentManager;
     private Fragment mFragmentButtonNagivation;
     private List<FragmentItem> mFragmentList; // 存储Fragment数组

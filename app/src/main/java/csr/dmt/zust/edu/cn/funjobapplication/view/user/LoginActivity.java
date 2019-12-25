@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         // 校验是否有用户信息
         if (verifyUser()) {
             startActivity(IndexActivity.newIntent(LoginActivity.this));
+            finish();
         }
         init();
     }
@@ -181,6 +182,7 @@ public class LoginActivity extends AppCompatActivity {
                     // TODO 登录成功数据处理
                     insertUserInfo(data.getData());
                     startActivity(IndexActivity.newIntent(LoginActivity.this));
+                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "loginUser was error:::" + data.getMsg());
