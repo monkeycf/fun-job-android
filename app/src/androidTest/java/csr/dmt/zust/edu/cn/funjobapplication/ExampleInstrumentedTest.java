@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("csr.dmt.zust.edu.cn.myapplication", appContext.getPackageName());
+        assertEquals("csr.dmt.zust.edu.cn.funjobapplication", appContext.getPackageName());
     }
 }
