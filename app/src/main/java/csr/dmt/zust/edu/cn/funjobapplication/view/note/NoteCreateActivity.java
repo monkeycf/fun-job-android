@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ import com.amap.api.services.weather.LocalWeatherLive;
 import com.amap.api.services.weather.LocalWeatherLiveResult;
 import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearchQuery;
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.Wave;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -66,6 +69,7 @@ public class NoteCreateActivity extends AppCompatActivity
     private ArrayList<Picture> mSelectPictures = new ArrayList<>();
     private ArrayList<String> mSuccessPictureUrls = new ArrayList<>(); // 成功上传图片的路由数组
     private TextView mTextViewWeather;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,10 @@ public class NoteCreateActivity extends AppCompatActivity
         mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
         initActionBar();
         initWeather();
+
+        mProgressBar = (ProgressBar) findViewById(R.id.spin_kit);
+        Sprite Wave = new Wave();
+        mProgressBar.setIndeterminateDrawable(Wave);
     }
 
     /**
@@ -141,6 +149,7 @@ public class NoteCreateActivity extends AppCompatActivity
         if (mSuccessPictureUrls.size() == mSelectPictures.size()) {
             crateNote();
         } else if (mTimeOutFlag == TIME_OUT) {
+            mProgressBar.setVisibility(View.GONE);
             System.out.println("image upload was time out...");
             Toast.makeText(this, "上传图片超时", Toast.LENGTH_SHORT).show();
         }
@@ -323,6 +332,7 @@ public class NoteCreateActivity extends AppCompatActivity
                 break;
             // 发表
             case R.id.action_save:
+                mProgressBar.setVisibility(View.VISIBLE);
                 uploadNote();
                 break;
             // 预览

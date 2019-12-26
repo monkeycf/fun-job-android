@@ -60,7 +60,8 @@ dependencies {
     implementation 'com.amap.api:location:latest.integration'
     //搜索功能
     implementation 'com.amap.api:search:latest.integration'
-
     // 按钮
     implementation 'com.github.linger1216:labelview:v1.1.2'
+    // loading
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 }
