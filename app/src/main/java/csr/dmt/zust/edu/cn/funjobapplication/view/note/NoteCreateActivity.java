@@ -36,11 +36,13 @@ import java.util.TimerTask;
 
 import csr.dmt.zust.edu.cn.funjobapplication.R;
 import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.FunJobDbHelper;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.NoteApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.create.NoteCreateResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.upload.UploadPictureCall;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.Picture;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.PictureShowFragment;
@@ -70,6 +72,7 @@ public class NoteCreateActivity extends AppCompatActivity
     private ArrayList<String> mSuccessPictureUrls = new ArrayList<>(); // 成功上传图片的路由数组
     private TextView mTextViewWeather;
     private ProgressBar mProgressBar;
+    private UserLoginResModule mUserLoginResModule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +80,25 @@ public class NoteCreateActivity extends AppCompatActivity
         setContentView(R.layout.activity_note_create);
 
         mTextViewWeather = findViewById(R.id.tv_weather);
+        mProgressBar = findViewById(R.id.spin_kit);
+        mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
 
         initMarkdownFragment(); // 初始化fragment
-        mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
         initActionBar();
         initWeather();
+        getUserInfo();
 
-        mProgressBar = (ProgressBar) findViewById(R.id.spin_kit);
+        // 设置loading
         Sprite Wave = new Wave();
         mProgressBar.setIndeterminateDrawable(Wave);
+    }
+
+    /**
+     * 从数据库中获取用户信息
+     */
+    private void getUserInfo() {
+        FunJobDbHelper funJobDbHelper = new FunJobDbHelper(NoteCreateActivity.this);
+        mUserLoginResModule = funJobDbHelper.getUserInfo(funJobDbHelper);
     }
 
     /**
@@ -159,7 +172,8 @@ public class NoteCreateActivity extends AppCompatActivity
      * 创建笔记
      */
     public void crateNote() {
-        NoteApi.getInstance().createNote(new NoteCreateReqModule("19002", mTopicId, mMarkdownText,
+        NoteApi.getInstance().createNote(
+                new NoteCreateReqModule(mUserLoginResModule.getId(), mTopicId, mMarkdownText,
                         mSuccessPictureUrls, mTextViewWeather.getText().toString()),
                 new IHttpCallBack<BaseResult<NoteCreateResModule>>() {
                     @Override

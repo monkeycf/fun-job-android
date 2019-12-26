@@ -29,7 +29,11 @@
         <activity
             android:name=".view.welcome.WelcomeActivity"
             android:theme="@style/FullScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.user.RegisterActivity"
@@ -51,11 +55,7 @@
         <activity
             android:name=".view.index.IndexActivity"
             android:theme="@style/FullScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".view.index.pages.TopicFragment" />
         <activity android:name=".view.note.NoteCreateActivity" />
