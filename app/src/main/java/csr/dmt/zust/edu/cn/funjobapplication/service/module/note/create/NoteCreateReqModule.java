@@ -11,11 +11,13 @@ public class NoteCreateReqModule {
     private String topicId;
     private String content;
     private List<String> pictures;
+    private String weather;
 
-    public NoteCreateReqModule(String userId, String topicId, String content, List<String> pictures) {
+    public NoteCreateReqModule(String userId, String topicId, String content, List<String> pictures, String weather) {
         this.userId = userId;
         this.topicId = topicId;
         this.content = content;
         this.pictures = pictures;
+        this.weather = weather;
     }
 }

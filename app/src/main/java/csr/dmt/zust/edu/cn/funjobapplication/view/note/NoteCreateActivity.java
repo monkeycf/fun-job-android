@@ -15,10 +15,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amap.api.services.weather.LocalWeatherForecastResult;
+import com.amap.api.services.weather.LocalWeatherLive;
+import com.amap.api.services.weather.LocalWeatherLiveResult;
+import com.amap.api.services.weather.WeatherSearch;
+import com.amap.api.services.weather.WeatherSearchQuery;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,7 +43,9 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.Picture;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.pictures.PictureShowFragment;
 
 public class NoteCreateActivity extends AppCompatActivity
-        implements NoteMarkdownFragment.IFragmentInteraction, PictureShowFragment.ISelectedPictureChange {
+        implements NoteMarkdownFragment.IFragmentInteraction,
+        PictureShowFragment.ISelectedPictureChange,
+        com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener {
 
     private final String TAG = NoteCreateActivity.class.getSimpleName();
     private FragmentManager mFragmentManager;
@@ -55,15 +65,33 @@ public class NoteCreateActivity extends AppCompatActivity
     private static final String DETAIL_NOTE_CREATE_TOPIC_KEY = "DETAIL_NOTE_CREATE_TOPIC_KEY";
     private ArrayList<Picture> mSelectPictures = new ArrayList<>();
     private ArrayList<String> mSuccessPictureUrls = new ArrayList<>(); // 成功上传图片的路由数组
+    private TextView mTextViewWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_create);
-        initMarkdownFragment(); // 初始化fragment
 
+        mTextViewWeather = findViewById(R.id.tv_weather);
+
+        initMarkdownFragment(); // 初始化fragment
         mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
         initActionBar();
+        initWeather();
+    }
+
+    /**
+     * 利用高德地图，查询天气
+     */
+    private void initWeather() {
+        final String cityName = "杭州";
+        WeatherSearchQuery weatherQuery = new WeatherSearchQuery(
+                cityName,
+                WeatherSearchQuery.WEATHER_TYPE_LIVE);
+        WeatherSearch weatherSearch = new WeatherSearch(NoteCreateActivity.this);
+        weatherSearch.setQuery(weatherQuery);
+        weatherSearch.setOnWeatherSearchListener(NoteCreateActivity.this);
+        weatherSearch.searchWeatherAsyn();
     }
 
     /**
@@ -72,6 +100,10 @@ public class NoteCreateActivity extends AppCompatActivity
     private void uploadNote() {
         if (getMarkdownText() == null) {
             Toast.makeText(NoteCreateActivity.this, "先写点什么吧", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mSelectPictures.size() == 0) {
+            crateNote();
             return;
         }
 
@@ -118,7 +150,8 @@ public class NoteCreateActivity extends AppCompatActivity
      * 创建笔记
      */
     public void crateNote() {
-        NoteApi.getInstance().createNote(new NoteCreateReqModule("19002", mTopicId, mMarkdownText, mSuccessPictureUrls),
+        NoteApi.getInstance().createNote(new NoteCreateReqModule("19002", mTopicId, mMarkdownText,
+                        mSuccessPictureUrls, mTextViewWeather.getText().toString()),
                 new IHttpCallBack<BaseResult<NoteCreateResModule>>() {
                     @Override
                     public void SuccessCallBack(BaseResult<NoteCreateResModule> data) {
@@ -329,5 +362,29 @@ public class NoteCreateActivity extends AppCompatActivity
             }
         }
         return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    /**
+     * 实况天气查询回调
+     *
+     * @param localWeatherLiveResult 天气
+     * @param i                      状态码
+     */
+    @Override
+    public void onWeatherLiveSearched(LocalWeatherLiveResult localWeatherLiveResult, int i) {
+        if (i == 1000) {
+            LocalWeatherLive liveWeather = localWeatherLiveResult.getLiveResult();
+            mTextViewWeather.setText((new Formatter().format("%s %s° %s", liveWeather.getCity(),
+                    liveWeather.getTemperature(),
+                    liveWeather.getWeather())).toString());
+            System.out.println(liveWeather.getWeather() + liveWeather.getTemperature());
+        } else {
+            Log.e(TAG, "查询天气失败");
+        }
+    }
+
+    @Override
+    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
+
     }
 }

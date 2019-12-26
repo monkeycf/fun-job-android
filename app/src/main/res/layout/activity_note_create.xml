@@ -16,6 +16,11 @@
             android:layout_height="wrap_content"
             android:minHeight="100dp" />
 
+        <TextView
+            android:id="@+id/tv_weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <FrameLayout
             android:id="@+id/fragment_note_container_pictures"
             android:layout_width="match_parent"

@@ -47,20 +47,42 @@ import kotlin.Unit;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener {
+    final String tag = MainActivity.class.getSimpleName();
+    final String cityString = "杭州";
 
-    private static AMap mAMap;
-    MapView mMapView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mMapView = (MapView) findViewById(R.id.map);
-        mMapView.onCreate(savedInstanceState);// 此方法须覆写，虚拟机需要在很多情况下保存地图绘制的当前状态。
-        if (mAMap == null) {
-            mAMap = mMapView.getMap();
+
+        WeatherSearchQuery weatherQuery = new WeatherSearchQuery(
+                cityString,
+                WeatherSearchQuery.WEATHER_TYPE_LIVE);
+        WeatherSearch weatherSearch = new WeatherSearch(
+                MainActivity.this);
+        weatherSearch.setQuery(weatherQuery);
+        weatherSearch.setOnWeatherSearchListener(MainActivity.this);
+        weatherSearch.searchWeatherAsyn();
+    }
+
+    @Override
+    public void onWeatherLiveSearched(LocalWeatherLiveResult localWeatherLiveResult, int rCode) {
+        if (rCode == 1000) {
+            LocalWeatherLive liveWeather = localWeatherLiveResult.getLiveResult();
+            System.out.println(liveWeather.getWeather());
+//            ShowWeatherFragment showFragment = ShowWeatherFragment.newInstance(liveWeather);
+//            showFragment.show(getFragmentManager(), "xxxx");
+
+        } else {
+            Log.e("", "查询天气失败");
         }
+
+    }
+
+    @Override
+    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
+
     }
 
 }
