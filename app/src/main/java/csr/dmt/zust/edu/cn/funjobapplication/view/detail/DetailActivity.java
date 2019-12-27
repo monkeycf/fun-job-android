@@ -2,6 +2,8 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +15,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 
-import java.util.Formatter;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,6 +32,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDele
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDeleteResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.select.NoteSelectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.status.TopicCellectStatusReaModule;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteCreateActivity;
 
 public class DetailActivity extends AppCompatActivity {
@@ -50,6 +54,15 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.linear_layout_detail)
     LinearLayout mLinearLayout;
 
+    @BindView(R.id.iv_detail_head)
+    ImageView mImageViewHead;
+    @BindView(R.id.tv_dl_detail_create_note)
+    TextView mTextViewDLCreateNote;
+    @BindView(R.id.tv_dl_detail_all_note)
+    TextView mTextViewDLAllNotes;
+    @BindView(R.id.tv_dl_detail_collect)
+    TextView mTextViewDLCollectNote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +70,63 @@ public class DetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         topicId = (String) getIntent().getExtras().get(DETAIL_TOPIC_ID_KEY);
 
-        findViewById(R.id.btn_detail_edit).setOnClickListener(v -> {
-            Intent intent = NoteCreateActivity.newIntent(this, topicId);
-            startActivity(intent);
-        });
+        findViewById(R.id.btn_detail_edit).setOnClickListener(v -> createNoteHandler());
 
         getTopicDetailById(topicId, "19002");
         getNoteByTopic(topicId, "19002");
+        getTopicCollectStatus(topicId, "19002");
+        initSidebar();
+    }
+
+    /**
+     * 初始化侧边栏
+     */
+    private void initSidebar() {
+        Glide.with(DetailActivity.this)
+                .load("http://img.chensenran.top/1577370449537.png")
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .into(mImageViewHead);
+        mTextViewDLCreateNote.setOnClickListener(v -> createNoteHandler());
+        mTextViewDLAllNotes.setOnClickListener(v -> Toast.makeText(DetailActivity.this, "暂未开放", Toast.LENGTH_SHORT).show());
+        mTextViewDLCollectNote.setOnClickListener(v -> {
+            Drawable drawable = getDrawable(R.drawable.ic_collected);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            mTextViewDLCollectNote.setCompoundDrawables(
+                    drawable, null, null, null);
+        });
+    }
+
+    /**
+     * 查询主题收藏状态
+     *
+     * @param topicId 主题id
+     * @param userId  用户id
+     */
+    private void getTopicCollectStatus(String topicId, String userId) {
+        TopicApi.getInstance().selectTopicCollectStatus(userId, topicId,
+                new IHttpCallBack<BaseResult<TopicCellectStatusReaModule>>() {
+                    @Override
+                    public void SuccessCallBack(BaseResult<TopicCellectStatusReaModule> data) {
+                        if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                            Log.e(TAG, data.getData() + "");
+                        } else {
+                            Log.e(TAG, "getTopicCollectStatus was error:::" + data.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void ErrorCallBack(String msg) {
+                        Log.e(TAG, "getTopicCollectStatus was error:::" + msg);
+                    }
+                });
+    }
+
+    /**
+     * 跳转创建笔记页面
+     */
+    private void createNoteHandler() {
+        Intent intent = NoteCreateActivity.newIntent(this, topicId);
+        startActivity(intent);
     }
 
     /**

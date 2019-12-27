@@ -8,6 +8,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCa
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.status.TopicCellectStatusReaModule;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -34,6 +35,11 @@ public interface ITopicRequest {
     // 搜索主题
     @GET("/api/v1/topic/search")
     Call<BaseResult<List<TopicInfoModule>>> getSearchTopic(@Query("key") String key);
+
+    // 查询收藏状态
+    @GET("/api/v1/topic/collect/status")
+    Call<BaseResult<TopicCellectStatusReaModule>> selectTopicCollectStatus(@Query("topicId") String topicId,
+                                                                           @Query("userId") String userId);
 
     // 收藏主题
     @POST("/api/v1/topic/collect")

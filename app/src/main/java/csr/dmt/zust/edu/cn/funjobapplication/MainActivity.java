@@ -1,6 +1,10 @@
 package csr.dmt.zust.edu.cn.funjobapplication;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -47,42 +51,25 @@ import kotlin.Unit;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements com.amap.api.services.weather.WeatherSearch.OnWeatherSearchListener {
-    final String tag = MainActivity.class.getSimpleName();
-    final String cityString = "杭州";
-
+public class MainActivity extends AppCompatActivity {
+    private DrawerLayout mDrawerLayout;
+//    private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+//        mToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        WeatherSearchQuery weatherQuery = new WeatherSearchQuery(
-                cityString,
-                WeatherSearchQuery.WEATHER_TYPE_LIVE);
-        WeatherSearch weatherSearch = new WeatherSearch(
-                MainActivity.this);
-        weatherSearch.setQuery(weatherQuery);
-        weatherSearch.setOnWeatherSearchListener(MainActivity.this);
-        weatherSearch.searchWeatherAsyn();
-    }
-
-    @Override
-    public void onWeatherLiveSearched(LocalWeatherLiveResult localWeatherLiveResult, int rCode) {
-        if (rCode == 1000) {
-            LocalWeatherLive liveWeather = localWeatherLiveResult.getLiveResult();
-            System.out.println(liveWeather.getWeather());
-//            ShowWeatherFragment showFragment = ShowWeatherFragment.newInstance(liveWeather);
-//            showFragment.show(getFragmentManager(), "xxxx");
-
-        } else {
-            Log.e("", "查询天气失败");
-        }
+//        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.select_pictures
+//                , R.string.app_finish);
+//        mActionBarDrawerToggle.syncState();
+//        mActionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+//        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+//        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.design_default_color_primary));
 
     }
-
-    @Override
-    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
-
-    }
-
 }

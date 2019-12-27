@@ -11,6 +11,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCa
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.status.TopicCellectStatusReaModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.ITopicRequest;
 
 /**
@@ -49,6 +50,12 @@ public class TopicApi {
     // 搜索主题
     public void searchTopic(String key, IHttpCallBack<BaseResult<List<TopicInfoModule>>> callBack) {
         new Request<>(mTopicRequest.getSearchTopic(key), callBack);
+    }
+
+    // 查询收藏状态
+    public void selectTopicCollectStatus(String userId, String topicId,
+                                         IHttpCallBack<BaseResult<TopicCellectStatusReaModule>> callBack) {
+        new Request<>(mTopicRequest.selectTopicCollectStatus(topicId, userId), callBack);
     }
 
     // 收藏主题

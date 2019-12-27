@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -73,6 +74,7 @@ public class NoteCreateActivity extends AppCompatActivity
     private TextView mTextViewWeather;
     private ProgressBar mProgressBar;
     private UserLoginResModule mUserLoginResModule;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class NoteCreateActivity extends AppCompatActivity
         mProgressBar = findViewById(R.id.spin_kit);
         mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
 
+        initD();
         initMarkdownFragment(); // 初始化fragment
         initActionBar();
         initWeather();
@@ -91,6 +94,11 @@ public class NoteCreateActivity extends AppCompatActivity
         // 设置loading
         Sprite Wave = new Wave();
         mProgressBar.setIndeterminateDrawable(Wave);
+    }
+
+    private void initD() {
+//        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+//        });
     }
 
     /**
