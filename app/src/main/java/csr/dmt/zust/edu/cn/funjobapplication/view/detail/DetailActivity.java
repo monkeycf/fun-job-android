@@ -3,7 +3,6 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.detail;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import csr.dmt.zust.edu.cn.funjobapplication.R;
 import csr.dmt.zust.edu.cn.funjobapplication.module.FunJobConfig;
+import csr.dmt.zust.edu.cn.funjobapplication.module.database.helper.FunJobDbHelper;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.NoteApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.api.TopicApi;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
@@ -32,17 +32,22 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDele
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.delete.NoteDeleteResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.note.select.NoteSelectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.TopicInfoModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.status.TopicCellectStatusReaModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteCreateActivity;
 
 public class DetailActivity extends AppCompatActivity {
 
     private static final String DETAIL_TOPIC_ID_KEY = "DETAIL_TOPIC_ID_KEY";
     private final String TAG = DetailActivity.class.getSimpleName();
-    private String topicId;
+    private String mTopicId;
+    private Boolean isCollect = false;
+    private UserLoginResModule mUserLoginResModule;
 
-    @BindView(R.id.tv_detail_title)
-    TextView mTextViewTitle;
     @BindView(R.id.tv_detail_browse_sum)
     TextView mTextViewBrowseSum;
     @BindView(R.id.tv_detail_collect_sum)
@@ -68,13 +73,14 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-        topicId = (String) getIntent().getExtras().get(DETAIL_TOPIC_ID_KEY);
+        mTopicId = (String) getIntent().getExtras().get(DETAIL_TOPIC_ID_KEY);
+        getUserInfo();
 
         findViewById(R.id.btn_detail_edit).setOnClickListener(v -> createNoteHandler());
 
-        getTopicDetailById(topicId, "19002");
-        getNoteByTopic(topicId, "19002");
-        getTopicCollectStatus(topicId, "19002");
+        getTopicDetailById(mTopicId, mUserLoginResModule.getId());
+        getNoteByTopic(mTopicId, mUserLoginResModule.getId());
+        getTopicCollectStatus(mTopicId, mUserLoginResModule.getId());
         initSidebar();
     }
 
@@ -89,11 +95,98 @@ public class DetailActivity extends AppCompatActivity {
         mTextViewDLCreateNote.setOnClickListener(v -> createNoteHandler());
         mTextViewDLAllNotes.setOnClickListener(v -> Toast.makeText(DetailActivity.this, "暂未开放", Toast.LENGTH_SHORT).show());
         mTextViewDLCollectNote.setOnClickListener(v -> {
-            Drawable drawable = getDrawable(R.drawable.ic_collected);
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-            mTextViewDLCollectNote.setCompoundDrawables(
-                    drawable, null, null, null);
+            if (isCollect) {
+                // 设置为为收藏
+                cancelCollectTopic(mTopicId, mUserLoginResModule.getId());
+            } else {
+                // 收藏
+                collectTopic(mTopicId, mUserLoginResModule.getId());
+            }
         });
+    }
+
+    /**
+     * 从数据库中获取用户信息
+     */
+    private void getUserInfo() {
+        FunJobDbHelper funJobDbHelper = new FunJobDbHelper(DetailActivity.this);
+        mUserLoginResModule = funJobDbHelper.getUserInfo(funJobDbHelper);
+    }
+
+    /**
+     * 收藏主题
+     *
+     * @param topicId 主题id
+     * @param userId  用户id
+     */
+    private void collectTopic(String topicId, String userId) {
+        TopicApi.getInstance().collectTopic(new TopicCollectReqModule(userId, topicId),
+                new IHttpCallBack<BaseResult<TopicCollectResModule>>() {
+                    @Override
+                    public void SuccessCallBack(BaseResult<TopicCollectResModule> data) {
+                        if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                            Toast.makeText(DetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                            setCollected();
+                        } else {
+                            Log.e(TAG, "collectTopic was error:::" + data.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void ErrorCallBack(String msg) {
+                        Log.e(TAG, "collectTopic was error:::" + msg);
+                    }
+                });
+    }
+
+    /**
+     * 取消收藏主题
+     *
+     * @param topicId 主题id
+     * @param userId  用户id
+     */
+    private void cancelCollectTopic(String topicId, String userId) {
+        TopicApi.getInstance().cancelCollectTopic(new TopicCancelCollectReqModule(userId, topicId),
+                new IHttpCallBack<BaseResult<TopicCancelCollectResModule>>() {
+                    @Override
+                    public void SuccessCallBack(BaseResult<TopicCancelCollectResModule> data) {
+                        if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
+                            Toast.makeText(DetailActivity.this, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                            setUnCollect();
+                        } else {
+                            Log.e(TAG, "cancelCollectTopic was error:::" + data.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void ErrorCallBack(String msg) {
+                        Log.e(TAG, "cancelCollectTopic was error:::" + msg);
+                    }
+                });
+    }
+
+    /**
+     * 设置收藏图片为 已收藏
+     */
+    private void setCollected() {
+        Drawable drawable = getDrawable(R.drawable.ic_collected);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        mTextViewDLCollectNote.setCompoundDrawables(
+                drawable, null, null, null);
+        mTextViewDLCollectNote.setText("加入收藏");
+        isCollect = true;
+    }
+
+    /**
+     * 设置收藏图片为 为收藏
+     */
+    private void setUnCollect() {
+        Drawable drawable = getDrawable(R.drawable.ic_un_collect);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        mTextViewDLCollectNote.setCompoundDrawables(
+                drawable, null, null, null);
+        mTextViewDLCollectNote.setText("取消收藏");
+        isCollect = false;
     }
 
     /**
@@ -108,7 +201,10 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void SuccessCallBack(BaseResult<TopicCellectStatusReaModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
-                            Log.e(TAG, data.getData() + "");
+                            // 判断是否已经收藏
+                            if (data.getData().getStatus() > 0) {
+                                setCollected();
+                            }
                         } else {
                             Log.e(TAG, "getTopicCollectStatus was error:::" + data.getMsg());
                         }
@@ -125,7 +221,7 @@ public class DetailActivity extends AppCompatActivity {
      * 跳转创建笔记页面
      */
     private void createNoteHandler() {
-        Intent intent = NoteCreateActivity.newIntent(this, topicId);
+        Intent intent = NoteCreateActivity.newIntent(this, mTopicId);
         startActivity(intent);
     }
 
@@ -202,7 +298,7 @@ public class DetailActivity extends AppCompatActivity {
      * @param topicInfoModule 设置的内容
      */
     private void setContent(TopicInfoModule topicInfoModule) {
-        mTextViewTitle.setText(topicInfoModule.getTitle());
+        getSupportActionBar().setTitle(topicInfoModule.getTitle());
         mTextViewBrowseSum.setText(topicInfoModule.getBrowseSum());
         mTextViewCollectSum.setText(topicInfoModule.getCollectSum());
         mTextViewCreateTime.setText(topicInfoModule.getCreateTime());
