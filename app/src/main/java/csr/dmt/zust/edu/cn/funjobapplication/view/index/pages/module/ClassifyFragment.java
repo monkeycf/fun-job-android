@@ -33,22 +33,21 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.detail.DetailActivity;
 public class ClassifyFragment extends Fragment {
 
     private int mClassifyId;
-    private RecyclerView mRecyclerView;
     private String TAG = ClassifyFragment.class.getSimpleName();
     private static final String CREATE_CLASSIFY_FRAGMENT_KEY = "CREATE_CLASSIFY_FRAGMENT_KEY";
-    ClassifyAdapter mAdapter = new ClassifyAdapter(new ArrayList<>());
+    private ClassifyAdapter mAdapter = new ClassifyAdapter(new ArrayList<>());
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.index_topic_fragment_classify, container, false);
-        mRecyclerView = v.findViewById(R.id.rv_index_topic_classify);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        RecyclerView recyclerView = v.findViewById(R.id.rv_index_topic_classify);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         // 获得数据
         getTopicDate(mClassifyId + "");
 
-        mRecyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
         return v;
     }
 

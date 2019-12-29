@@ -44,8 +44,8 @@ public class TopicFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.index_fragment_topic, container, false);
-        mTabLayout = (TabLayout) v.findViewById(R.id.tl_tab);
-        mContentViewPager = (ViewPager) v.findViewById(R.id.vp_content);
+        mTabLayout = v.findViewById(R.id.tl_tab);
+        mContentViewPager = v.findViewById(R.id.vp_content);
         initTab();
         initContent();
         return v;
@@ -75,6 +75,8 @@ public class TopicFragment extends Fragment {
             // 添加Fragment
             mFragmentList.add(new ClassifyFragment(i + 1));
         }
+        // FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+        // 设置为 setMaxLifecycle,Fragment懒加载
         mContentPagerAdapter = new ContentPagerAdapter(getChildFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContentViewPager.setAdapter(mContentPagerAdapter);
@@ -83,29 +85,13 @@ public class TopicFragment extends Fragment {
 
     class ContentPagerAdapter extends FragmentPagerAdapter {
 
-        // setUserVisibleHint
-        // setMaxLifecycle
-
-
         /**
-         * // @Override
-         * public void onResume() {
-         * super.onResume();
-         * Logger.d(TAG, "onResume");
-         * if (!isLoaded) {
-         * initData();
-         * }
-         * }
-         *
-         * @param fm FragmentManager管理器
+         * @param fm       FragmentManager管理器
+         * @param behavior 确定是否只有当前片段处于恢复状态
          */
-        public ContentPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+        private ContentPagerAdapter(@NonNull FragmentManager fm, int behavior) {
             super(fm, behavior);
         }
-//        public ContentPagerAdapter(FragmentManager fm) {
-//            // 设置为 setMaxLifecycle,Fragment懒加载
-//            super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-//        }
 
         @NonNull
         @Override

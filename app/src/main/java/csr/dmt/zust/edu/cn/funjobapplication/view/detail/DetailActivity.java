@@ -2,6 +2,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.Formatter;
 import java.util.List;
 
 import butterknife.BindView;
@@ -89,7 +93,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     private void initSidebar() {
         Glide.with(DetailActivity.this)
-                .load("http://img.chensenran.top/1577370449537.png")
+                .load(mUserLoginResModule.getHeadPortraitUrl())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(mImageViewHead);
         mTextViewDLCreateNote.setOnClickListener(v -> createNoteHandler());
@@ -173,7 +177,7 @@ public class DetailActivity extends AppCompatActivity {
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         mTextViewDLCollectNote.setCompoundDrawables(
                 drawable, null, null, null);
-        mTextViewDLCollectNote.setText("加入收藏");
+        mTextViewDLCollectNote.setText("取消收藏");
         isCollect = true;
     }
 
@@ -185,7 +189,7 @@ public class DetailActivity extends AppCompatActivity {
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         mTextViewDLCollectNote.setCompoundDrawables(
                 drawable, null, null, null);
-        mTextViewDLCollectNote.setText("取消收藏");
+        mTextViewDLCollectNote.setText("加入收藏");
         isCollect = false;
     }
 
@@ -298,9 +302,19 @@ public class DetailActivity extends AppCompatActivity {
      * @param topicInfoModule 设置的内容
      */
     private void setContent(TopicInfoModule topicInfoModule) {
-        getSupportActionBar().setTitle(topicInfoModule.getTitle());
-        mTextViewBrowseSum.setText(topicInfoModule.getBrowseSum());
-        mTextViewCollectSum.setText(topicInfoModule.getCollectSum());
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(topicInfoModule.getTitle());
+            // 设置返回按钮样式
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.ic_back);
+            if (upArrow != null) {
+                upArrow.setColorFilter(ContextCompat.getColor(this, R.color.colorYellow), PorterDuff.Mode.SRC_ATOP);
+                actionBar.setHomeAsUpIndicator(upArrow);
+            }
+        }
+        mTextViewBrowseSum.setText(new Formatter().format("阅读 %s", topicInfoModule.getBrowseSum()).toString());
+        mTextViewCollectSum.setText(new Formatter().format("收藏 %s", topicInfoModule.getCollectSum()).toString());
         mTextViewCreateTime.setText(topicInfoModule.getCreateTime());
         mTextViewContent.setText(topicInfoModule.getContent());
     }
