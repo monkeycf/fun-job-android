@@ -74,7 +74,6 @@ public class NoteCreateActivity extends AppCompatActivity
     private TextView mTextViewWeather;
     private ProgressBar mProgressBar;
     private UserLoginResModule mUserLoginResModule;
-    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,6 @@ public class NoteCreateActivity extends AppCompatActivity
         mProgressBar = findViewById(R.id.spin_kit);
         mTopicId = (String) getIntent().getExtras().get(DETAIL_NOTE_CREATE_TOPIC_KEY);
 
-        initD();
         initMarkdownFragment(); // 初始化fragment
         initActionBar();
         initWeather();
@@ -94,11 +92,6 @@ public class NoteCreateActivity extends AppCompatActivity
         // 设置loading
         Sprite Wave = new Wave();
         mProgressBar.setIndeterminateDrawable(Wave);
-    }
-
-    private void initD() {
-//        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-//        });
     }
 
     /**
@@ -168,10 +161,11 @@ public class NoteCreateActivity extends AppCompatActivity
     public void checkImageUpload() {
         // 数量相等上传成功
         if (mSuccessPictureUrls.size() == mSelectPictures.size()) {
+            mTimer.cancel();
             crateNote();
         } else if (mTimeOutFlag == TIME_OUT) {
             mProgressBar.setVisibility(View.GONE);
-            System.out.println("image upload was time out...");
+            Log.e(TAG, "image upload was time out...");
             Toast.makeText(this, "上传图片超时", Toast.LENGTH_SHORT).show();
         }
     }
