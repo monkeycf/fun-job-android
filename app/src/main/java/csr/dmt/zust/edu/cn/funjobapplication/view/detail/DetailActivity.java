@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -22,6 +23,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.eminayar.panter.PanterDialog;
+import com.eminayar.panter.enums.Animation;
 import com.zzhoujay.richtext.RichText;
 
 import java.util.Formatter;
@@ -46,6 +48,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicC
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.status.TopicCellectStatusReaModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.view.JSBridge.WebViewActivity;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteCreateActivity;
 
 public class DetailActivity extends AppCompatActivity {
@@ -55,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
     private String mTopicId;
     private Boolean isCollect = false;
     private UserLoginResModule mUserLoginResModule;
+    private static final int DETAIL_NOTE_CREATE_REQUEST_CODE = 1;
 
     @BindView(R.id.tv_detail_browse_sum)
     TextView mTextViewBrowseSum;
@@ -77,6 +81,15 @@ public class DetailActivity extends AppCompatActivity {
     TextView mTextViewDLCollectNote;
     @BindView(R.id.tv_detail_answer)
     TextView mTextViewAnswer;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DETAIL_NOTE_CREATE_REQUEST_CODE) {
+            mLinearLayoutDetail.removeAllViews();
+            getNoteByTopic(mTopicId, mUserLoginResModule.getId());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,7 +246,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     private void createNoteHandler() {
         Intent intent = NoteCreateActivity.newIntent(this, mTopicId);
-        startActivity(intent);
+        startActivityForResult(intent, DETAIL_NOTE_CREATE_REQUEST_CODE);
     }
 
     /**
@@ -313,9 +326,21 @@ public class DetailActivity extends AppCompatActivity {
         mTextViewCollectSum.setText(new Formatter().format("收藏 %s", topicInfoModule.getCollectSum()).toString());
         mTextViewCreateTime.setText(topicInfoModule.getCreateTime());
         mTextViewContent.setText(topicInfoModule.getContent());
+
+        // 查看答案
         mTextViewAnswer.setOnClickListener(v -> {
-            // 查看答案
-            Toast.makeText(DetailActivity.this, topicInfoModule.getAnswerUrl(), Toast.LENGTH_SHORT).show();
+            PanterDialog panterDialog = new PanterDialog(DetailActivity.this)
+                    .setHeaderBackground(R.drawable.pattern_bg_blue)
+                    .withAnimation(Animation.POP)
+                    .setMessage("问题比答案更重要")
+                    .isCancelable(false);
+            panterDialog.setPositive("前往查看", viewDialog -> {
+                panterDialog.dismiss();
+                Intent intent = WebViewActivity.newIntent(DetailActivity.this, topicInfoModule.getAnswerUrl(),
+                        topicInfoModule.getTitle());
+                startActivity(intent);
+            });
+            panterDialog.show();
         });
 
         mTextViewAnswer.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
@@ -368,7 +393,8 @@ public class DetailActivity extends AppCompatActivity {
         textViewDelete.setOnClickListener(v -> {
             // 删除操作
             PanterDialog panterDialog = new PanterDialog(DetailActivity.this)
-                    .setHeaderBackground(R.drawable.bg_load_default)
+                    .setHeaderBackground(R.drawable.pattern_bg_orange)
+                    .withAnimation(Animation.POP)
                     .setTitle("删除确认")
                     .setNegative("返回")
                     .setMessage("删除笔记后不可恢复，你确定要删除笔记嘛？")
@@ -416,7 +442,9 @@ public class DetailActivity extends AppCompatActivity {
             // 向LinearLayout中添加图片
             itemLinearLayoutPictures.addView(noteImageView);
         }
-        linearLayoutPictures.addView(itemLinearLayoutPictures);
+        if (itemLinearLayoutPictures != null) {
+            linearLayoutPictures.addView(itemLinearLayoutPictures);
+        }
 
         mLinearLayoutDetail.addView(view, params);
     }

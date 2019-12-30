@@ -27,8 +27,8 @@ public class JSBridgeActivity extends AppCompatActivity {
         // 获取传入的title
         String title = (String) getIntent().getSerializableExtra(LEARN_FRAGMENT_JS_BRIDGE_KEY);
 
-        mButton = (Button) findViewById(R.id.button3);
-        mBridgeWebView = (BridgeWebView) findViewById(R.id.JsBridgeWebView);
+        mButton = findViewById(R.id.button3);
+        mBridgeWebView = findViewById(R.id.JsBridgeWebView);
         // 清楚缓存
         mBridgeWebView.clearCache(true);
 

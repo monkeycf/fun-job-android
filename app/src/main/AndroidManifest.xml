@@ -22,6 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.JSBridge.WebViewActivity"></activity>
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="d9fcd7617b410de34759f0ac4fdc5173" />
@@ -40,9 +42,7 @@
             android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".view.user.LoginActivity"
-            android:theme="@style/FullScreenTheme">
-
-        </activity>
+            android:theme="@style/FullScreenTheme"></activity>
         <activity android:name=".TextActivity" />
         <activity android:name=".view.detail.DetailActivity" />
         <activity
@@ -54,14 +54,10 @@
         <activity android:name=".view.JSBridge.JSBridgeActivity" />
         <activity
             android:name=".view.index.IndexActivity"
-            android:theme="@style/FullScreenTheme">
-
-        </activity>
+            android:theme="@style/FullScreenTheme"></activity>
         <activity android:name=".view.index.pages.TopicFragment" />
         <activity android:name=".view.note.NoteCreateActivity" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
