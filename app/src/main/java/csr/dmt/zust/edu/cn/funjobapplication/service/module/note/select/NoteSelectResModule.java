@@ -13,10 +13,19 @@ public class NoteSelectResModule {
     private String createTime;
     private String lastModificationTime;
     private String noteStatus;
+    private String weather;
     private List<String> pictures;
 
     public List<String> getPictures() {
         return pictures;
+    }
+
+    public String getWeather() {
+        return weather;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 
     public void setPictures(List<String> pictures) {

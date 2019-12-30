@@ -2,6 +2,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -18,7 +19,10 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.eminayar.panter.PanterDialog;
+import com.zzhoujay.richtext.RichText;
 
 import java.util.Formatter;
 import java.util.List;
@@ -61,7 +65,7 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.tv_detail_content)
     TextView mTextViewContent;
     @BindView(R.id.linear_layout_detail)
-    LinearLayout mLinearLayout;
+    LinearLayout mLinearLayoutDetail;
 
     @BindView(R.id.iv_detail_head)
     ImageView mImageViewHead;
@@ -71,6 +75,8 @@ public class DetailActivity extends AppCompatActivity {
     TextView mTextViewDLAllNotes;
     @BindView(R.id.tv_dl_detail_collect)
     TextView mTextViewDLCollectNote;
+    @BindView(R.id.tv_detail_answer)
+    TextView mTextViewAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,7 @@ public class DetailActivity extends AppCompatActivity {
     private void initSidebar() {
         Glide.with(DetailActivity.this)
                 .load(mUserLoginResModule.getHeadPortraitUrl())
+                .placeholder(R.drawable.bg_load_default)
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(mImageViewHead);
         mTextViewDLCreateNote.setOnClickListener(v -> createNoteHandler());
@@ -302,21 +309,39 @@ public class DetailActivity extends AppCompatActivity {
      * @param topicInfoModule 设置的内容
      */
     private void setContent(TopicInfoModule topicInfoModule) {
+        mTextViewBrowseSum.setText(new Formatter().format("阅读 %s", topicInfoModule.getBrowseSum()).toString());
+        mTextViewCollectSum.setText(new Formatter().format("收藏 %s", topicInfoModule.getCollectSum()).toString());
+        mTextViewCreateTime.setText(topicInfoModule.getCreateTime());
+        mTextViewContent.setText(topicInfoModule.getContent());
+        mTextViewAnswer.setOnClickListener(v -> {
+            // 查看答案
+            Toast.makeText(DetailActivity.this, topicInfoModule.getAnswerUrl(), Toast.LENGTH_SHORT).show();
+        });
+
+        mTextViewAnswer.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+
+        int labelIcon;
+        switch (topicInfoModule.getLabel()) {
+            case "1":
+                labelIcon = R.drawable.ic_vue;
+                break;
+            default:
+                labelIcon = R.drawable.ic_back;
+                break;
+        }
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(topicInfoModule.getTitle());
             // 设置返回按钮样式
             actionBar.setDisplayHomeAsUpEnabled(true);
-            Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.ic_back);
+            Drawable upArrow = ContextCompat.getDrawable(this, labelIcon);
             if (upArrow != null) {
                 upArrow.setColorFilter(ContextCompat.getColor(this, R.color.colorYellow), PorterDuff.Mode.SRC_ATOP);
                 actionBar.setHomeAsUpIndicator(upArrow);
             }
         }
-        mTextViewBrowseSum.setText(new Formatter().format("阅读 %s", topicInfoModule.getBrowseSum()).toString());
-        mTextViewCollectSum.setText(new Formatter().format("收藏 %s", topicInfoModule.getCollectSum()).toString());
-        mTextViewCreateTime.setText(topicInfoModule.getCreateTime());
-        mTextViewContent.setText(topicInfoModule.getContent());
+
     }
 
     /**
@@ -328,39 +353,72 @@ public class DetailActivity extends AppCompatActivity {
         View view = View.inflate(this, R.layout.item_detail_note, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);//重新指定LayoutParams。
+        params.setMargins(10, 100, 10, 10);
 
         TextView textViewContent = view.findViewById(R.id.tv_detail_note_content);
         TextView textViewCreateTime = view.findViewById(R.id.tv_detail_note_create_time);
-        TextView textViewDelete = view.findViewById(R.id.tv_detail_note_delete);
-        TextView textViewEdit = view.findViewById(R.id.tv_detail_note_edit);
+        ImageView textViewDelete = view.findViewById(R.id.iv_detail_note_delete);
+        TextView textViewWeather = view.findViewById(R.id.tv_detail_weather);
         LinearLayout linearLayoutPictures = view.findViewById(R.id.view_detail_note_pictures);
 
-        textViewContent.setText(noteSelectResModule.getContent());
+        RichText.fromMarkdown(noteSelectResModule.getContent()).into(textViewContent);
         textViewCreateTime.setText(noteSelectResModule.getCreateTime());
+        textViewWeather.setText(noteSelectResModule.getWeather());
 
         textViewDelete.setOnClickListener(v -> {
             // 删除操作
-            deleteNote(noteSelectResModule.getNoteId(), view);
-        });
-
-        textViewEdit.setOnClickListener(v -> {
-            // 编辑操作
+            PanterDialog panterDialog = new PanterDialog(DetailActivity.this)
+                    .setHeaderBackground(R.drawable.bg_load_default)
+                    .setTitle("删除确认")
+                    .setNegative("返回")
+                    .setMessage("删除笔记后不可恢复，你确定要删除笔记嘛？")
+                    .isCancelable(false);
+            panterDialog.setPositive("确定删除", viewDialog -> {
+                panterDialog.dismiss();
+                deleteNote(noteSelectResModule.getNoteId(), view);
+            });
+            panterDialog.show();
         });
 
         // 动态添加图片
         int picturesNumber = noteSelectResModule.getPictures().size();
-        for (int i = 0; i < picturesNumber; i++) {
-            ImageView noteImageView = new ImageView(this);
-            noteImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));  //设置图片宽高
 
-            linearLayoutPictures.addView(noteImageView);
+        // 新建一个linearLayout,用于存放三个图片
+        LinearLayout itemLinearLayoutPictures = null;
+
+        for (int i = 0; i < picturesNumber; i++) {
+            // 每3个一个LinearLayout
+            if (i % 3 == 0) {
+                if (i != 0) {
+                    linearLayoutPictures.addView(itemLinearLayoutPictures);
+                }
+                itemLinearLayoutPictures = new LinearLayout(DetailActivity.this);
+                itemLinearLayoutPictures.setLayoutParams(
+                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT));
+                itemLinearLayoutPictures.setOrientation(LinearLayout.HORIZONTAL);
+            }
+            // 创建图片
+            ImageView noteImageView = new ImageView(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(250, 200, 0);
+            layoutParams.setMargins(5, 5, 5, 5);
+            noteImageView.setLayoutParams(layoutParams);
+            noteImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
             Glide.with(this)
                     .load(noteSelectResModule.getPictures().get(i))
+                    .override(250, 200)
+                    .placeholder(R.drawable.bg_load_default)
+                    .centerCrop()
+                    .apply(RequestOptions.bitmapTransform(new RoundedCorners(20)))
                     .into(noteImageView);
-        }
 
-        mLinearLayout.addView(view, params);
+            // 向LinearLayout中添加图片
+            itemLinearLayoutPictures.addView(noteImageView);
+        }
+        linearLayoutPictures.addView(itemLinearLayoutPictures);
+
+        mLinearLayoutDetail.addView(view, params);
     }
 
     /**
@@ -372,7 +430,7 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void SuccessCallBack(BaseResult<NoteDeleteResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
-                            mLinearLayout.removeView(view);
+                            mLinearLayoutDetail.removeView(view);
                             Toast.makeText(DetailActivity.this, "删除笔记成功", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(DetailActivity.this, R.string.app_error, Toast.LENGTH_SHORT).show();
