@@ -16,9 +16,8 @@ import com.github.lzyzsd.jsbridge.DefaultHandler;
 import csr.dmt.zust.edu.cn.funjobapplication.R;
 
 public class JSBridgeActivity extends AppCompatActivity {
-    private BridgeWebView mBridgeWebView;
-    private Button mButton;
     private static final String LEARN_FRAGMENT_JS_BRIDGE_KEY = "LEARN_FRAGMENT_JS_BRIDGE_KEY";
+    private static final String BASE_URL = "http://app15.chensenran.top/index.html?title=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,41 +26,35 @@ public class JSBridgeActivity extends AppCompatActivity {
         // 获取传入的title
         String title = (String) getIntent().getSerializableExtra(LEARN_FRAGMENT_JS_BRIDGE_KEY);
 
-        mButton = findViewById(R.id.button3);
-        mBridgeWebView = findViewById(R.id.JsBridgeWebView);
+        BridgeWebView bridgeWebView = findViewById(R.id.JsBridgeWebView);
         // 清楚缓存
-        mBridgeWebView.clearCache(true);
+        bridgeWebView.clearCache(true);
 
-        mBridgeWebView.setDefaultHandler(new DefaultHandler());
-        mBridgeWebView.setWebChromeClient(new WebChromeClient());
-        mBridgeWebView.setWebViewClient(new BridgeWebViewClient(mBridgeWebView));
+        bridgeWebView.setDefaultHandler(new DefaultHandler());
+        bridgeWebView.setWebChromeClient(new WebChromeClient());
+        bridgeWebView.setWebViewClient(new BridgeWebViewClient(bridgeWebView));
 
-        mBridgeWebView.loadUrl("http://app5.chensenran.top/index.html?title=" + title);
+        bridgeWebView.loadUrl(BASE_URL + title);
 
         /**
          * js发送给按住消息   submitFromWeb 是js调用的方法名    安卓\返回给js
          */
-        mBridgeWebView.registerHandler("submitFromWeb", (data, callBackFunction) -> {
+        bridgeWebView.registerHandler("submitFromWeb", (data, callBackFunction) -> {
             //显示接收的消息
-            showToast(data);
             //返回给html的消息
-            callBackFunction.onCallBack("返回给Toast的alert");
+            //            callBackFunction.onCallBack("返回给Toast的alert");
+            finish();
         });
 
+//        mButton.setOnClickListener(v -> {
+//            /**
+//             * 给Html发消息   js接收并返回data
+//             */
+//            mBridgeWebView.callHandler("functionInJs", "调用js的方法", (data) -> {
+//                showToast("===" + data);
+//            });
+//        });
 
-        mButton.setOnClickListener(v -> {
-            /**
-             * 给Html发消息   js接收并返回data
-             */
-            mBridgeWebView.callHandler("functionInJs", "调用js的方法", (data) -> {
-                showToast("===" + data);
-            });
-        });
-
-    }
-
-    public void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -51,7 +51,9 @@
         <activity
             android:name=".view.note.pictures.SelectPictureActivity"
             android:theme="@style/FullScreenTheme" />
-        <activity android:name=".view.JSBridge.JSBridgeActivity" />
+        <activity
+            android:name=".view.JSBridge.JSBridgeActivity"
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".view.index.IndexActivity"
             android:theme="@style/FullScreenTheme"></activity>
