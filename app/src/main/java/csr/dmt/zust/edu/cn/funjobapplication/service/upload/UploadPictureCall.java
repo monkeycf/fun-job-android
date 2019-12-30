@@ -1,5 +1,7 @@
 package csr.dmt.zust.edu.cn.funjobapplication.service.upload;
 
+import android.util.Log;
+
 import java.io.File;
 import java.util.Formatter;
 import java.util.Timer;
@@ -19,6 +21,7 @@ import retrofit2.Response;
 public class UploadPictureCall {
     private Call<UploadResModule> mCall;
     private NoteCreateActivity mContext;
+    private String TAG = UploadPictureCall.class.getSimpleName();
 
     public UploadPictureCall(NoteCreateActivity context) {
         mContext = context;
@@ -39,7 +42,7 @@ public class UploadPictureCall {
             //定时任务执行方法
             @Override
             public void run() {
-                System.out.println(new Formatter().format("图片上传超时%s", filePath).toString());
+                Log.e(TAG, new Formatter().format("图片上传超时%s", filePath).toString());
                 mCall.cancel();
             }
         }, 10000);
@@ -50,14 +53,14 @@ public class UploadPictureCall {
             @Override
             public void onResponse(Call<UploadResModule> call, Response<UploadResModule> response) {
                 UploadResModule r = response.body();
-                System.out.println(new Formatter().format("success file:::%s", r.getUrl()).toString());
+                Log.e(TAG, new Formatter().format("success file:::%s", r.getUrl()).toString());
                 mContext.addSuccessPicture(r.getUrl());
                 timer.cancel();
             }
 
             @Override
             public void onFailure(Call<UploadResModule> call, Throwable t) {
-                System.out.println(t.getMessage());
+                Log.e(TAG, t.getMessage());
             }
         });
         return mCall;

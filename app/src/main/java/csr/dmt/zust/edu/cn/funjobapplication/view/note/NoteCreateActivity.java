@@ -404,7 +404,6 @@ public class NoteCreateActivity extends AppCompatActivity
             mTextViewWeather.setText((new Formatter().format("%s %s° %s", liveWeather.getCity(),
                     liveWeather.getTemperature(),
                     liveWeather.getWeather())).toString());
-            System.out.println(liveWeather.getWeather() + liveWeather.getTemperature());
         } else {
             Log.e(TAG, "查询天气失败");
         }
