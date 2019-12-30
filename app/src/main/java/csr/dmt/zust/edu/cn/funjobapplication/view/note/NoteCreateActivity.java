@@ -124,6 +124,8 @@ public class NoteCreateActivity extends AppCompatActivity
             Toast.makeText(NoteCreateActivity.this, "先写点什么吧", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        mProgressBar.setVisibility(View.VISIBLE);
         if (mSelectPictures.size() == 0) {
             crateNote();
             return;
@@ -348,7 +350,6 @@ public class NoteCreateActivity extends AppCompatActivity
                 break;
             // 发表
             case R.id.action_save:
-                mProgressBar.setVisibility(View.VISIBLE);
                 uploadNote();
                 break;
             // 预览
