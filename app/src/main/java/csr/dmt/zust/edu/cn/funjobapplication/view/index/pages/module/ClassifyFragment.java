@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ClassifyFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.index_topic_fragment_classify, container, false);
         RecyclerView recyclerView = v.findViewById(R.id.rv_index_topic_classify);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // 获得数据
         getTopicDate(mClassifyId + "");
 
@@ -88,16 +88,20 @@ public class ClassifyFragment extends Fragment {
      */
     private class ClassifyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTitleTextView;
+        private TextView mCreateTimeTextView;
         private TopicInfoModule mTopicInfoModule;
 
+
         private ClassifyHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.index_topic_classify_gird_item, parent, false));
+            super(inflater.inflate(R.layout.index_topic_classify_list_item, parent, false));
             itemView.setOnClickListener(this);
             mTitleTextView = itemView.findViewById(R.id.tv_index_topic_classify_item);
+            mCreateTimeTextView = itemView.findViewById(R.id.tv_index_topic_classify_create_time);
         }
 
         private void bind(TopicInfoModule topicInfoModule) {
             mTitleTextView.setText(topicInfoModule.getTitle());
+            mCreateTimeTextView.setText(topicInfoModule.getCreateTime());
             mTopicInfoModule = topicInfoModule;
         }
 
