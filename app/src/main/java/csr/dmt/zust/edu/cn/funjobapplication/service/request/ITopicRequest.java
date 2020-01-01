@@ -48,4 +48,8 @@ public interface ITopicRequest {
     // 取消收藏
     @POST("/api/v1/topic/cancel/collection")
     Call<BaseResult<TopicCancelCollectResModule>> cancelCollectTopic(@Body TopicCancelCollectReqModule topicCancelCollectReqModule);
+
+    // 获取用户已收藏主题
+    @GET("/api/v1/topic/collect/list")
+    Call<BaseResult<List<TopicInfoModule>>> getTopicCollected(@Query("userId") String userId);
 }

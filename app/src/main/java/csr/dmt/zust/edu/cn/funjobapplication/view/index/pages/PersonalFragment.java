@@ -1,5 +1,6 @@
 package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages;
 
+import android.content.Intent;
 import android.os.Binder;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,8 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.core.BaseResult;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.personal.UserInfoResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.view.JSBridge.WebViewActivity;
+import csr.dmt.zust.edu.cn.funjobapplication.view.user.CollectActivity;
 
 /**
  * created by monkeycf on 2019/12/19
@@ -52,6 +55,8 @@ public class PersonalFragment extends Fragment {
     ConstraintLayout mConstraintLayoutCollect;
     @BindView(R.id.constraint_layout_note)
     ConstraintLayout mConstraintLayoutNote;
+    @BindView(R.id.constraint_layout_blog)
+    ConstraintLayout mConstraintLayoutBlog;
 
     @Nullable
     @Override
@@ -71,9 +76,16 @@ public class PersonalFragment extends Fragment {
 
         mConstraintLayoutCollect.setOnClickListener(view -> {
             // 我的收藏
+            Intent intent = new Intent(getActivity(), CollectActivity.class);
+            startActivity(intent);
         });
         mConstraintLayoutNote.setOnClickListener(view -> {
             // 我的笔记
+        });
+        mConstraintLayoutBlog.setOnClickListener(view -> {
+            // 我的博客
+            Intent intent = WebViewActivity.newIntent(getActivity(), "https://blog.chensenran.top/", "我的博客");
+            startActivity(intent);
         });
         return v;
     }

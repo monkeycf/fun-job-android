@@ -69,4 +69,9 @@ public class TopicApi {
                                    IHttpCallBack<BaseResult<TopicCancelCollectResModule>> callBack) {
         new Request<>(mTopicRequest.cancelCollectTopic(topicCancelCollectReqModule), callBack);
     }
+
+    // 根据用户获取已收藏的列表
+    public void getTopicCollected(String userId, IHttpCallBack<BaseResult<List<TopicInfoModule>>> callBack) {
+        new Request<>(mTopicRequest.getTopicCollected(userId), callBack);
+    }
 }

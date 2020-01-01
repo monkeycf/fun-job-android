@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.user.MyCollectActivity"></activity>
+        <activity android:name=".view.user.CollectActivity"></activity>
+        <activity android:name=".view.user.MyCollectActivity" />
         <activity android:name=".view.JSBridge.WebViewActivity" />
 
         <meta-data
