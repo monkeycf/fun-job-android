@@ -45,7 +45,6 @@
         <activity
             android:name=".view.user.LoginActivity"
             android:theme="@style/FullScreenTheme" />
-        <activity android:name=".TextActivity" />
         <activity android:name=".view.detail.DetailActivity" />
         <activity
             android:name=".view.note.pictures.PreviewImageActivity"
@@ -61,7 +60,6 @@
             android:theme="@style/FullScreenTheme" />
         <activity android:name=".view.index.pages.TopicFragment" />
         <activity android:name=".view.note.NoteCreateActivity" />
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

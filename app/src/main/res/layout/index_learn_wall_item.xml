@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="@string/learn_picture_contentDescription"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_wall_item"
