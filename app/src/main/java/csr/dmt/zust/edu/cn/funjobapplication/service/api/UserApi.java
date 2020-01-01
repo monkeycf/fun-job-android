@@ -6,6 +6,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.core.IHttpCallBack;
 import csr.dmt.zust.edu.cn.funjobapplication.service.core.Request;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.personal.UserInfoResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.register.UserRegisterResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.request.IUserRequest;
@@ -38,5 +39,10 @@ public class UserApi {
     public void loginUser(UserLoginReqModule userLoginReqModule,
                           IHttpCallBack<BaseResult<UserLoginResModule>> callback) {
         new Request<>(mUserRequest.LoginUserPost(userLoginReqModule), callback);
+    }
+
+    // 查询用户信息
+    public void selectUserInfo(String userId, IHttpCallBack<BaseResult<UserInfoResModule>> callBack) {
+        new Request<>(mUserRequest.SelectUserInfo(userId), callBack);
     }
 }

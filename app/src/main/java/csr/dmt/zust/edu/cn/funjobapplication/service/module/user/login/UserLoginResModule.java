@@ -7,12 +7,15 @@ package csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login;
 public class UserLoginResModule {
     private String id;
     private String username;
-    private String password;
     private String headPortraitUrl;
     private String intro;
     private String phone;
     private String createTime;
     private String latsModificationTime;
+
+    public UserLoginResModule() {
+
+    }
 
     public UserLoginResModule(String id, String username, String headPortraitUrl, String intro, String phone) {
         this.id = id;
@@ -36,14 +39,6 @@ public class UserLoginResModule {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getHeadPortraitUrl() {
