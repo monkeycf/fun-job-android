@@ -6,7 +6,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.service.core;
  * @param <T>
  */
 public interface IHttpCallBack<T> {
-    void SuccessCallBack(T data);
+    void successCallBack(T data);
 
-    void ErrorCallBack(String msg);
+    void errorCallBack(String msg);
 }

@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loginHandler(UserLoginReqModule userLoginReqModule) {
         UserApi.getInstance().loginUser(userLoginReqModule, new IHttpCallBack<BaseResult<UserLoginResModule>>() {
             @Override
-            public void SuccessCallBack(BaseResult<UserLoginResModule> data) {
+            public void successCallBack(BaseResult<UserLoginResModule> data) {
                 if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     // TODO 登录成功数据处理
@@ -199,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void ErrorCallBack(String msg) {
+            public void errorCallBack(String msg) {
                 Log.e(TAG, "loginUser was error:::" + msg);
             }
         });

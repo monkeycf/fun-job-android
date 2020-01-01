@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         UserApi.getInstance().registerUser(userRegisterReqModule,
                 new IHttpCallBack<BaseResult<UserRegisterResModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<UserRegisterResModule> data) {
+                    public void successCallBack(BaseResult<UserRegisterResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                             setAccountBack(mEditTextAccount.getText().toString());
@@ -95,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "registerUser was error:::" + msg);
                     }
                 });

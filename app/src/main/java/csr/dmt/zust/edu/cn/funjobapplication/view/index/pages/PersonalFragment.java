@@ -105,7 +105,7 @@ public class PersonalFragment extends Fragment {
         UserApi.getInstance().selectUserInfo(mUserLoginResModule.getId(),
                 new IHttpCallBack<BaseResult<UserInfoResModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<UserInfoResModule> data) {
+                    public void successCallBack(BaseResult<UserInfoResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             getUserInfoHandler(data.getData());
                         } else {
@@ -114,7 +114,7 @@ public class PersonalFragment extends Fragment {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "selectUserInfo was err:::" + msg);
                     }
                 });

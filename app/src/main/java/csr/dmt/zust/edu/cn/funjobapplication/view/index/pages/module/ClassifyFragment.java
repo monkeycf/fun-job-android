@@ -65,7 +65,7 @@ public class ClassifyFragment extends Fragment {
         TopicApi.getInstance().getTopicByLabel(labelId,
                 new IHttpCallBack<BaseResult<List<TopicInfoModule>>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<List<TopicInfoModule>> data) {
+                    public void successCallBack(BaseResult<List<TopicInfoModule>> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             // 设置Adapter
                             mAdapter.setTopicInfoModules(data.getData());
@@ -77,7 +77,7 @@ public class ClassifyFragment extends Fragment {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "getTopicByLabel was error:::" + msg);
                     }
                 });

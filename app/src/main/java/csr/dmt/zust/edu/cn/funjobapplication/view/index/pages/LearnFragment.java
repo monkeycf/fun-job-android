@@ -63,7 +63,7 @@ public class LearnFragment extends Fragment {
         LearnApi.getInstance().getModules(LEARN_MODULES_INDEX,
                 new IHttpCallBack<BaseResult<List<LearnGetModuleResModule>>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<List<LearnGetModuleResModule>> data) {
+                    public void successCallBack(BaseResult<List<LearnGetModuleResModule>> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             mLearnAdapter.addModules(data.getData());
                             mLearnAdapter.notifyDataSetChanged();
@@ -74,7 +74,7 @@ public class LearnFragment extends Fragment {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "getModules was error:::" + msg);
                     }
                 });

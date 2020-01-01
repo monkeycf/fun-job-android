@@ -147,7 +147,7 @@ public class DetailActivity extends AppCompatActivity {
         TopicApi.getInstance().collectTopic(new TopicCollectReqModule(userId, topicId),
                 new IHttpCallBack<BaseResult<TopicCollectResModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<TopicCollectResModule> data) {
+                    public void successCallBack(BaseResult<TopicCollectResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             Toast.makeText(DetailActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
                             setCollected();
@@ -157,7 +157,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "collectTopic was error:::" + msg);
                     }
                 });
@@ -173,7 +173,7 @@ public class DetailActivity extends AppCompatActivity {
         TopicApi.getInstance().cancelCollectTopic(new TopicCancelCollectReqModule(userId, topicId),
                 new IHttpCallBack<BaseResult<TopicCancelCollectResModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<TopicCancelCollectResModule> data) {
+                    public void successCallBack(BaseResult<TopicCancelCollectResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             Toast.makeText(DetailActivity.this, "取消收藏成功", Toast.LENGTH_SHORT).show();
                             setUnCollect();
@@ -183,7 +183,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "cancelCollectTopic was error:::" + msg);
                     }
                 });
@@ -223,7 +223,7 @@ public class DetailActivity extends AppCompatActivity {
         TopicApi.getInstance().selectTopicCollectStatus(userId, topicId,
                 new IHttpCallBack<BaseResult<TopicCellectStatusReaModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<TopicCellectStatusReaModule> data) {
+                    public void successCallBack(BaseResult<TopicCellectStatusReaModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             // 判断是否已经收藏
                             if (data.getData().getStatus() > 0) {
@@ -235,7 +235,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "getTopicCollectStatus was error:::" + msg);
                     }
                 });
@@ -273,7 +273,7 @@ public class DetailActivity extends AppCompatActivity {
     private void getTopicDetailById(String topicId, String userId) {
         TopicApi.getInstance().getTopicById(topicId, userId, new IHttpCallBack<BaseResult<TopicInfoModule>>() {
             @Override
-            public void SuccessCallBack(BaseResult<TopicInfoModule> data) {
+            public void successCallBack(BaseResult<TopicInfoModule> data) {
                 if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                     setContent(data.getData());
                 } else {
@@ -283,7 +283,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void ErrorCallBack(String msg) {
+            public void errorCallBack(String msg) {
                 Log.e(TAG, "getTopicById was error:::" + msg);
             }
         });
@@ -298,7 +298,7 @@ public class DetailActivity extends AppCompatActivity {
     private void getNoteByTopic(String topicId, String userId) {
         NoteApi.getInstance().selectMyNote(topicId, userId, new IHttpCallBack<BaseResult<List<NoteSelectResModule>>>() {
             @Override
-            public void SuccessCallBack(BaseResult<List<NoteSelectResModule>> data) {
+            public void successCallBack(BaseResult<List<NoteSelectResModule>> data) {
                 if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                     for (NoteSelectResModule noteSelectResModule : data.getData()) {
                         addNewNoteView(noteSelectResModule);
@@ -310,7 +310,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void ErrorCallBack(String msg) {
+            public void errorCallBack(String msg) {
                 Log.e(TAG, "selectMyNote was error:::" + msg);
             }
         });
@@ -456,7 +456,7 @@ public class DetailActivity extends AppCompatActivity {
         NoteApi.getInstance().deleteNote(new NoteDeleteReqModule(noteId),
                 new IHttpCallBack<BaseResult<NoteDeleteResModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<NoteDeleteResModule> data) {
+                    public void successCallBack(BaseResult<NoteDeleteResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             mLinearLayoutDetail.removeView(view);
                             Toast.makeText(DetailActivity.this, "删除笔记成功", Toast.LENGTH_SHORT).show();
@@ -467,7 +467,7 @@ public class DetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "deleteNote was error:::" + msg);
                     }
                 });

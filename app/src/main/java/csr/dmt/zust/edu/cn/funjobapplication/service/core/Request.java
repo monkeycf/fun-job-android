@@ -51,12 +51,12 @@ public class Request<T> {
             @Override
             public void onResponse(Call<T> call,
                                    Response<T> response) {
-                IHTTPCallBack.SuccessCallBack(response.body());
+                IHTTPCallBack.successCallBack(response.body());
             }
 
             @Override
             public void onFailure(Call<T> call, Throwable t) {
-                IHTTPCallBack.ErrorCallBack(t.getMessage());
+                IHTTPCallBack.errorCallBack(t.getMessage());
             }
         });
     }

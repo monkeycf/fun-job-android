@@ -48,7 +48,7 @@ public class CollectActivity extends AppCompatActivity {
         TopicApi.getInstance().getTopicCollected(getUserInfoByDataBase(),
                 new IHttpCallBack<BaseResult<List<TopicInfoModule>>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<List<TopicInfoModule>> data) {
+                    public void successCallBack(BaseResult<List<TopicInfoModule>> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             mCollectAdapter.addTopicInfoModule(data.getData());
                             mCollectAdapter.notifyDataSetChanged();
@@ -58,7 +58,7 @@ public class CollectActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "getTopicCollected was error:::" + msg);
                     }
                 });

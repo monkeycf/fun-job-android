@@ -181,7 +181,7 @@ public class NoteCreateActivity extends AppCompatActivity
                         mSuccessPictureUrls, mTextViewWeather.getText().toString()),
                 new IHttpCallBack<BaseResult<NoteCreateResModule>>() {
                     @Override
-                    public void SuccessCallBack(BaseResult<NoteCreateResModule> data) {
+                    public void successCallBack(BaseResult<NoteCreateResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             Toast.makeText(NoteCreateActivity.this, "上传笔记成功", Toast.LENGTH_SHORT).show();
                             finish();
@@ -192,7 +192,7 @@ public class NoteCreateActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void ErrorCallBack(String msg) {
+                    public void errorCallBack(String msg) {
                         Log.e(TAG, "createNote was error:::" + msg);
                     }
                 });
