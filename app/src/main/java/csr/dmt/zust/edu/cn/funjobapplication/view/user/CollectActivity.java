@@ -38,6 +38,7 @@ public class CollectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_collect);
 
         getTopics();
+        getSupportActionBar().setTitle("我的收藏");
 
         RecyclerView recyclerViewCollect = findViewById(R.id.rv_collect_personal);
         recyclerViewCollect.setLayoutManager(new LinearLayoutManager(CollectActivity.this));

@@ -136,7 +136,7 @@ public class LearnFragment extends Fragment {
             Glide.with(getActivity())
                     .load(learnGetModuleResModule.getCover())
                     .override(800, 600)
-                    .placeholder(R.drawable.ic_loading)
+                    .placeholder(R.drawable.bg_load_default)
                     .error(R.drawable.ic_false)
                     .into(mImageView);
         }
