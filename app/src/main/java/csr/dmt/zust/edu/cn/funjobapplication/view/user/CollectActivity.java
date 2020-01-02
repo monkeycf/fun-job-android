@@ -45,6 +45,9 @@ public class CollectActivity extends AppCompatActivity {
         recyclerViewCollect.setAdapter(mCollectAdapter);
     }
 
+    /**
+     * 获取收藏列表数据
+     */
     private void getTopics() {
         TopicApi.getInstance().getTopicCollected(getUserInfoByDataBase(),
                 new IHttpCallBack<BaseResult<List<TopicInfoModule>>>() {

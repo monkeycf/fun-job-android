@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,9 +41,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.view.user.CollectActivity;
 public class PersonalFragment extends Fragment {
 
     private String TAG = PersonalFragment.class.getSimpleName();
-    private int[] sampleImages = {R.drawable.ic_add_note, R.drawable.ic_back, R.drawable.ic_cancel,
-            R.drawable.ic_camera,
-            R.drawable.ic_chb_selectd};
+    private int[] sampleImages = {R.drawable.bg_banner_1, R.drawable.bg_banner_2, R.drawable.bg_banner_3};
     private UserLoginResModule mUserLoginResModule;
 
     @BindView(R.id.iv_personal_head)
@@ -57,6 +56,8 @@ public class PersonalFragment extends Fragment {
     ConstraintLayout mConstraintLayoutNote;
     @BindView(R.id.constraint_layout_blog)
     ConstraintLayout mConstraintLayoutBlog;
+    @BindView(R.id.constraint_layout_history)
+    ConstraintLayout mConstraintLayoutHistory;
 
     @Nullable
     @Override
@@ -81,11 +82,16 @@ public class PersonalFragment extends Fragment {
         });
         mConstraintLayoutNote.setOnClickListener(view -> {
             // 我的笔记
+            Toast.makeText(getContext(), "敬请期待", Toast.LENGTH_SHORT).show();
         });
         mConstraintLayoutBlog.setOnClickListener(view -> {
             // 我的博客
             Intent intent = WebViewActivity.newIntent(getActivity(), "https://blog.chensenran.top/", "我的博客");
             startActivity(intent);
+        });
+        mConstraintLayoutHistory.setOnClickListener(view->{
+            // 我的记录
+            Toast.makeText(getContext(), "暂未开放", Toast.LENGTH_SHORT).show();
         });
         return v;
     }

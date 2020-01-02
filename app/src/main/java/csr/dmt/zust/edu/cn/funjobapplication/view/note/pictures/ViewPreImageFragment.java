@@ -34,6 +34,12 @@ public class ViewPreImageFragment extends Fragment {
         return v;
     }
 
+    /**
+     * 实例化
+     *
+     * @param picture 需要预览的图片
+     * @return ViewPreImageFragment实例
+     */
     public static ViewPreImageFragment getInstance(Picture picture) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(VIEW_PRE_IMAGE_FRAGMENT_KEY, picture);
@@ -43,6 +49,9 @@ public class ViewPreImageFragment extends Fragment {
         return viewPreImageFragment;
     }
 
+    /**
+     * 单例
+     */
     private ViewPreImageFragment() {
     }
 }

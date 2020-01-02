@@ -38,6 +38,9 @@ public class PreviewImageActivity extends AppCompatActivity implements ViewPager
         init();
     }
 
+    /**
+     * 初始化
+     */
     protected void init() {
         mSelectedPictures = (ArrayList<Picture>) getIntent().getExtras().get(SELECT_PICTURE_PRE_KEY);
         if (mSelectedPictures != null) {
@@ -67,6 +70,9 @@ public class PreviewImageActivity extends AppCompatActivity implements ViewPager
         return intent;
     }
 
+    /**
+     * Adapter
+     */
     private class PreViewImageViewAdapter extends FragmentPagerAdapter {
         private PreViewImageViewAdapter(@NonNull FragmentManager fm, int behavior) {
             super(fm, behavior);
