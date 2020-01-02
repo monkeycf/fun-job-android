@@ -46,7 +46,7 @@ import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCa
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.cancel.TopicCancelCollectResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectReqModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.collect.TopicCollectResModule;
-import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.status.TopicCellectStatusReaModule;
+import csr.dmt.zust.edu.cn.funjobapplication.service.module.topic.status.TopicCollectStatusResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.service.module.user.login.UserLoginResModule;
 import csr.dmt.zust.edu.cn.funjobapplication.view.JSBridge.WebViewActivity;
 import csr.dmt.zust.edu.cn.funjobapplication.view.note.NoteCreateActivity;
@@ -221,9 +221,9 @@ public class DetailActivity extends AppCompatActivity {
      */
     private void getTopicCollectStatus(String topicId, String userId) {
         TopicApi.getInstance().selectTopicCollectStatus(userId, topicId,
-                new IHttpCallBack<BaseResult<TopicCellectStatusReaModule>>() {
+                new IHttpCallBack<BaseResult<TopicCollectStatusResModule>>() {
                     @Override
-                    public void successCallBack(BaseResult<TopicCellectStatusReaModule> data) {
+                    public void successCallBack(BaseResult<TopicCollectStatusResModule> data) {
                         if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                             // 判断是否已经收藏
                             if (data.getData().getStatus() > 0) {
