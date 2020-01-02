@@ -18,6 +18,28 @@ public class WelcomeAdapter extends FragmentPagerAdapter {
     private IWelcomeInteraction listener;
     private int mPosition;
 
+    /**
+     * 构造函数
+     *
+     * @param context    Context
+     * @param fm         FragmentManager 管理器
+     * @param behavior   确定是否只有当前片段处于恢复状态
+     * @param imageArray 图片数组
+     */
+    public WelcomeAdapter(Context context, @NonNull FragmentManager fm, int behavior, List<Integer> imageArray) {
+        super(fm, behavior);
+        mImageArray = imageArray;
+        mPosition = WelcomeActivity.WELCOME_PAGE_BEGIN_INDEX;
+        if (context instanceof IWelcomeInteraction) {
+            listener = (IWelcomeInteraction) context;
+        } else {
+            throw new IllegalArgumentException("Context not implement IWelcomeInteraction...");
+        }
+    }
+
+    /**
+     * 显示页面改变接口
+     */
     public interface IWelcomeInteraction {
         void onChangeHandler(int position);
     }
@@ -43,14 +65,4 @@ public class WelcomeAdapter extends FragmentPagerAdapter {
         return WelcomeFragment.newInstance(position, mImageArray.get(position));
     }
 
-    public WelcomeAdapter(Context context, @NonNull FragmentManager fm, int behavior, List<Integer> imageArray) {
-        super(fm, behavior);
-        mImageArray = imageArray;
-        mPosition = WelcomeActivity.WELCOME_PAGE_BEGIN_INDEX;
-        if (context instanceof IWelcomeInteraction) {
-            listener = (IWelcomeInteraction) context;
-        } else {
-            throw new IllegalArgumentException("Context not implement IWelcomeInteraction...");
-        }
-    }
 }

@@ -56,6 +56,11 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeAdapter
         changeRadioGroup(WELCOME_PAGE_BEGIN_INDEX);
     }
 
+    /**
+     * 改变页面
+     *
+     * @param position 当前页面下标
+     */
     @Override
     public void onChangeHandler(int position) {
         changeRadioGroup(position);
