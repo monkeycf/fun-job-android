@@ -2,6 +2,7 @@ package csr.dmt.zust.edu.cn.funjobapplication.view.index.pages;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -35,9 +36,8 @@ public class TopicFragment extends Fragment {
      */
     private ViewPager mContentViewPager;
 
-    private List<String> mTabIndicators;
+    private List<Integer> mTabIndicators;
     private List<Fragment> mFragmentList;
-    private ContentPagerAdapter mContentPagerAdapter;
 
     @Nullable
     @Override
@@ -70,16 +70,54 @@ public class TopicFragment extends Fragment {
         mTabIndicators = new ArrayList<>();
         mFragmentList = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            mTabIndicators.add("Tab " + i);
+        for (int i = 0; i < 11; i++) {
             // 添加Fragment
             mFragmentList.add(new ClassifyFragment(i + 1));
+            switch (i) {
+                case 0:
+                    mTabIndicators.add(R.string.classify_vue);
+                    break;
+                case 1:
+                    mTabIndicators.add(R.string.classify_webpack);
+                    break;
+                case 2:
+                    mTabIndicators.add(R.string.classify_babel);
+                    break;
+                case 3:
+                    mTabIndicators.add(R.string.classify_HTML);
+                    break;
+                case 4:
+                    mTabIndicators.add(R.string.classify_CSS);
+                    break;
+                case 5:
+                    mTabIndicators.add(R.string.classify_browser);
+                    break;
+                case 6:
+                    mTabIndicators.add(R.string.classify_performance);
+                    break;
+                case 7:
+                    mTabIndicators.add(R.string.classify_network);
+                    break;
+                case 8:
+                    mTabIndicators.add(R.string.classify_node);
+                    break;
+                case 9:
+                    mTabIndicators.add(R.string.classify_engineering);
+                    break;
+                case 10:
+                    mTabIndicators.add(R.string.classify_react);
+                    break;
+                default:
+                    mTabIndicators.add(R.string.classify_vue);
+                    break;
+
+            }
         }
         // FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
         // 设置为 setMaxLifecycle,Fragment懒加载
-        mContentPagerAdapter = new ContentPagerAdapter(getChildFragmentManager(),
+        ContentPagerAdapter contentPagerAdapter = new ContentPagerAdapter(getChildFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mContentViewPager.setAdapter(mContentPagerAdapter);
+        mContentViewPager.setAdapter(contentPagerAdapter);
     }
 
 
@@ -106,7 +144,7 @@ public class TopicFragment extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mTabIndicators.get(position);
+            return getString(mTabIndicators.get(position));
         }
     }
 }

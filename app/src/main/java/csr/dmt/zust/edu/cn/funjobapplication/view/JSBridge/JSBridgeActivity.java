@@ -41,8 +41,6 @@ public class JSBridgeActivity extends AppCompatActivity {
          */
         bridgeWebView.registerHandler("submitFromWeb", (data, callBackFunction) -> {
             //显示接收的消息
-            //返回给html的消息
-            //            callBackFunction.onCallBack("返回给Toast的alert");
             finish();
         });
 

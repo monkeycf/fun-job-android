@@ -188,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
             public void successCallBack(BaseResult<UserLoginResModule> data) {
                 if (data.getCode() == FunJobConfig.REQUEST_CODE_SUCCESS) {
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    // TODO 登录成功数据处理
+                    // 登录成功后 数据操作
                     insertUserInfo(data.getData());
                     startActivity(IndexActivity.newIntent(LoginActivity.this));
                     finish();

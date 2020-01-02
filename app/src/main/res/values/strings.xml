@@ -21,4 +21,15 @@
     <string name="login_message">阅读并同意</string>
     <string name="login_service">服务条款</string>
     <string name="register_register">一 键 注 册</string>
+    <string name="classify_vue">Vue</string>
+    <string name="classify_webpack">Webpack</string>
+    <string name="classify_babel">Babel</string>
+    <string name="classify_HTML">HTML</string>
+    <string name="classify_CSS">CSS</string>
+    <string name="classify_browser">浏览器</string>
+    <string name="classify_performance">性能</string>
+    <string name="classify_network">网络</string>
+    <string name="classify_node">Node</string>
+    <string name="classify_engineering">工程化</string>
+    <string name="classify_react">React</string>
 </resources>
